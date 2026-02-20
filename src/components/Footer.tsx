@@ -1,18 +1,41 @@
+const footerLinks = {
+  Company: ["About", "Services", "Portfolio", "Blog", "Contact"],
+  Legal: ["Privacy Policy", "Terms & Conditions"],
+};
+
 const Footer = () => {
   return (
-    <footer className="py-12 border-t border-border bg-card">
+    <footer className="py-16 border-t border-border bg-card">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <a href="/" className="font-display text-lg font-bold gradient-text">
-            Boldify
-          </a>
-          <div className="flex gap-6 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">Privacy</a>
-            <a href="#" className="hover:text-foreground transition-colors">Terms</a>
-            <a href="#" className="hover:text-foreground transition-colors">Contact</a>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+          <div className="md:col-span-2">
+            <a href="/" className="font-display text-xl font-bold text-card-foreground">
+              The Code <span className="gradient-text">Reflections</span>
+            </a>
+            <p className="text-muted-foreground text-sm mt-3 max-w-sm leading-relaxed">
+              We build premium websites and scalable digital solutions that help businesses grow faster.
+            </p>
           </div>
+
+          {Object.entries(footerLinks).map(([title, links]) => (
+            <div key={title}>
+              <h4 className="font-display font-semibold text-card-foreground mb-4 text-sm">{title}</h4>
+              <ul className="space-y-2">
+                {links.map((link) => (
+                  <li key={link}>
+                    <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="border-t border-border pt-6 text-center">
           <p className="text-xs text-muted-foreground">
-            © 2026 Boldify. All rights reserved.
+            © 2026 The Code Reflections. All rights reserved.
           </p>
         </div>
       </div>
