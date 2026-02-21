@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { label: "Home", href: "#" },
@@ -23,8 +24,11 @@ const Navbar = () => {
       className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border"
     >
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <a href="/" className="font-display text-xl font-bold text-foreground">
-          The Code <span className="gradient-text">Reflections</span>
+        <a href="/" className="flex items-center gap-2">
+          <img src={logo} alt="The Code Reflections" className="h-9 w-9 rounded-md object-contain" />
+          <span className="font-display text-lg font-bold text-foreground">
+            The Code <span className="gradient-text">Reflections</span>
+          </span>
         </a>
 
         <div className="hidden lg:flex items-center gap-8">

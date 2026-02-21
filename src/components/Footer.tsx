@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "@/assets/logo.png";
 
 const companyLinks = [
   { label: "About", href: "/#about" },
@@ -19,8 +20,11 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-2">
-            <a href="/" className="font-display text-xl font-bold text-card-foreground">
-              The Code <span className="gradient-text">Reflections</span>
+            <a href="/" className="flex items-center gap-2">
+              <img src={logo} alt="The Code Reflections" className="h-9 w-9 rounded-md object-contain" />
+              <span className="font-display text-xl font-bold text-card-foreground">
+                The Code <span className="gradient-text">Reflections</span>
+              </span>
             </a>
             <p className="text-muted-foreground text-sm mt-3 max-w-sm leading-relaxed">
               We build premium websites and scalable digital solutions that help businesses grow faster.
