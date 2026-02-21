@@ -11,7 +11,7 @@ const sections = [
   {
     title: "2. Project Confirmation",
     content:
-      "Projects begin only after confirmation, payment agreement, and final requirements discussion.",
+      "Projects begin only after confirmation, contract agreement, and final requirements discussion.",
   },
   {
     title: "3. Payments",
