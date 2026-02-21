@@ -1,7 +1,17 @@
-const footerLinks = {
-  Company: ["About", "Services", "Portfolio", "Blog", "Contact"],
-  Legal: ["Privacy Policy", "Terms & Conditions"],
-};
+import { Link } from "react-router-dom";
+
+const companyLinks = [
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Portfolio", href: "/#portfolio" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/#contact" },
+];
+
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms" },
+];
 
 const Footer = () => {
   return (
@@ -17,20 +27,30 @@ const Footer = () => {
             </p>
           </div>
 
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="font-display font-semibold text-card-foreground mb-4 text-sm">{title}</h4>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div>
+            <h4 className="font-display font-semibold text-card-foreground mb-4 text-sm">Company</h4>
+            <ul className="space-y-2">
+              {companyLinks.map((link) => (
+                <li key={link.label}>
+                  <Link to={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-display font-semibold text-card-foreground mb-4 text-sm">Legal</h4>
+            <ul className="space-y-2">
+              {legalLinks.map((link) => (
+                <li key={link.label}>
+                  <Link to={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="border-t border-border pt-6 text-center">
