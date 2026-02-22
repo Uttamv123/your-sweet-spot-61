@@ -1,8 +1,13 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import CalendlyModal from "@/components/CalendlyModal";
+import { scrollToContact } from "@/lib/scroll";
 
 const CtaSection = () => {
+  const [calendlyOpen, setCalendlyOpen] = useState(false);
+
   return (
     <section className="py-24 gradient-hero">
       <div className="container mx-auto px-4">
@@ -20,17 +25,19 @@ const CtaSection = () => {
             Your website is your digital identity. Let's build something modern, fast, and premium that attracts customers and helps your business grow.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="lg" className="text-base px-8 py-6">
+            <Button variant="hero" size="lg" className="text-base px-8 py-6" onClick={scrollToContact}>
               Get a Free Consultation
               <ArrowRight className="ml-2" size={18} />
             </Button>
-            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
+            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6" onClick={() => setCalendlyOpen(true)}>
               <MessageCircle size={16} className="mr-2" />
-              Message Us on WhatsApp
+              Book a Call
             </Button>
           </div>
         </motion.div>
       </div>
+
+      <CalendlyModal open={calendlyOpen} onOpenChange={setCalendlyOpen} />
     </section>
   );
 };

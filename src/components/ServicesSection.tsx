@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Globe, Palette, Code2, ShoppingCart, Search, Wrench, ArrowRight } from "lucide-react";
+import CalendlyModal from "@/components/CalendlyModal";
 
 const services = [
   {
@@ -46,6 +48,8 @@ const item = {
 };
 
 const ServicesSection = () => {
+  const [calendlyOpen, setCalendlyOpen] = useState(false);
+
   return (
     <section id="services" className="py-24 gradient-subtle">
       <div className="container mx-auto px-4">
@@ -93,12 +97,14 @@ const ServicesSection = () => {
           className="text-center mt-12"
         >
           <p className="text-muted-foreground mb-4">Not sure what you need? Start with a free consultation and we'll suggest the best plan.</p>
-          <Button variant="hero" size="lg">
+          <Button variant="hero" size="lg" onClick={() => setCalendlyOpen(true)}>
             Book a Free Call
             <ArrowRight size={16} className="ml-2" />
           </Button>
         </motion.div>
       </div>
+
+      <CalendlyModal open={calendlyOpen} onOpenChange={setCalendlyOpen} />
     </section>
   );
 };

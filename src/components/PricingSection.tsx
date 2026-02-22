@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowRight } from "lucide-react";
+import { scrollToContact } from "@/lib/scroll";
 
 const PricingSection = () => {
   return (
@@ -56,7 +58,7 @@ const PricingSection = () => {
               </ul>
             </div>
 
-            <Button variant="hero" size="lg" className="w-full">
+            <Button variant="hero" size="lg" className="w-full" onClick={scrollToContact}>
               Start a Project
               <ArrowRight size={16} className="ml-2" />
             </Button>
