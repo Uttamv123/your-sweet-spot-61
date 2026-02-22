@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
+import { scrollToContact, scrollToSection } from "@/lib/scroll";
+import CalendlyModal from "@/components/CalendlyModal";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
+  const [calendlyOpen, setCalendlyOpen] = useState(false);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       <div className="absolute inset-0">
@@ -46,17 +51,19 @@ const HeroSection = () => {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Button variant="hero" size="lg" className="text-base px-8 py-6">
+            <Button variant="hero" size="lg" className="text-base px-8 py-6" onClick={scrollToContact}>
               Get a Free Website Audit
               <ArrowRight className="ml-2" size={18} />
             </Button>
-            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6">
+            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6" onClick={() => scrollToSection("portfolio")}>
               <Play size={16} className="mr-2" />
               View Our Work
             </Button>
           </motion.div>
         </motion.div>
       </div>
+
+      <CalendlyModal open={calendlyOpen} onOpenChange={setCalendlyOpen} />
     </section>
   );
 };

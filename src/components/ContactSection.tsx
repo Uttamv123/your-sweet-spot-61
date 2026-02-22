@@ -3,14 +3,71 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Mail, Phone, MapPin } from "lucide-react";
+import { Send, Mail, Phone, MapPin, CheckCircle, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100, "Name is too long"),
+  email: z.string().trim().email("Please enter a valid email").max(255, "Email is too long"),
+  phone: z.string().trim().max(20, "Phone number is too long").optional().or(z.literal("")),
+  company: z.string().trim().max(100, "Company name is too long").optional().or(z.literal("")),
+  message: z.string().trim().min(1, "Message is required").max(2000, "Message is too long"),
+});
+
+type FormErrors = Partial<Record<keyof z.infer<typeof contactSchema>, string>>;
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", company: "", message: "" });
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
+    if (isSubmitting) return;
+
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: FormErrors = {};
+      result.error.errors.forEach((err) => {
+        const field = err.path[0] as keyof FormErrors;
+        fieldErrors[field] = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrors({});
+
+    try {
+      const { error } = await supabase.from("contact_submissions").insert({
+        name: result.data.name,
+        email: result.data.email,
+        phone: result.data.phone || null,
+        company: result.data.company || null,
+        message: result.data.message,
+      });
+
+      if (error) throw error;
+
+      setIsSubmitted(true);
+      setFormData({ name: "", email: "", phone: "", company: "", message: "" });
+      toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." });
+    } catch {
+      toast({ title: "Something went wrong", description: "Please try again or email us directly.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -60,54 +117,90 @@ const ContactSection = () => {
             </div>
           </motion.div>
 
-          <motion.form
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-3 space-y-4"
-          >
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Input
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="bg-card"
-              />
-              <Input
-                placeholder="Email Address"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="bg-card"
-              />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Input
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="bg-card"
-              />
-              <Input
-                placeholder="Company Name (Optional)"
-                value={formData.company}
-                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                className="bg-card"
-              />
-            </div>
-            <Textarea
-              placeholder="Tell us about your project..."
-              rows={5}
-              value={formData.message}
-              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-              className="bg-card resize-none"
-            />
-            <Button variant="hero" size="lg" type="submit" className="w-full sm:w-auto">
-              Send Message
-              <Send size={16} className="ml-2" />
-            </Button>
-          </motion.form>
+          {isSubmitted ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="lg:col-span-3 flex flex-col items-center justify-center text-center py-16 bg-card rounded-2xl border border-border"
+            >
+              <CheckCircle size={48} className="text-secondary mb-4" />
+              <h3 className="font-display text-xl font-semibold text-foreground mb-2">Message Sent!</h3>
+              <p className="text-muted-foreground text-sm mb-6">We'll get back to you within 24 hours.</p>
+              <Button variant="outline" onClick={() => setIsSubmitted(false)}>Send Another Message</Button>
+            </motion.div>
+          ) : (
+            <motion.form
+              onSubmit={handleSubmit}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="lg:col-span-3 space-y-4"
+            >
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <Input
+                    placeholder="Full Name *"
+                    value={formData.name}
+                    onChange={(e) => handleChange("name", e.target.value)}
+                    className={`bg-card ${errors.name ? "border-destructive" : ""}`}
+                    disabled={isSubmitting}
+                  />
+                  {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
+                </div>
+                <div>
+                  <Input
+                    placeholder="Email Address *"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleChange("email", e.target.value)}
+                    className={`bg-card ${errors.email ? "border-destructive" : ""}`}
+                    disabled={isSubmitting}
+                  />
+                  {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Input
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={(e) => handleChange("phone", e.target.value)}
+                  className="bg-card"
+                  disabled={isSubmitting}
+                />
+                <Input
+                  placeholder="Company Name (Optional)"
+                  value={formData.company}
+                  onChange={(e) => handleChange("company", e.target.value)}
+                  className="bg-card"
+                  disabled={isSubmitting}
+                />
+              </div>
+              <div>
+                <Textarea
+                  placeholder="Tell us about your project... *"
+                  rows={5}
+                  value={formData.message}
+                  onChange={(e) => handleChange("message", e.target.value)}
+                  className={`bg-card resize-none ${errors.message ? "border-destructive" : ""}`}
+                  disabled={isSubmitting}
+                />
+                {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
+              </div>
+              <Button variant="hero" size="lg" type="submit" className="w-full sm:w-auto" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="mr-2 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <Send size={16} className="ml-2" />
+                  </>
+                )}
+              </Button>
+            </motion.form>
+          )}
         </div>
       </div>
     </section>

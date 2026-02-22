@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { scrollToContact } from "@/lib/scroll";
 
 const AboutSection = () => {
   return (
@@ -24,7 +25,7 @@ const AboutSection = () => {
             <p className="text-muted-foreground leading-relaxed mb-8">
               Our goal is to deliver premium design, clean development, and real business results.
             </p>
-            <Button variant="outline" className="group">
+            <Button variant="outline" className="group" onClick={scrollToContact}>
               Know More About Us
               <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
@@ -49,7 +50,7 @@ const AboutSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-card rounded-2xl p-6 shadow-card border border-border text-center"
+                className="bg-card rounded-2xl p-6 shadow-card border border-border text-center hover:shadow-card-hover transition-shadow duration-300"
               >
                 <div className="font-display text-3xl font-bold gradient-text mb-1">{stat.value}</div>
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
