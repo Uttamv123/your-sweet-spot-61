@@ -4,7 +4,7 @@ import logo from "@/assets/logo.png";
 const companyLinks = [
   { label: "About", href: "/#about" },
   { label: "Services", href: "/#services" },
-  { label: "Portfolio", href: "/#portfolio" },
+  { label: "Case Studies", href: "/#case-studies" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -27,7 +27,7 @@ const Footer = () => {
               </span>
             </a>
             <p className="text-muted-foreground text-sm mt-3 max-w-sm leading-relaxed">
-              We build premium websites and scalable digital solutions that help businesses grow faster.
+              We build intelligent digital systems and AI-driven workflows that help UK businesses scale faster.
             </p>
           </div>
 

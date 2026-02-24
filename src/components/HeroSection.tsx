@@ -29,20 +29,20 @@ const HeroSection = () => {
             transition={{ delay: 0.3 }}
             className="text-secondary text-sm font-medium tracking-widest uppercase mb-6"
           >
-            Premium Web Development Agency
+            Digital Systems &amp; AI Automation Agency
           </motion.p>
 
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-[1.1] mb-6">
-            We Build Modern Websites & Digital Products That Help Businesses{" "}
-            <span className="gradient-text">Grow</span>
+            Building Intelligent Digital Systems for Modern{" "}
+            <span className="gradient-text">UK Businesses</span>
           </h1>
 
           <p className="text-primary-foreground/60 text-lg md:text-xl max-w-xl mb-4 font-body leading-relaxed">
-            From UI/UX design to deployment — fast, secure, and conversion-friendly digital experiences.
+            We design, automate, and scale high-performance web platforms and AI-driven workflows that reduce operational friction and increase measurable growth.
           </p>
 
           <p className="text-primary-foreground/40 text-sm mb-10">
-            Trusted by growing businesses that value quality, speed, and modern design.
+            Trusted by startups and growing service businesses across the UK &amp; India.
           </p>
 
           <motion.div
@@ -51,11 +51,11 @@ const HeroSection = () => {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="flex flex-col sm:flex-row gap-4"
           >
-            <Button variant="hero" size="lg" className="text-base px-8 py-6" onClick={scrollToContact}>
-              Get a Free Website Audit
+            <Button variant="hero" size="lg" className="text-base px-8 py-6" onClick={() => setCalendlyOpen(true)}>
+              Book a Free Strategy Call
               <ArrowRight className="ml-2" size={18} />
             </Button>
-            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6" onClick={() => scrollToSection("portfolio")}>
+            <Button variant="hero-outline" size="lg" className="text-base px-8 py-6" onClick={() => scrollToSection("case-studies")}>
               <Play size={16} className="mr-2" />
               View Our Work
             </Button>

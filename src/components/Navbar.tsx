@@ -10,8 +10,8 @@ const navLinks = [
   { label: "Home", href: "#" },
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Pricing", href: "#pricing" },
+  { label: "How We Work", href: "#process" },
+  { label: "Case Studies", href: "#case-studies" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -65,7 +65,7 @@ const Navbar = () => {
             </a>
           ))}
           <Button variant="hero" size="sm" onClick={() => setCalendlyOpen(true)}>
-            Get a Free Consultation
+            Book a Strategy Call
           </Button>
         </div>
 
@@ -94,7 +94,7 @@ const Navbar = () => {
                 </a>
               ))}
               <Button variant="hero" size="sm" onClick={() => { setIsOpen(false); setCalendlyOpen(true); }}>
-                Get a Free Consultation
+                Book a Strategy Call
               </Button>
             </div>
           </motion.div>

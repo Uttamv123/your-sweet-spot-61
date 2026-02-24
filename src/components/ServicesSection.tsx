@@ -1,39 +1,34 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Globe, Palette, Code2, ShoppingCart, Search, Wrench, ArrowRight } from "lucide-react";
+import { Globe, Palette, Code2, Search, Wrench, ArrowRight } from "lucide-react";
 import CalendlyModal from "@/components/CalendlyModal";
 
 const services = [
   {
     icon: Globe,
-    title: "Website Development",
-    description: "We build fast, responsive, and modern websites that look premium and perform smoothly across all devices.",
-  },
-  {
-    icon: Palette,
-    title: "UI/UX Design",
-    description: "We design clean and modern user interfaces that improve user experience and build brand trust.",
+    title: "Custom Web Development",
+    description: "We build fast, conversion-focused, scalable websites tailored to your business model.",
   },
   {
     icon: Code2,
-    title: "Web Application Development",
-    description: "We build scalable web applications like dashboards, admin panels, and SaaS platforms.",
-  },
-  {
-    icon: ShoppingCart,
-    title: "E-Commerce Development",
-    description: "We build e-commerce websites optimized for sales, speed, and smooth checkout experience.",
-  },
-  {
-    icon: Search,
-    title: "SEO & Performance Optimization",
-    description: "We optimize websites for speed, SEO, and better ranking on Google.",
+    title: "AI Workflow Automation",
+    description: "We eliminate repetitive tasks using intelligent automation systems that save time and reduce errors.",
   },
   {
     icon: Wrench,
-    title: "Maintenance & Support",
-    description: "We provide long-term maintenance so your website stays updated, secure, and smooth.",
+    title: "CRM & System Integration",
+    description: "We connect your marketing, sales, and operations into one seamless ecosystem.",
+  },
+  {
+    icon: Palette,
+    title: "UI/UX Optimisation",
+    description: "We design intuitive digital experiences that increase engagement and retention.",
+  },
+  {
+    icon: Search,
+    title: "Ongoing Maintenance & Support",
+    description: "We keep your platform updated, secure, and continuously optimised after launch.",
   },
 ];
 
@@ -61,10 +56,10 @@ const ServicesSection = () => {
         >
           <span className="text-sm font-semibold text-secondary uppercase tracking-widest">Our Services</span>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-4">
-            Everything You Need to Build & Grow Online
+            Structured &amp; <span className="gradient-text">Premium</span> Digital Services
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            All-in-one digital services to build, launch, and scale your business online.
+            End-to-end digital solutions built to scale your business, automate operations, and drive measurable results.
           </p>
         </motion.div>
 

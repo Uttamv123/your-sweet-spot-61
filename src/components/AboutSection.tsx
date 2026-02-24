@@ -17,13 +17,13 @@ const AboutSection = () => {
             <span className="text-sm font-semibold text-secondary uppercase tracking-widest">About Us</span>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-6 leading-tight">
               We're Not Just Developers — We're a Digital{" "}
-              <span className="gradient-text">Growth Partner</span>
+              <span className="gradient-text">Systems Partner</span>
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-6">
-              The Code Reflections is a digital solutions team focused on creating modern and impactful online experiences. We don't just build websites — we build platforms that help businesses attract customers, build trust, and scale faster.
+              The Code Reflections is a digital systems and AI automation agency focused on building intelligent platforms for UK businesses. We don't just build websites — we build connected systems that reduce friction, automate operations, and drive measurable growth.
             </p>
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Our goal is to deliver premium design, clean development, and real business results.
+              Our goal is to deliver premium design, structured delivery, and real business outcomes.
             </p>
             <Button variant="outline" className="group" onClick={scrollToContact}>
               Know More About Us
