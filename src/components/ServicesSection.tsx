@@ -12,67 +12,55 @@ const services = [
   { icon: Search, title: "Ongoing Maintenance & Support", description: "We keep your platform updated, secure, and continuously optimised after launch." },
 ];
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } },
-};
-
 const ServicesSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
 
   return (
-    <section id="services" className="py-24 relative">
+    <section id="services" className="py-28 relative">
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-16"
         >
-          <span className="text-sm font-semibold text-secondary uppercase tracking-[0.2em]">Our Services</span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-4">
+          <span className="text-xs font-semibold text-secondary/80 uppercase tracking-[0.3em]">Our Services</span>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-5">
             Structured &amp; <span className="gradient-text">Premium</span> Digital Services
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
             End-to-end digital solutions built to scale your business, automate operations, and drive measurable results.
           </p>
         </motion.div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {services.map((service) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {services.map((service, i) => (
             <motion.div
               key={service.title}
-              variants={item}
-              className="group glass rounded-2xl p-8 hover-glow hover:-translate-y-1 transition-all duration-300"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="group gradient-border-card rounded-2xl p-8 hover-lift cursor-default"
             >
-              <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center mb-5 group-hover:scale-110 group-hover:shadow-glow-sm transition-all duration-300">
-                <service.icon size={22} className="text-accent-foreground" />
+              <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-glow-sm transition-all duration-500 ease-out">
+                <service.icon size={20} className="text-accent-foreground" />
               </div>
-              <h3 className="font-display text-lg font-semibold text-card-foreground mb-2">{service.title}</h3>
+              <h3 className="font-display text-lg font-semibold text-card-foreground mb-3">{service.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="text-center mt-14"
         >
-          <p className="text-muted-foreground mb-4">Not sure what you need? Start with a free consultation.</p>
+          <p className="text-muted-foreground/70 mb-5 text-sm">Not sure what you need? Start with a free consultation.</p>
           <Button variant="hero" size="lg" onClick={() => setCalendlyOpen(true)}>
             Book a Free Call
             <ArrowRight size={16} className="ml-2" />

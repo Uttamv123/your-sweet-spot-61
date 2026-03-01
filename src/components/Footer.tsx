@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import logo from "@/assets/logo.png";
 
 const companyLinks = [
@@ -16,27 +17,33 @@ const legalLinks = [
 
 const Footer = () => {
   return (
-    <footer className="py-16 border-t border-border bg-card/50">
+    <footer className="py-16 border-t border-border/50 bg-card/30">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-14"
+        >
           <div className="md:col-span-2">
-            <a href="/" className="flex items-center gap-2">
+            <a href="/" className="flex items-center gap-2.5">
               <img src={logo} alt="The Code Reflections" className="h-9 w-9 rounded-md object-contain" />
               <span className="font-display text-xl font-bold text-foreground">
                 Code <span className="gradient-text">Reflections</span>
               </span>
             </a>
-            <p className="text-muted-foreground text-sm mt-3 max-w-sm leading-relaxed">
+            <p className="text-muted-foreground/60 text-sm mt-4 max-w-sm leading-relaxed">
               We build intelligent digital systems and AI-driven workflows that help UK businesses scale faster.
             </p>
           </div>
 
           <div>
-            <h4 className="font-display font-semibold text-foreground mb-4 text-sm">Company</h4>
-            <ul className="space-y-2">
+            <h4 className="font-display font-semibold text-foreground/80 mb-5 text-xs uppercase tracking-[0.2em]">Company</h4>
+            <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors animated-underline pb-0.5">
+                  <Link to={link.href} className="text-sm text-muted-foreground/60 hover:text-foreground transition-colors duration-300 animated-underline pb-0.5">
                     {link.label}
                   </Link>
                 </li>
@@ -44,22 +51,22 @@ const Footer = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-display font-semibold text-foreground mb-4 text-sm">Legal</h4>
-            <ul className="space-y-2">
+            <h4 className="font-display font-semibold text-foreground/80 mb-5 text-xs uppercase tracking-[0.2em]">Legal</h4>
+            <ul className="space-y-3">
               {legalLinks.map((link) => (
                 <li key={link.label}>
-                  <Link to={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors animated-underline pb-0.5">
+                  <Link to={link.href} className="text-sm text-muted-foreground/60 hover:text-foreground transition-colors duration-300 animated-underline pb-0.5">
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-        </div>
+        </motion.div>
 
         <div className="section-divider" />
-        <div className="pt-6 text-center">
-          <p className="text-xs text-muted-foreground">
+        <div className="pt-8 text-center">
+          <p className="text-xs text-muted-foreground/40">
             © 2026 The Code Reflections. All rights reserved.
           </p>
         </div>

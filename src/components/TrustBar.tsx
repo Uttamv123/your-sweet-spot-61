@@ -2,18 +2,22 @@ import { motion } from "framer-motion";
 
 const TrustBar = () => {
   return (
-    <section className="py-6 relative">
-      <div className="section-divider mb-6" />
+    <section className="py-8 relative">
       <div className="container mx-auto px-4">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center text-sm text-muted-foreground tracking-wide"
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex items-center justify-center gap-3"
         >
-          Trusted by startups and growing service businesses across the{" "}
-          <span className="font-semibold text-foreground">UK &amp; India</span>
-        </motion.p>
+          <div className="h-px flex-1 max-w-[120px] bg-gradient-to-r from-transparent to-border" />
+          <p className="text-center text-sm text-muted-foreground/70 tracking-wide">
+            Trusted by startups and growing service businesses across the{" "}
+            <span className="font-medium text-foreground/80">UK &amp; India</span>
+          </p>
+          <div className="h-px flex-1 max-w-[120px] bg-gradient-to-l from-transparent to-border" />
+        </motion.div>
       </div>
     </section>
   );

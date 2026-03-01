@@ -41,21 +41,21 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled ? "glass-strong shadow-lg" : "bg-transparent"
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+        scrolled ? "glass-strong shadow-elegant" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <a
           href="/"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2.5"
           onClick={(e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          <img src={logo} alt="The Code Reflections" className="h-9 w-9 rounded-md object-contain" />
+          <img src={logo} alt="The Code Reflections" className="h-8 w-8 rounded-md object-contain" />
           <span className="font-display text-lg font-bold text-foreground">
             Code <span className="gradient-text">Reflections</span>
           </span>
@@ -67,7 +67,7 @@ const Navbar = () => {
               key={link.label}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors animated-underline pb-1"
+              className="text-[13px] text-muted-foreground/70 hover:text-foreground transition-colors duration-300 animated-underline pb-1"
             >
               {link.label}
             </a>
@@ -78,7 +78,7 @@ const Navbar = () => {
         </div>
 
         <button className="lg:hidden text-foreground" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
       </div>
 
@@ -88,24 +88,24 @@ const Navbar = () => {
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            transition={{ type: "spring", damping: 30, stiffness: 250 }}
             className="lg:hidden fixed top-16 right-0 bottom-0 w-72 glass-strong px-6 py-8 overflow-hidden"
           >
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               {navLinks.map((link, i) => (
                 <motion.a
                   key={link.label}
                   href={link.href}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  className="text-sm text-muted-foreground hover:text-foreground py-2 animated-underline inline-block"
+                  transition={{ delay: i * 0.04, duration: 0.3 }}
+                  className="text-sm text-muted-foreground/70 hover:text-foreground py-2.5 animated-underline inline-block transition-colors duration-300"
                   onClick={(e) => handleNavClick(e, link.href)}
                 >
                   {link.label}
                 </motion.a>
               ))}
-              <Button variant="hero" size="sm" className="mt-4" onClick={() => { setIsOpen(false); setCalendlyOpen(true); }}>
+              <Button variant="hero" size="sm" className="mt-6" onClick={() => { setIsOpen(false); setCalendlyOpen(true); }}>
                 Book a Strategy Call
               </Button>
             </div>

@@ -65,30 +65,31 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section id="contact" className="py-28 relative">
+      <div className="section-divider mb-28" />
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-16"
         >
-          <span className="text-sm font-semibold text-secondary uppercase tracking-[0.2em]">Contact Us</span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-4">
+          <span className="text-xs font-semibold text-secondary/80 uppercase tracking-[0.3em]">Contact Us</span>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-5">
             Let's Build Something <span className="gradient-text">Great Together</span>
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
             Share your requirements and we'll get back within 24 hours.
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-5 gap-12 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-5 gap-14 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
             className="lg:col-span-2 space-y-8"
           >
             <div>
@@ -103,8 +104,8 @@ const ContactSection = () => {
                 { icon: Phone, label: "+91 XXXXX XXXXX" },
                 { icon: MapPin, label: "India (Remote)" },
               ].map((c) => (
-                <div key={c.label} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <div key={c.label} className="flex items-center gap-3 group">
+                  <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors duration-300">
                     <c.icon size={16} className="text-primary" />
                   </div>
                   <span className="text-sm text-muted-foreground">{c.label}</span>
@@ -117,7 +118,8 @@ const ContactSection = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="lg:col-span-3 flex flex-col items-center justify-center text-center py-16 glass rounded-2xl glow-border"
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="lg:col-span-3 flex flex-col items-center justify-center text-center py-16 gradient-border-card rounded-2xl"
             >
               <CheckCircle size={48} className="text-secondary mb-4" />
               <h3 className="font-display text-xl font-semibold text-foreground mb-2">Message Sent!</h3>
@@ -130,6 +132,7 @@ const ContactSection = () => {
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
               className="lg:col-span-3 space-y-4"
             >
               <div className="grid sm:grid-cols-2 gap-4">
@@ -138,7 +141,7 @@ const ContactSection = () => {
                     placeholder="Full Name *"
                     value={formData.name}
                     onChange={(e) => handleChange("name", e.target.value)}
-                    className={`bg-muted/50 border-border focus:border-primary ${errors.name ? "border-destructive" : ""}`}
+                    className={`bg-muted/30 border-border/60 focus:border-primary/50 transition-colors duration-300 ${errors.name ? "border-destructive" : ""}`}
                     disabled={isSubmitting}
                   />
                   {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
@@ -149,15 +152,15 @@ const ContactSection = () => {
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleChange("email", e.target.value)}
-                    className={`bg-muted/50 border-border focus:border-primary ${errors.email ? "border-destructive" : ""}`}
+                    className={`bg-muted/30 border-border/60 focus:border-primary/50 transition-colors duration-300 ${errors.email ? "border-destructive" : ""}`}
                     disabled={isSubmitting}
                   />
                   {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
-                <Input placeholder="Phone Number" value={formData.phone} onChange={(e) => handleChange("phone", e.target.value)} className="bg-muted/50 border-border focus:border-primary" disabled={isSubmitting} />
-                <Input placeholder="Company Name (Optional)" value={formData.company} onChange={(e) => handleChange("company", e.target.value)} className="bg-muted/50 border-border focus:border-primary" disabled={isSubmitting} />
+                <Input placeholder="Phone Number" value={formData.phone} onChange={(e) => handleChange("phone", e.target.value)} className="bg-muted/30 border-border/60 focus:border-primary/50 transition-colors duration-300" disabled={isSubmitting} />
+                <Input placeholder="Company Name (Optional)" value={formData.company} onChange={(e) => handleChange("company", e.target.value)} className="bg-muted/30 border-border/60 focus:border-primary/50 transition-colors duration-300" disabled={isSubmitting} />
               </div>
               <div>
                 <Textarea
@@ -165,7 +168,7 @@ const ContactSection = () => {
                   rows={5}
                   value={formData.message}
                   onChange={(e) => handleChange("message", e.target.value)}
-                  className={`bg-muted/50 border-border focus:border-primary resize-none ${errors.message ? "border-destructive" : ""}`}
+                  className={`bg-muted/30 border-border/60 focus:border-primary/50 resize-none transition-colors duration-300 ${errors.message ? "border-destructive" : ""}`}
                   disabled={isSubmitting}
                 />
                 {errors.message && <p className="text-destructive text-xs mt-1">{errors.message}</p>}
