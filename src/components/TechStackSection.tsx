@@ -11,39 +11,39 @@ const stack = [
 
 const TechStackSection = () => {
   return (
-    <section className="py-24 relative">
+    <section className="py-28 relative">
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-16"
         >
-          <span className="text-sm font-semibold text-secondary uppercase tracking-[0.2em]">Technology</span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-4">
+          <span className="text-xs font-semibold text-secondary/80 uppercase tracking-[0.3em]">Technology</span>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-5">
             Modern &amp; <span className="gradient-text">Scalable</span> Technology Stack
           </h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
             We use the right tools for every project — modern, reliable, and built to scale.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           {stack.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.5 }}
-              className="glass rounded-2xl p-6 text-center hover-glow hover:-translate-y-1 transition-all duration-300 group"
+              transition={{ delay: i * 0.06, duration: 0.6, ease: "easeOut" }}
+              className="gradient-border-card rounded-2xl p-6 text-center hover-lift cursor-default group"
             >
-              <div className="w-12 h-12 rounded-xl gradient-accent flex items-center justify-center mx-auto mb-4 group-hover:shadow-glow-sm group-hover:scale-110 transition-all duration-300">
-                <item.icon size={22} className="text-accent-foreground" />
+              <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mx-auto mb-4 group-hover:shadow-glow-sm group-hover:scale-110 transition-all duration-500 ease-out">
+                <item.icon size={20} className="text-accent-foreground" />
               </div>
               <h3 className="font-display text-sm font-semibold text-card-foreground mb-2">{item.title}</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+              <p className="text-xs text-muted-foreground/70 leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
         </div>

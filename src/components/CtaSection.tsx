@@ -9,22 +9,22 @@ const CtaSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-28 relative overflow-hidden noise-overlay">
       <div className="absolute inset-0 gradient-hero" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/6 blur-[120px] pointer-events-none animate-breathe" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 0, y: 24, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center max-w-2xl mx-auto"
         >
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-foreground mb-5">
             Let's Build Something <span className="gradient-text">Intelligent.</span>
           </h2>
-          <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
+          <p className="text-muted-foreground text-lg mb-12 leading-relaxed">
             Ready to transform your digital operations? Book a free strategy call and let's discuss how we can build the right systems for your business.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -11,46 +11,45 @@ const steps = [
 
 const ProcessSection = () => {
   return (
-    <section id="process" className="py-24 relative overflow-hidden">
-      {/* Subtle background glow */}
+    <section id="process" className="py-28 relative overflow-hidden">
       <div className="absolute inset-0 gradient-hero opacity-80" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-primary/4 blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+          className="text-center mb-20"
         >
-          <span className="text-sm font-semibold text-secondary uppercase tracking-[0.2em]">How We Work</span>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mt-3 mb-4">
+          <span className="text-xs font-semibold text-secondary/80 uppercase tracking-[0.3em]">How We Work</span>
+          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-5">
             Our 5-Step Delivery Framework
           </h2>
-          <p className="text-muted-foreground/70 max-w-xl mx-auto">
+          <p className="text-muted-foreground/60 max-w-xl mx-auto leading-relaxed">
             Structured delivery with full transparency at every stage.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.5 }}
+              transition={{ delay: i * 0.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="relative text-center group"
             >
-              <div className="w-14 h-14 rounded-2xl gradient-accent mx-auto flex items-center justify-center mb-4 group-hover:shadow-glow-sm group-hover:scale-110 transition-all duration-300">
-                <step.icon size={24} className="text-accent-foreground" />
+              <div className="w-14 h-14 rounded-2xl gradient-accent mx-auto flex items-center justify-center mb-5 group-hover:shadow-glow-sm group-hover:scale-110 transition-all duration-500 ease-out">
+                <step.icon size={22} className="text-accent-foreground" />
               </div>
-              <span className="text-xs text-secondary font-bold tracking-widest mb-1 block">{step.num}</span>
+              <span className="text-[10px] text-secondary/70 font-bold tracking-[0.3em] mb-2 block">{step.num}</span>
               <h3 className="font-display text-sm font-semibold text-foreground mb-2">{step.title}</h3>
-              <p className="text-muted-foreground/60 text-xs leading-relaxed">{step.desc}</p>
+              <p className="text-muted-foreground/50 text-xs leading-relaxed">{step.desc}</p>
               {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-7 left-[60%] w-[80%] h-px bg-gradient-to-r from-primary/30 to-transparent" />
+                <div className="hidden md:block absolute top-7 left-[60%] w-[80%] h-px bg-gradient-to-r from-primary/20 to-transparent" />
               )}
             </motion.div>
           ))}
