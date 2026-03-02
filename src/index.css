@@ -67,11 +67,27 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* GPU-accelerated smooth transitions globally */
+  *, *::before, *::after {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  img, video {
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -247,7 +263,8 @@
 
   /* Hover effects */
   .hover-glow {
-    @apply transition-all duration-500 ease-out;
+    @apply transition-all duration-700 ease-out;
+    will-change: box-shadow, border-color;
   }
 
   .hover-glow:hover {
@@ -256,11 +273,12 @@
   }
 
   .hover-lift {
-    @apply transition-all duration-500 ease-out;
+    @apply transition-all duration-700 ease-out;
+    will-change: transform, box-shadow;
   }
 
   .hover-lift:hover {
-    transform: translateY(-6px);
+    transform: translateY(-6px) translateZ(0);
     box-shadow: 0 20px 40px hsl(0 0% 0% / 0.25), 0 0 30px hsl(250 60% 58% / 0.08);
   }
 
