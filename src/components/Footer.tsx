@@ -28,7 +28,7 @@ const Footer = () => {
         >
           <div className="md:col-span-2">
             <a href="/" className="flex items-center gap-2.5">
-              <img src={logo} alt="The Code Reflections" className="h-9 w-9 rounded-md object-contain" />
+              <img src={logo} alt="The Code Reflections" className="h-12 w-12 rounded-md object-contain" />
               <span className="font-display text-xl font-bold text-foreground">
                 Code <span className="gradient-text">Reflections</span>
               </span>

@@ -67,7 +67,7 @@ const Navbar = () => {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
         >
-          <img src={logo} alt="The Code Reflections" className="h-8 w-8 rounded-md object-contain" />
+          <img src={logo} alt="The Code Reflections" className="h-11 w-11 rounded-md object-contain" />
           <span className="font-display text-lg font-bold text-foreground">
             Code <span className="gradient-text">Reflections</span>
           </span>
