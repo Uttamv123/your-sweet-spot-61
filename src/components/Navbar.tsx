@@ -20,6 +20,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [calendlyOpen, setCalendlyOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -30,12 +32,20 @@ const Navbar = () => {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setIsOpen(false);
-    if (href === "#") {
+    if (href.startsWith("/")) {
+      navigate(href);
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (href === "#") {
+      if (location.pathname !== "/") { navigate("/"); }
+      else { window.scrollTo({ top: 0, behavior: "smooth" }); }
     } else {
-      const id = href.replace("#", "");
-      const el = document.getElementById(id);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (location.pathname !== "/") {
+        navigate("/" + href);
+      } else {
+        const id = href.replace("#", "");
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
   };
 
