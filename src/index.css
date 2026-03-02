@@ -67,11 +67,27 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* GPU-accelerated smooth transitions globally */
+  *, *::before, *::after {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  img, video {
+    backface-visibility: visible;
+    -webkit-backface-visibility: visible;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -199,7 +215,7 @@
     mask-composite: exclude;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .gradient-border-card:hover::before {
@@ -209,6 +225,7 @@
   .glow-border {
     border: 1px solid hsl(250 60% 58% / 0.15);
     box-shadow: inset 0 0 30px hsl(250 60% 58% / 0.03), 0 0 30px hsl(250 60% 58% / 0.04);
+    transition: box-shadow 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   /* Shimmer effect */
@@ -247,7 +264,8 @@
 
   /* Hover effects */
   .hover-glow {
-    @apply transition-all duration-500 ease-out;
+    @apply transition-all duration-700 ease-out;
+    will-change: box-shadow, border-color;
   }
 
   .hover-glow:hover {
@@ -256,11 +274,12 @@
   }
 
   .hover-lift {
-    @apply transition-all duration-500 ease-out;
+    @apply transition-all duration-700 ease-out;
+    will-change: transform, box-shadow;
   }
 
   .hover-lift:hover {
-    transform: translateY(-6px);
+    transform: translateY(-6px) translateZ(0);
     box-shadow: 0 20px 40px hsl(0 0% 0% / 0.25), 0 0 30px hsl(250 60% 58% / 0.08);
   }
 
@@ -275,7 +294,7 @@
     background: var(--gradient-accent);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .animated-underline:hover::after {
