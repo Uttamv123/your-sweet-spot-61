@@ -8,7 +8,7 @@ import {
 
 const faqs = [
   { q: "How long does a project take?", a: "Most projects are delivered within 4–8 weeks, depending on scope and complexity. We provide a clear timeline during the discovery phase." },
-  { q: "Do you work with UK businesses only?", a: "We primarily serve UK startups and service businesses, but we also work with clients in India and other regions." },
+  { q: "Do you work with businesses globally?", a: "Yes, we work with startups and service businesses worldwide. Our remote-first approach allows us to collaborate seamlessly across regions." },
   { q: "What industries do you specialise in?", a: "We work across professional services, e-commerce, SaaS, and service-based businesses. Our systems-first approach applies to any industry." },
   { q: "Do you offer ongoing support?", a: "Yes. We provide maintenance, monitoring, and continuous improvement plans so your platform stays optimised after launch." },
   { q: "What is the typical investment range?", a: "Projects typically start from £2,000 for smaller builds, scaling based on complexity. We offer flexible partnership models — book a strategy call to discuss." },

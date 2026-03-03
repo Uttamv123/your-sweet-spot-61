@@ -100,9 +100,8 @@ const ContactSection = () => {
             </div>
             <div className="space-y-4">
               {[
-                { icon: Mail, label: "hello@thecodereflections.com" },
-                { icon: Phone, label: "+91 XXXXX XXXXX" },
-                { icon: MapPin, label: "India (Remote)" },
+                { icon: Mail, label: "careers@thecodereflections.com" },
+                { icon: MapPin, label: "Remote" },
               ].map((c) => (
                 <div key={c.label} className="flex items-center gap-3 group">
                   <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors duration-300">

@@ -34,7 +34,7 @@ const Footer = () => {
               </span>
             </a>
             <p className="text-muted-foreground/60 text-sm mt-4 max-w-sm leading-relaxed">
-              We build intelligent digital systems and AI-driven workflows that help UK businesses scale faster.
+              We build intelligent digital systems and AI-driven workflows that help businesses scale faster.
             </p>
           </div>
 

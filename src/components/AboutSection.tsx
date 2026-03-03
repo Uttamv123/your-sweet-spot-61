@@ -27,7 +27,7 @@ const AboutSection = () => {
               <span className="gradient-text">Systems Partner</span>
             </h2>
             <p className="text-muted-foreground leading-relaxed mb-5">
-              The Code Reflections is a digital systems and AI automation agency focused on building intelligent platforms for UK businesses. We don't just build websites — we build connected systems that reduce friction, automate operations, and drive measurable growth.
+              The Code Reflections is a digital systems and AI automation agency focused on building intelligent platforms for modern businesses. We don't just build websites — we build connected systems that reduce friction, automate operations, and drive measurable growth.
             </p>
             <p className="text-muted-foreground/70 leading-relaxed mb-10">
               Our goal is to deliver premium design, structured delivery, and real business outcomes.

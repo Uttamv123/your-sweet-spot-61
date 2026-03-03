@@ -4,7 +4,7 @@ import { Globe, ShoppingBag, LayoutDashboard } from "lucide-react";
 const caseStudies = [
   {
     title: "E-Commerce Platform",
-    clientType: "UK Retail Startup",
+    clientType: "Retail Startup",
     challenge: "Low conversion rates and fragmented checkout flow",
     solution: "Custom e-commerce platform with streamlined UX and automated inventory management",
     result: "42% increase in conversion rate within 3 months",
