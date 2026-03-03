@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 const team = [
   {
     name: "Manish Goyal",
-    role: "Founder",
+    role: "Consultant",
     tagline: "11+ Years of IT Experience | Cloud Technologies Expert | Technical Architect",
     bio: "Manish Goyal, the Founder of TheCodeReflections, brings over 11 years of extensive IT experience specifically in Cloud technologies. His deep technical knowledge and hands-on expertise in building scalable, robust solutions are the backbone of our technological capabilities.",
     philosophy: "Manish's vision is to empower businesses by simplifying technology. He believes that IT should not be complex, but rather an accessible and easy path for both startups and established businesses to achieve their goals. He is dedicated to creating seamless digital experiences that drive real-world success.",
@@ -14,7 +14,7 @@ const team = [
   },
   {
     name: "Dipti Jain",
-    role: "Co-Founder",
+    role: "Founder",
     tagline: "Master's in Industrial and Product Design | Former Educator | Technology Advocate",
     bio: "Dipti Jain, the visionary Co-Founder of TheCodeReflections, brings a unique blend of pedagogical insight and design thinking to the tech world. With a background as a teacher and holding a Master's in Industrial and Product Design, Dipti understands the power of clear communication and user-centric solutions, especially for non-technical users.",
     philosophy: "Her foundational belief is simple yet profound: technology should never be a barrier to personal or professional development. Beyond technology, Dipti is a strong advocate for women's empowerment and work-life balance, guiding TheCodeReflections' commitment to sustainable growth and harmony.",
