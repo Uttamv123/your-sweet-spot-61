@@ -13,8 +13,7 @@ const TrustBar = () => {
         >
           <div className="h-px flex-1 max-w-[120px] bg-gradient-to-r from-transparent to-border" />
           <p className="text-center text-sm text-muted-foreground/70 tracking-wide">
-            Trusted by startups and growing service businesses across the{" "}
-            <span className="font-medium text-foreground/80">UK &amp; India</span>
+            Trusted by startups and growing service businesses worldwide
           </p>
           <div className="h-px flex-1 max-w-[120px] bg-gradient-to-l from-transparent to-border" />
         </motion.div>

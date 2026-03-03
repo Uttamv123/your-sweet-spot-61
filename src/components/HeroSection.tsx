@@ -91,7 +91,7 @@ const HeroSection = () => {
               transition={{ delay: 1.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="gradient-text"
             >
-              UK Businesses
+              Businesses
             </motion.span>
           </h1>
 
@@ -110,7 +110,7 @@ const HeroSection = () => {
             transition={{ delay: 1.5, duration: 0.8 }}
             className="text-muted-foreground/50 text-sm mb-12"
           >
-            Trusted by startups and growing service businesses across the UK &amp; India.
+            Trusted by startups and growing service businesses worldwide.
           </motion.p>
 
           <motion.div

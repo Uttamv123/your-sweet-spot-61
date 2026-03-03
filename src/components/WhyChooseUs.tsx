@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Award, Zap, Smartphone, Search, Shield, HeartHandshake } from "lucide-react";
 
 const reasons = [
-  { icon: Award, title: "Premium Design That Builds Authority", desc: "We create clean, professional designs that build credibility with UK clients." },
+  { icon: Award, title: "Premium Design That Builds Authority", desc: "We create clean, professional designs that build credibility with clients worldwide." },
   { icon: Zap, title: "Structured 5-Step Delivery", desc: "Our delivery framework ensures transparency and smooth execution at every stage." },
   { icon: Smartphone, title: "Mobile-First & Responsive", desc: "Every platform we build is fully optimised for mobile devices." },
   { icon: Search, title: "SEO & Conversion Focused", desc: "We build with proper SEO foundations and conversion-focused layouts." },

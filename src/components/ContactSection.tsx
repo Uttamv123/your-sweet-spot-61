@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Send, Mail, Phone, MapPin, CheckCircle, Loader2 } from "lucide-react";
+import { Send, Mail, MapPin, CheckCircle, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { z } from "zod";
@@ -54,6 +54,16 @@ const ContactSection = () => {
       });
       if (error) throw error;
 
+      // Send email notification
+      await supabase.functions.invoke("send-contact-email", {
+        body: {
+          name: result.data.name,
+          email: result.data.email,
+          company: result.data.company || "",
+          message: result.data.message,
+        },
+      });
+
       setIsSubmitted(true);
       setFormData({ name: "", email: "", phone: "", company: "", message: "" });
       toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." });
@@ -100,9 +110,8 @@ const ContactSection = () => {
             </div>
             <div className="space-y-4">
               {[
-                { icon: Mail, label: "hello@thecodereflections.com" },
-                { icon: Phone, label: "+91 XXXXX XXXXX" },
-                { icon: MapPin, label: "India (Remote)" },
+                { icon: Mail, label: "careers@thecodereflections.com" },
+                { icon: MapPin, label: "Remote" },
               ].map((c) => (
                 <div key={c.label} className="flex items-center gap-3 group">
                   <div className="w-10 h-10 rounded-xl bg-primary/8 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/15 transition-colors duration-300">
@@ -159,7 +168,6 @@ const ContactSection = () => {
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
-                <Input placeholder="Phone Number" value={formData.phone} onChange={(e) => handleChange("phone", e.target.value)} className="bg-muted/30 border-border/60 focus:border-primary/50 transition-colors duration-300" disabled={isSubmitting} />
                 <Input placeholder="Company Name (Optional)" value={formData.company} onChange={(e) => handleChange("company", e.target.value)} className="bg-muted/30 border-border/60 focus:border-primary/50 transition-colors duration-300" disabled={isSubmitting} />
               </div>
               <div>
