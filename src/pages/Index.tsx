@@ -13,10 +13,12 @@ import FaqSection from "@/components/FaqSection";
 import ContactSection from "@/components/ContactSection";
 import CtaSection from "@/components/CtaSection";
 import Footer from "@/components/Footer";
+import FloatingBubbles from "@/components/FloatingBubbles";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <FloatingBubbles />
       <Navbar />
       <main>
         <HeroSection />
