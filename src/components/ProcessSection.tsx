@@ -20,11 +20,11 @@ const TimelineLine = () => {
         className="h-full w-full"
         style={{
           background: "linear-gradient(90deg, transparent 5%, hsl(250 60% 58% / 0.3) 20%, hsl(190 80% 50% / 0.3) 50%, hsl(250 60% 58% / 0.3) 80%, transparent 95%)",
+          transformOrigin: "left",
         }}
         initial={{ scaleX: 0 }}
         animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
         transition={{ duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
-        style={{ transformOrigin: "left" }}
       />
       {/* Animated dot traveling along the line */}
       {isInView && (
