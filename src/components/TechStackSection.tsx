@@ -33,15 +33,31 @@ const TechStackSection = () => {
           {stack.map((item, i) => (
             <motion.div
               key={item.title}
-              initial={{ opacity: 0, y: 20, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ opacity: 0, y: 30, scale: 0.9, rotateY: 15 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1, rotateY: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.6, ease: "easeOut" }}
-              className="gradient-border-card rounded-2xl p-6 text-center hover-lift cursor-default group"
+              transition={{
+                delay: i * 0.1,
+                duration: 0.8,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              whileHover={{
+                y: -12,
+                scale: 1.05,
+                transition: { duration: 0.3, ease: "easeOut" },
+              }}
+              className="gradient-border-card rounded-2xl p-6 text-center cursor-default group"
+              style={{ perspective: 600 }}
             >
-              <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mx-auto mb-4 group-hover:shadow-glow-sm group-hover:scale-110 transition-all duration-500 ease-out">
+              <motion.div
+                className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mx-auto mb-4"
+                whileHover={{
+                  rotateY: 180,
+                  transition: { duration: 0.6 },
+                }}
+              >
                 <item.icon size={20} className="text-accent-foreground" />
-              </div>
+              </motion.div>
               <h3 className="font-display text-sm font-semibold text-card-foreground mb-2">{item.title}</h3>
               <p className="text-xs text-muted-foreground/70 leading-relaxed">{item.desc}</p>
             </motion.div>

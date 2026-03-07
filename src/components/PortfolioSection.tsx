@@ -53,21 +53,50 @@ const PortfolioSection = () => {
           {caseStudies.map((study, i) => (
             <motion.div
               key={study.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, rotateX: 10 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="gradient-border-card rounded-2xl p-8 hover-lift cursor-default group"
+              transition={{ delay: i * 0.12, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              whileHover={{
+                y: -10,
+                scale: 1.02,
+                transition: { duration: 0.3, ease: "easeOut" },
+              }}
+              className="gradient-border-card rounded-2xl p-8 cursor-default group relative overflow-hidden"
+              style={{ perspective: 600 }}
             >
-              <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mb-6 group-hover:shadow-glow-sm group-hover:scale-110 transition-all duration-500 ease-out">
-                <study.icon size={20} className="text-accent-foreground" />
-              </div>
-              <span className="text-[10px] text-secondary/70 font-semibold uppercase tracking-[0.2em]">{study.clientType}</span>
-              <h3 className="font-display text-lg font-semibold text-card-foreground mt-2 mb-4">{study.title}</h3>
-              <div className="space-y-2.5 text-sm text-muted-foreground leading-relaxed">
-                <p><span className="font-medium text-foreground/80">Challenge:</span> {study.challenge}</p>
-                <p><span className="font-medium text-foreground/80">Solution:</span> {study.solution}</p>
-                <p className="text-secondary font-semibold mt-4 pt-3 border-t border-border/50">→ {study.result}</p>
+              {/* Hover glow effect */}
+              <motion.div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                style={{
+                  background: "radial-gradient(circle at 50% 0%, hsl(250 60% 58% / 0.08), transparent 70%)",
+                }}
+              />
+              <div className="relative z-10">
+                <motion.div
+                  className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mb-6"
+                  whileHover={{
+                    rotate: [0, -10, 10, 0],
+                    scale: 1.15,
+                    transition: { duration: 0.4 },
+                  }}
+                >
+                  <study.icon size={20} className="text-accent-foreground" />
+                </motion.div>
+                <span className="text-[10px] text-secondary/70 font-semibold uppercase tracking-[0.2em]">{study.clientType}</span>
+                <h3 className="font-display text-lg font-semibold text-card-foreground mt-2 mb-4">{study.title}</h3>
+                <div className="space-y-2.5 text-sm text-muted-foreground leading-relaxed">
+                  <p><span className="font-medium text-foreground/80">Challenge:</span> {study.challenge}</p>
+                  <p><span className="font-medium text-foreground/80">Solution:</span> {study.solution}</p>
+                  <motion.p
+                    className="text-secondary font-semibold mt-4 pt-3 border-t border-border/50"
+                    initial={{ opacity: 0.7 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                  >
+                    → {study.result}
+                  </motion.p>
+                </div>
               </div>
             </motion.div>
           ))}

@@ -35,15 +35,23 @@ const WhyChooseUs = () => {
           {reasons.map((reason, i) => (
             <motion.div
               key={reason.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="flex gap-5 group"
+              transition={{ delay: i * 0.08, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+              whileHover={{ x: 6, transition: { duration: 0.3 } }}
+              className="flex gap-5 group cursor-default"
             >
-              <div className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/15 group-hover:shadow-glow-sm transition-all duration-500 ease-out">
-                <reason.icon size={18} className="text-primary transition-transform duration-500 group-hover:scale-110" />
-              </div>
+              <motion.div
+                className="flex-shrink-0 w-11 h-11 rounded-xl bg-primary/8 flex items-center justify-center group-hover:bg-primary/15 group-hover:shadow-glow-sm transition-all duration-500 ease-out"
+                whileHover={{
+                  rotate: [0, -15, 15, -10, 0],
+                  scale: 1.15,
+                  transition: { duration: 0.5 },
+                }}
+              >
+                <reason.icon size={18} className="text-primary" />
+              </motion.div>
               <div>
                 <h3 className="font-display font-semibold text-foreground mb-1.5">{reason.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{reason.desc}</p>

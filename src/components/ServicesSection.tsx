@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Globe, Palette, Code2, Search, Wrench, ArrowRight } from "lucide-react";
 import CalendlyModal from "@/components/CalendlyModal";
@@ -11,6 +11,53 @@ const services = [
   { icon: Palette, title: "UI/UX Optimisation", description: "We design intuitive digital experiences that increase engagement and retention." },
   { icon: Search, title: "Ongoing Maintenance & Support", description: "We keep your platform updated, secure, and continuously optimised after launch." },
 ];
+
+const TiltCard = ({ children, className, delay }: { children: React.ReactNode; className?: string; delay: number }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [8, -8]), { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 30 });
+  const glareOpacity = useSpring(0, { stiffness: 300, damping: 30 });
+
+  const handleMouse = (e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    x.set((e.clientX - rect.left) / rect.width - 0.5);
+    y.set((e.clientY - rect.top) / rect.height - 0.5);
+    glareOpacity.set(0.15);
+  };
+
+  const handleLeave = () => {
+    x.set(0);
+    y.set(0);
+    glareOpacity.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: delay, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
+      onMouseMove={handleMouse}
+      onMouseLeave={handleLeave}
+      className={className}
+    >
+      {children}
+      <motion.div
+        className="absolute inset-0 rounded-2xl pointer-events-none"
+        style={{
+          opacity: glareOpacity,
+          background: "linear-gradient(135deg, hsl(250 60% 58% / 0.3), transparent 60%)",
+        }}
+      />
+    </motion.div>
+  );
+};
 
 const ServicesSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
@@ -36,20 +83,17 @@ const ServicesSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {services.map((service, i) => (
-            <motion.div
+            <TiltCard
               key={service.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="group gradient-border-card rounded-2xl p-8 hover-lift cursor-default"
+              delay={i * 0.08}
+              className="relative group gradient-border-card rounded-2xl p-8 cursor-default"
             >
               <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-glow-sm transition-all duration-500 ease-out">
                 <service.icon size={20} className="text-accent-foreground" />
               </div>
               <h3 className="font-display text-lg font-semibold text-card-foreground mb-3">{service.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
-            </motion.div>
+            </TiltCard>
           ))}
         </div>
 

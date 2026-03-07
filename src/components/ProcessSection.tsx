@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import { MessageSquare, PenTool, Code, TestTube, Rocket } from "lucide-react";
 
 const steps = [
@@ -8,6 +9,35 @@ const steps = [
   { icon: TestTube, num: "04", title: "Testing & Performance Optimisation", desc: "We test for responsiveness, speed, SEO, and functionality." },
   { icon: Rocket, num: "05", title: "Launch & Ongoing Support", desc: "We deploy your platform and provide continuous support." },
 ];
+
+const TimelineLine = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <div ref={ref} className="hidden md:block absolute top-[28px] left-0 right-0 h-px z-0">
+      <motion.div
+        className="h-full w-full"
+        style={{
+          background: "linear-gradient(90deg, transparent 5%, hsl(250 60% 58% / 0.3) 20%, hsl(190 80% 50% / 0.3) 50%, hsl(250 60% 58% / 0.3) 80%, transparent 95%)",
+          transformOrigin: "left",
+        }}
+        initial={{ scaleX: 0 }}
+        animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+        transition={{ duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
+      />
+      {/* Animated dot traveling along the line */}
+      {isInView && (
+        <motion.div
+          className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-secondary shadow-glow-sm"
+          initial={{ left: "5%" }}
+          animate={{ left: "95%" }}
+          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.8 }}
+        />
+      )}
+    </div>
+  );
+};
 
 const ProcessSection = () => {
   return (
@@ -32,25 +62,47 @@ const ProcessSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 relative">
+          <TimelineLine />
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, rotateX: 15 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative text-center group"
+              transition={{
+                delay: 0.4 + i * 0.15,
+                duration: 0.8,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
+              whileHover={{
+                y: -10,
+                scale: 1.05,
+                transition: { duration: 0.3, ease: "easeOut" },
+              }}
+              className="relative text-center group cursor-default"
+              style={{ perspective: 600 }}
             >
-              <div className="w-14 h-14 rounded-2xl gradient-accent mx-auto flex items-center justify-center mb-5 group-hover:shadow-glow-sm group-hover:scale-110 transition-all duration-500 ease-out">
+              <motion.div
+                className="w-14 h-14 rounded-2xl gradient-accent mx-auto flex items-center justify-center mb-5 relative z-10"
+                whileHover={{
+                  rotate: [0, -10, 10, -5, 0],
+                  transition: { duration: 0.5 },
+                }}
+              >
                 <step.icon size={22} className="text-accent-foreground" />
-              </div>
+                {/* Ping animation on the icon */}
+                <motion.div
+                  className="absolute inset-0 rounded-2xl gradient-accent"
+                  initial={{ opacity: 0, scale: 1 }}
+                  whileInView={{ opacity: [0, 0.4, 0], scale: [1, 1.6, 1.8] }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 + i * 0.15, duration: 1, ease: "easeOut" }}
+                />
+              </motion.div>
               <span className="text-[10px] text-secondary/70 font-bold tracking-[0.3em] mb-2 block">{step.num}</span>
               <h3 className="font-display text-sm font-semibold text-foreground mb-2">{step.title}</h3>
               <p className="text-muted-foreground/50 text-xs leading-relaxed">{step.desc}</p>
-              {i < steps.length - 1 && (
-                <div className="hidden md:block absolute top-7 left-[60%] w-[80%] h-px bg-gradient-to-r from-primary/20 to-transparent" />
-              )}
             </motion.div>
           ))}
         </div>
