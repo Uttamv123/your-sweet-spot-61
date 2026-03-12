@@ -14,26 +14,57 @@ import ContactSection from "@/components/ContactSection";
 import CtaSection from "@/components/CtaSection";
 import Footer from "@/components/Footer";
 import FloatingBubbles from "@/components/FloatingBubbles";
+import AmbientBackground from "@/components/AmbientBackground";
+import { SectionConnector, SectionGlow } from "@/components/SectionFlow";
 import useSmoothScroll from "@/hooks/useSmoothScroll";
 
 const Index = () => {
   useSmoothScroll();
   return (
     <div className="min-h-screen bg-background relative">
+      <AmbientBackground />
       <FloatingBubbles />
       <Navbar />
       <main>
         <HeroSection />
         <TrustBar />
-        <ProblemSection />
-        <AboutSection />
-        <ServicesSection />
+        <SectionConnector />
+        <div className="relative">
+          <SectionGlow position="right" color="primary" />
+          <ProblemSection />
+        </div>
+        <SectionConnector variant="accent" />
+        <div className="relative">
+          <SectionGlow position="left" color="secondary" />
+          <AboutSection />
+        </div>
+        <SectionConnector />
+        <div className="relative">
+          <SectionGlow position="right" color="primary" />
+          <ServicesSection />
+        </div>
+        <SectionConnector variant="accent" />
         <WhyChooseUs />
-        <ProcessSection />
-        <PortfolioSection />
+        <SectionConnector />
+        <div className="relative">
+          <SectionGlow position="center" color="secondary" />
+          <ProcessSection />
+        </div>
+        <SectionConnector variant="accent" />
+        <div className="relative">
+          <SectionGlow position="left" color="primary" />
+          <PortfolioSection />
+        </div>
+        <SectionConnector />
         <TechStackSection />
-        <LeadMagnetSection />
+        <SectionConnector variant="accent" />
+        <div className="relative">
+          <SectionGlow position="right" color="secondary" />
+          <LeadMagnetSection />
+        </div>
+        <SectionConnector />
         <FaqSection />
+        <SectionConnector variant="accent" />
         <ContactSection />
         <CtaSection />
       </main>
