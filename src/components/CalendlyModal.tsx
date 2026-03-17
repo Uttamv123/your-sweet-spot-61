@@ -5,7 +5,7 @@ interface CalendlyModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const CALENDLY_URL = "https://calendly.com/thecodereflections"; // Replace with your actual Calendly URL
+const CALENDLY_URL = "https://calendly.com/uttam-thecodereflections/30min"; // Replace with your actual Calendly URL
 
 const CalendlyModal = ({ open, onOpenChange }: CalendlyModalProps) => {
   return (
