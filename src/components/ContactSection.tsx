@@ -98,7 +98,7 @@ const ContactSection = () => {
             </div>
             <div className="space-y-4">
               {[
-                { icon: Mail, label: "careers@thecodereflections.com" },
+                { icon: Mail, label: "support@thecodereflections.com" },
                 { icon: MapPin, label: "Remote" },
               ].map((c) => (
                 <div key={c.label} className="flex items-center gap-3 group">
