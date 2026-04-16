@@ -189,9 +189,9 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.25", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ=="],
 
-    "@netlify/functions": ["@netlify/functions@5.1.3", "", { "dependencies": { "@netlify/types": "2.4.0" } }, "sha512-kRvesKsdSbP4XCBHg5WtGGoeoigxuDVpzHM6EI1dVxBiXLRGlazFP12gm/CBJyVhvlXpGHgetamdKCCLvVUB/Q=="],
+    "@netlify/functions": ["@netlify/functions@5.2.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@netlify/functions/-/functions-5.2.0.tgz", { "dependencies": { "@netlify/types": "2.6.0" } }, "sha512-Pj93qeQd1tkQ5xm9gWJZmBf/1riLYqYHc0OzFukrJomrj82Ott53Rr/Q88H1ms5cF+P5QXRKWmA2JSxSybKfjA=="],
 
-    "@netlify/types": ["@netlify/types@2.4.0", "", {}, "sha512-FMHxZCa2XWIQgjt1WP1dTZ909XIbD1tWQYfXpIBZMq2H3hzFZV2HIDNWGfoL8INQ/CjGBP6dGbsfC6AbvHmH+Q=="],
+    "@netlify/types": ["@netlify/types@2.6.0", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@netlify/types/-/types-2.6.0.tgz", {}, "sha512-yD20EizHJDQxajJ66Vo8RTwLwR2jMNVxufPG8MHd2AScX8jW4z0VPnnJHArq2GYPFTFZRHmiAhDrXr5m8zof6w=="],
 
     "@nodelib/fs.scandir": ["@nodelib/fs.scandir@2.1.5", "", { "dependencies": { "@nodelib/fs.stat": "2.0.5", "run-parallel": "^1.1.9" } }, "sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g=="],
 
@@ -791,7 +791,7 @@
 
     "keyv": ["keyv@4.5.4", "", { "dependencies": { "json-buffer": "3.0.1" } }, "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw=="],
 
-    "lenis": ["lenis@1.3.18", "", { "peerDependencies": { "@nuxt/kit": ">=3.0.0", "react": ">=17.0.0", "vue": ">=3.0.0" }, "optionalPeers": ["@nuxt/kit", "react", "vue"] }, "sha512-7KBl3V7vx5y1h05pu9fNFZS66I0+1eZ+zUGNNNBKtEn3BONZy+nkHWvdEe2b+zKT+6WX1x7zyOb1zbYYOs6tcg=="],
+    "lenis": ["lenis@1.3.23", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/lenis/-/lenis-1.3.23.tgz", { "peerDependencies": { "@nuxt/kit": ">=3.0.0", "react": ">=17.0.0", "vue": ">=3.0.0" }, "optionalPeers": ["@nuxt/kit", "react", "vue"] }, "sha512-YxYq3TJqj9sJNv0V9SkyQHejt14xwyIwgDaaMK89Uf9SxQfIszu+gTQSSphh6BWlLTNVKvvXAGkg+Zf+oFIevg=="],
 
     "levn": ["levn@0.4.1", "", { "dependencies": { "prelude-ls": "^1.2.1", "type-check": "~0.4.0" } }, "sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ=="],
 
