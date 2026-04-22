@@ -4,50 +4,23 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 
-const blogPosts = [
-  {
-    title: "Why Every Business Needs a Professional Website in 2026",
-    excerpt:
-      "Discover why a modern, professional website is essential for business growth, credibility, and customer acquisition in the digital age.",
-    date: "Feb 15, 2026",
-    category: "Business Growth",
-  },
-  {
-    title: "Top 5 UI/UX Design Trends You Need to Know",
-    excerpt:
-      "Explore the latest UI/UX design trends shaping the web — from bold typography to micro-interactions and immersive layouts.",
-    date: "Feb 10, 2026",
-    category: "Design",
-  },
-  {
-    title: "SEO Basics: How to Rank Your Website on Google",
-    excerpt:
-      "Learn the fundamental SEO strategies to improve your website's visibility, drive organic traffic, and rank higher on search engines.",
-    date: "Feb 5, 2026",
-    category: "SEO",
-  },
-  {
-    title: "How to Choose the Right Web Development Partner",
-    excerpt:
-      "Not sure how to pick a web development team? Here's what to look for in terms of expertise, communication, and delivery.",
-    date: "Jan 28, 2026",
-    category: "Web Development",
-  },
-  {
-    title: "E-Commerce Website Essentials for Startups",
-    excerpt:
-      "Building an online store? Learn the must-have features, payment integrations, and design principles for a successful e-commerce site.",
-    date: "Jan 20, 2026",
-    category: "E-Commerce",
-  },
-  {
-    title: "The Importance of Website Speed and Performance",
-    excerpt:
-      "Slow websites lose visitors. Discover practical tips to optimize your site's loading speed and improve user experience.",
-    date: "Jan 12, 2026",
-    category: "Performance",
-  },
-];
+const blogPosts = export default function Blog() {
+  return (
+    <div style={{ padding: "40px" }}>
+      <h1>Code Reflections Blog 🚀</h1>
+
+      <div>
+        <h2>What is an AI Agent?</h2>
+        <p>Learn how AI agents are transforming businesses.</p>
+      </div>
+
+      <div>
+        <h2>Automation for Modern Businesses</h2>
+        <p>How automation helps companies scale faster.</p>
+      </div>
+    </div>
+  );
+}
 
 const Blog = () => {
   return (
@@ -110,4 +83,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Blog
