@@ -12,6 +12,7 @@ type BlogPost = {
   readTime: string;
   image: string;
   author: string;
+  link?: string;
 };
 
 const blogPosts: BlogPost[] = [
@@ -25,6 +26,7 @@ const blogPosts: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
     author: "Code Reflections Team",
+    link: "https://what-is-an-agent.netlify.app/blogs",
   },
   {
     title: "The Future of Web Development in 2026",
@@ -117,6 +119,12 @@ const Blog = () => {
             transition={{ duration: 0.6 }}
             className="max-w-6xl mx-auto mb-16"
           >
+            <a
+              href={featured.link ?? "#"}
+              target={featured.link ? "_blank" : undefined}
+              rel={featured.link ? "noopener noreferrer" : undefined}
+              className="block"
+            >
             <Card className="group overflow-hidden border-border/60 hover:border-primary/40 transition-all duration-500 cursor-pointer">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                 <div className="relative overflow-hidden aspect-[16/10] lg:aspect-auto">
@@ -158,6 +166,7 @@ const Blog = () => {
                 </CardContent>
               </div>
             </Card>
+            </a>
           </motion.article>
 
           {/* Divider label */}
