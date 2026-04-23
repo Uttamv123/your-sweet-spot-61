@@ -26,7 +26,7 @@ const blogPosts: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
     author: "Code Reflections Team",
-    link: "https://what-is-an-agent.netlify.app/blogs",
+    link: "https://what-is-an-agent.netlify.app/blogs/what-is-an-ai-agent-how-businesses-are-using-it-in-2026",
   },
   {
     title: "The Future of Web Development in 2026",
