@@ -26,7 +26,7 @@ const blogPosts: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
     author: "Code Reflections Team",
-    link: "/blogs/what-is-an-ai-agent-how-businesses-are-using-it-in-2026",
+    link: "https://what-is-an-agent.netlify.app/blogs/what-is-an-ai-agent-how-businesses-are-using-it-in-2026",
   },
   {
     title: "The Future of Web Development in 2026",
@@ -121,6 +121,8 @@ const Blog = () => {
           >
             <a
               href={featured.link ?? "#"}
+              target={featured.link ? "_blank" : undefined}
+              rel={featured.link ? "noopener noreferrer" : undefined}
               className="block"
             >
             <Card className="group overflow-hidden border-border/60 hover:border-primary/40 transition-all duration-500 cursor-pointer">
