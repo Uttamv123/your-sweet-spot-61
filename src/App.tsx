@@ -31,8 +31,6 @@ const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Index /></PageTransition>} />
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
-        <Route path="/blogs" element={<PageTransition><Blog /></PageTransition>} />
-        <Route path="/blogs/:slug" element={<PageTransition><Blog /></PageTransition>} />
         <Route path="/privacy-policy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
         <Route path="/terms" element={<PageTransition><Terms /></PageTransition>} />
         <Route path="/team" element={<PageTransition><Team /></PageTransition>} />
