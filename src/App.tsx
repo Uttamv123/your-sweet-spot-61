@@ -9,6 +9,7 @@ import Blog from "./pages/Blog";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import Team from "./pages/Team";
+import Portfolio from "./pages/Portfolio";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const AnimatedRoutes = () => {
         <Route path="/privacy-policy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
         <Route path="/terms" element={<PageTransition><Terms /></PageTransition>} />
         <Route path="/team" element={<PageTransition><Team /></PageTransition>} />
+        <Route path="/portfolio" element={<PageTransition><Portfolio /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
