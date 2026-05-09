@@ -49,6 +49,7 @@ const blogPosts: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80",
     author: "Code Reflections Team",
+    link: "https://what-is-an-agent.netlify.app/blogs/ai-devops-cloud-will-ai-take-my-job",
   },
   {
     title: "Why Automation Is the New Competitive Advantage",
@@ -193,43 +194,50 @@ const Blog = () => {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.4, delay: index * 0.08 }}
               >
-                <Card className="h-full group overflow-hidden border-border/60 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 cursor-pointer">
-                  <div className="relative overflow-hidden aspect-[16/10]">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
-                  </div>
-                  <CardContent className="p-6 flex flex-col">
-                    <span className="text-[11px] font-medium text-primary mb-3 uppercase tracking-[0.18em]">
-                      {post.category}
-                    </span>
-                    <h2 className="font-display text-lg font-semibold text-card-foreground mb-3 leading-snug group-hover:text-primary transition-colors line-clamp-2">
-                      {post.title}
-                    </h2>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-5 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between pt-4 border-t border-border/50 mt-auto">
-                      <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
-                        <span className="flex items-center gap-1.5">
-                          <Calendar size={11} />
-                          {post.date}
-                        </span>
-                        <span className="flex items-center gap-1.5">
-                          <Clock size={11} />
-                          {post.readTime}
+                <a
+                  href={post.link ?? "#"}
+                  target={post.link ? "_blank" : undefined}
+                  rel={post.link ? "noopener noreferrer" : undefined}
+                  className="block"
+                >
+                  <Card className="h-full group overflow-hidden border-border/60 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 cursor-pointer">
+                    <div className="relative overflow-hidden aspect-[16/10]">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        loading="lazy"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+                    </div>
+                    <CardContent className="p-6 flex flex-col">
+                      <span className="text-[11px] font-medium text-primary mb-3 uppercase tracking-[0.18em]">
+                        {post.category}
+                      </span>
+                      <h2 className="font-display text-lg font-semibold text-card-foreground mb-3 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                        {post.title}
+                      </h2>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-5 line-clamp-3">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between pt-4 border-t border-border/50 mt-auto">
+                        <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar size={11} />
+                            {post.date}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Clock size={11} />
+                            {post.readTime}
+                          </span>
+                        </div>
+                        <span className="text-xs font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
+                          Read <ArrowRight size={11} />
                         </span>
                       </div>
-                      <span className="text-xs font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
-                        Read <ArrowRight size={11} />
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </a>
               </motion.article>
             ))}
           </div>
