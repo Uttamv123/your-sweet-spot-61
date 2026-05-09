@@ -40,14 +40,14 @@ const blogPosts: BlogPost[] = [
     author: "Code Reflections Team",
   },
   {
-    title: "UI/UX Principles That Drive Conversions",
+    title: "AI, DevOps & Cloud – Will AI Take My Job?",
     excerpt:
-      "Learn the design fundamentals that help premium brands convert visitors into loyal customers consistently.",
-    category: "Design",
+      "Exploring how AI, DevOps, and cloud are reshaping tech careers and what it means for the future of work.",
+    category: "AI & DevOps",
     date: "Feb 14, 2026",
     readTime: "4 min read",
     image:
-      "https://images.unsplash.com/photo-1561070791-2526d30994b8?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80",
     author: "Code Reflections Team",
   },
   {
