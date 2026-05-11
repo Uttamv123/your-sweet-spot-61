@@ -21,7 +21,7 @@ const projects: Project[] = [
       "A modern property buying and selling platform with rich listings, advanced search, and a streamlined inquiry flow — designed to help buyers discover homes and sellers list properties effortlessly.",
     image:
       "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80",
-    link: "#",
+    link: "https://1housetohome.netlify.app/",
     tags: ["Next.js", "Responsive UI", "Lead Capture"],
   },
 ];
