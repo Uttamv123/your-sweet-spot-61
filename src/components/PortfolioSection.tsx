@@ -1,36 +1,36 @@
 import { motion } from "framer-motion";
-import { Globe, ShoppingBag, LayoutDashboard } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 
-const caseStudies = [
+const projects = [
   {
-    title: "E-Commerce Platform",
-    clientType: "Retail Startup",
-    challenge: "Low conversion rates and fragmented checkout flow",
-    solution: "Custom e-commerce platform with streamlined UX and automated inventory management",
-    result: "42% increase in conversion rate within 3 months",
-    icon: ShoppingBag,
+    title: "Real Estate Property Marketplace",
+    category: "Real Estate · Web Platform",
+    description: "A modern property buying and selling platform with advanced search, lead capture, and responsive design.",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+    link: "#",
+    tags: ["Next.js", "Responsive UI", "Lead Capture"],
   },
   {
-    title: "Business Portfolio & CRM",
-    clientType: "Professional Services Firm",
-    challenge: "Manual lead tracking and disconnected client management tools",
-    solution: "Integrated web platform with CRM automation and lead capture workflows",
-    result: "60% reduction in manual admin tasks",
-    icon: Globe,
+    title: "AI-Powered Analytics Dashboard",
+    category: "SaaS · Dashboard",
+    description: "Intelligent data visualization platform with automated reporting and predictive insights.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    link: "#",
+    tags: ["React", "AI Integration", "Data Viz"],
   },
   {
-    title: "SaaS Dashboard",
-    clientType: "Tech Startup",
-    challenge: "Poor user engagement and high churn on existing dashboard",
-    solution: "Complete UI/UX redesign with AI-powered analytics and automated reporting",
-    result: "35% improvement in user retention",
-    icon: LayoutDashboard,
+    title: "E-Commerce Experience Platform",
+    category: "Retail · E-Commerce",
+    description: "Streamlined shopping experience with smart inventory management and conversion-optimized checkout.",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    link: "#",
+    tags: ["Shopify", "UX Design", "Automation"],
   },
 ];
 
 const PortfolioSection = () => {
   return (
-    <section id="case-studies" className="py-28 relative">
+    <section id="portfolio" className="py-28 relative">
       <div className="section-divider mb-28" />
       <div className="container mx-auto px-4">
         <motion.div
@@ -40,19 +40,22 @@ const PortfolioSection = () => {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center mb-16"
         >
-          <span className="text-xs font-semibold text-secondary/80 uppercase tracking-[0.3em]">Case Studies</span>
+          <span className="text-xs font-semibold text-secondary/80 uppercase tracking-[0.3em]">Portfolio</span>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mt-4 mb-5">
-            Real Systems. <span className="gradient-text">Measurable Outcomes.</span>
+            Selected <span className="gradient-text">Work.</span>
           </h2>
           <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Real projects we've delivered for businesses, with structured solutions and measurable results.
+            A showcase of projects we've built — from real estate platforms to AI-driven dashboards.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {caseStudies.map((study, i) => (
-            <motion.div
-              key={study.title}
+          {projects.map((project, i) => (
+            <motion.a
+              key={project.title}
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 40, rotateX: 10 }}
               whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
               viewport={{ once: true }}
@@ -62,43 +65,35 @@ const PortfolioSection = () => {
                 scale: 1.02,
                 transition: { duration: 0.3, ease: "easeOut" },
               }}
-              className="gradient-border-card rounded-2xl p-8 cursor-default group relative overflow-hidden"
+              className="gradient-border-card rounded-2xl overflow-hidden cursor-pointer group relative block"
               style={{ perspective: 600 }}
             >
-              {/* Hover glow effect */}
-              <motion.div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-                style={{
-                  background: "radial-gradient(circle at 50% 0%, hsl(250 60% 58% / 0.08), transparent 70%)",
-                }}
-              />
-              <div className="relative z-10">
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
                 <motion.div
-                  className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mb-6"
-                  whileHover={{
-                    rotate: [0, -10, 10, 0],
-                    scale: 1.15,
-                    transition: { duration: 0.4 },
-                  }}
+                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 >
-                  <study.icon size={20} className="text-accent-foreground" />
+                  <ExternalLink size={14} className="text-foreground" />
                 </motion.div>
-                <span className="text-[10px] text-secondary/70 font-semibold uppercase tracking-[0.2em]">{study.clientType}</span>
-                <h3 className="font-display text-lg font-semibold text-card-foreground mt-2 mb-4">{study.title}</h3>
-                <div className="space-y-2.5 text-sm text-muted-foreground leading-relaxed">
-                  <p><span className="font-medium text-foreground/80">Challenge:</span> {study.challenge}</p>
-                  <p><span className="font-medium text-foreground/80">Solution:</span> {study.solution}</p>
-                  <motion.p
-                    className="text-secondary font-semibold mt-4 pt-3 border-t border-border/50"
-                    initial={{ opacity: 0.7 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                  >
-                    → {study.result}
-                  </motion.p>
+              </div>
+              <div className="p-6 relative z-10">
+                <span className="text-[10px] text-secondary/70 font-semibold uppercase tracking-[0.2em]">{project.category}</span>
+                <h3 className="font-display text-lg font-semibold text-card-foreground mt-2 mb-3">{project.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-4">{project.description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-secondary/10 text-secondary/80 font-medium">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </motion.div>
+            </motion.a>
           ))}
         </div>
 
@@ -109,8 +104,8 @@ const PortfolioSection = () => {
           transition={{ delay: 0.3, duration: 0.6 }}
           className="text-center text-muted-foreground/60 text-sm mt-12"
         >
-          Want something similar?{" "}
-          <a href="#contact" className="text-secondary hover:text-primary font-medium animated-underline pb-0.5 transition-colors duration-300">Start a project →</a>
+          Want to see more?{" "}
+          <a href="/portfolio" className="text-secondary hover:text-primary font-medium animated-underline pb-0.5 transition-colors duration-300">View full portfolio →</a>
         </motion.p>
       </div>
     </section>
