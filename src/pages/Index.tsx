@@ -49,17 +49,8 @@ const Index = () => {
           <SectionGlow position="center" color="secondary" />
           <ProcessSection />
         </div>
-        <SectionConnector variant="accent" />
-        <div className="relative">
-          <SectionGlow position="left" color="primary" />
-          <PortfolioSection />
-        </div>
-        <SectionConnector variant="accent" />
-        <div className="relative">
-          <SectionGlow position="left" color="primary" />
-          <PortfolioSection />
-        </div>
         <SectionConnector />
+        <TechStackSection />
         <TechStackSection />
         <SectionConnector variant="accent" />
         <div className="relative">
