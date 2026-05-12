@@ -6,7 +6,6 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ProcessSection from "@/components/ProcessSection";
-import PortfolioSection from "@/components/PortfolioSection";
 import TechStackSection from "@/components/TechStackSection";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import FaqSection from "@/components/FaqSection";
