@@ -29,17 +29,6 @@ const blogPosts: BlogPost[] = [
     link: "/blog/ai-agent.html",
   },
   {
-    title: "The Future of Web Development in 2026",
-    excerpt:
-      "From AI-assisted coding to edge-first architectures, here are the trends defining how we build for the web this year.",
-    category: "Web Development",
-    date: "Feb 28, 2026",
-    readTime: "5 min read",
-    image:
-      "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?auto=format&fit=crop&w=1600&q=80",
-    author: "Code Reflections Team",
-  },
-  {
     title: "AI, DevOps & Cloud – Will AI Take My Job?",
     excerpt:
       "Exploring how AI, DevOps, and cloud are reshaping tech careers and what it means for the future of work.",
@@ -50,39 +39,6 @@ const blogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80",
     author: "Code Reflections Team",
     link: "/blog/ai-devops-cloud.html",
-  },
-  {
-    title: "Why Automation Is the New Competitive Advantage",
-    excerpt:
-      "Companies that automate repetitive workflows scale faster, reduce costs, and outperform their competitors.",
-    category: "Automation",
-    date: "Jan 30, 2026",
-    readTime: "5 min read",
-    image:
-      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80",
-    author: "Code Reflections Team",
-  },
-  {
-    title: "SEO in the Age of AI Search",
-    excerpt:
-      "How to optimize your content strategy as Google, Perplexity, and ChatGPT change the way users discover information.",
-    category: "SEO",
-    date: "Jan 18, 2026",
-    readTime: "7 min read",
-    image:
-      "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&w=1600&q=80",
-    author: "Code Reflections Team",
-  },
-  {
-    title: "Building Scalable Digital Products",
-    excerpt:
-      "A practical framework for launching products that grow with your business — from MVP to enterprise scale.",
-    category: "Product Strategy",
-    date: "Jan 5, 2026",
-    readTime: "6 min read",
-    image:
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1600&q=80",
-    author: "Code Reflections Team",
   },
 ];
 
