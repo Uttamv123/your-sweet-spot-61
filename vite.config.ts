@@ -18,4 +18,24 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    target: "es2020",
+    cssCodeSplit: true,
+    sourcemap: false,
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom", "react-router-dom"],
+          "motion": ["framer-motion", "lenis"],
+          "ui-vendor": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-tooltip",
+            "@radix-ui/react-toast",
+            "@radix-ui/react-accordion",
+          ],
+        },
+      },
+    },
+  },
 }));
