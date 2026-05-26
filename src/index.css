@@ -331,3 +331,15 @@ main > div > section {
   content-visibility: auto;
   contain-intrinsic-size: 1px 600px;
 }
+
+/* Disable continuous infinite animations sitewide — they keep the GPU
+   busy on every frame and hurt scroll smoothness. Keep one-shot enter
+   animations and hover transitions intact. */
+.animate-gradient,
+.animate-float-shape,
+.animate-pulse-glow,
+.animate-orbit,
+.animate-breathe,
+.shimmer {
+  animation: none !important;
+}

@@ -22,13 +22,13 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 noise-overlay">
-      {/* Deep layered gradient */}
       <div className="absolute inset-0 gradient-hero" />
+      {/* Static layered glow — no per-frame animation */}
       <div
-        className="absolute inset-0 animate-gradient opacity-20"
+        className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at 20% 50%, hsl(250 60% 20% / 0.6) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, hsl(190 80% 20% / 0.4) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, hsl(270 50% 15% / 0.5) 0%, transparent 60%)",
-          backgroundSize: "200% 200%",
+          background:
+            "radial-gradient(ellipse at 20% 50%, hsl(250 60% 20% / 0.6) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, hsl(190 80% 20% / 0.4) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, hsl(270 50% 15% / 0.5) 0%, transparent 60%)",
         }}
       />
 
@@ -38,15 +38,9 @@ const HeroSection = () => {
         backgroundSize: '80px 80px',
       }} />
 
-      {/* Orbs */}
-      <Orb className="w-[500px] h-[500px] bg-primary/8 blur-[100px] top-10 -right-32 animate-breathe" delay={0} />
-      <Orb className="w-[400px] h-[400px] bg-secondary/6 blur-[80px] bottom-10 -left-20 animate-breathe" delay={1.5} />
-      <Orb className="w-[200px] h-[200px] bg-primary/4 blur-[60px] top-1/3 left-1/4 animate-float-shape" delay={3} />
-
-      {/* Orbital ring */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-primary/5 opacity-30">
-        <div className="absolute w-2 h-2 rounded-full bg-primary/40 animate-orbit" style={{ "--orbit-radius": "300px" } as React.CSSProperties} />
-      </div>
+      {/* Static decorative orbs (blur cached once, not re-painted per frame) */}
+      <div className="absolute w-[500px] h-[500px] rounded-full bg-primary/8 blur-[100px] top-10 -right-32 pointer-events-none" />
+      <div className="absolute w-[400px] h-[400px] rounded-full bg-secondary/6 blur-[80px] bottom-10 -left-20 pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 py-20">
         <motion.div
