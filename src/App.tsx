@@ -5,7 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import Index from "./pages/Index";
+
+const Index = lazy(() => import("./pages/Index"));
 
 const Blog = lazy(() => import("./pages/Blog"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));

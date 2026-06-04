@@ -1,11 +1,15 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { scrollToContact } from "@/lib/scroll";
 
 const LeadMagnetSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: false, margin: "-50px" });
+
   return (
-    <section className="py-28 relative">
+    <section ref={sectionRef} className="py-28 relative">
       <div className="section-divider mb-28" />
       <div className="container mx-auto px-4">
         <motion.div
@@ -19,8 +23,10 @@ const LeadMagnetSection = () => {
             {/* Background glow */}
             <motion.div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none"
-              animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              animate={isInView
+                ? { scale: [1, 1.2, 1], opacity: [0.5, 0.8, 0.5] }
+                : { scale: 1, opacity: 0.5 }}
+              transition={{ duration: 4, repeat: isInView ? Infinity : 0, ease: "easeInOut" }}
             />
             
             <div className="relative z-10">

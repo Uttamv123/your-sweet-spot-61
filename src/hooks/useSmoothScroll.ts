@@ -15,11 +15,36 @@ const useSmoothScroll = () => {
       wheelMultiplier: 1,
     });
 
+    let rafId: number | null = null;
+
     const raf = (time: number) => {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     };
-    requestAnimationFrame(raf);
+
+    const startLoop = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(raf);
+      }
+    };
+
+    const stopLoop = () => {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        stopLoop();
+      } else {
+        startLoop();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    startLoop();
 
     // Integrate with anchor links
     const handleAnchorClick = (e: MouseEvent) => {
@@ -40,7 +65,9 @@ const useSmoothScroll = () => {
     document.addEventListener("click", handleAnchorClick);
 
     return () => {
+      stopLoop();
       lenis.destroy();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       document.removeEventListener("click", handleAnchorClick);
     };
   }, []);

@@ -21,7 +21,12 @@ const TiltCard = ({ children, className, delay }: { children: React.ReactNode; c
   const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-8, 8]), { stiffness: 300, damping: 30 });
   const glareOpacity = useSpring(0, { stiffness: 300, damping: 30 });
 
-  const handleMouse = (e: React.MouseEvent) => {
+  // Detect coarse pointer once at render time (SSR-safe)
+  const isCoarsePointer =
+    typeof window !== "undefined" &&
+    window.matchMedia("(pointer: coarse)").matches;
+
+  const handleMouse = isCoarsePointer ? undefined : (e: React.MouseEvent) => {
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     x.set((e.clientX - rect.left) / rect.width - 0.5);
@@ -29,7 +34,7 @@ const TiltCard = ({ children, className, delay }: { children: React.ReactNode; c
     glareOpacity.set(0.15);
   };
 
-  const handleLeave = () => {
+  const handleLeave = isCoarsePointer ? undefined : () => {
     x.set(0);
     y.set(0);
     glareOpacity.set(0);
@@ -42,19 +47,25 @@ const TiltCard = ({ children, className, delay }: { children: React.ReactNode; c
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: delay, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }}
+      style={
+        isCoarsePointer
+          ? { transformStyle: "preserve-3d", perspective: 800 }
+          : { rotateX, rotateY, transformStyle: "preserve-3d", perspective: 800 }
+      }
       onMouseMove={handleMouse}
       onMouseLeave={handleLeave}
       className={className}
     >
       {children}
-      <motion.div
-        className="absolute inset-0 rounded-2xl pointer-events-none"
-        style={{
-          opacity: glareOpacity,
-          background: "linear-gradient(135deg, hsl(250 60% 58% / 0.3), transparent 60%)",
-        }}
-      />
+      {!isCoarsePointer && (
+        <motion.div
+          className="absolute inset-0 rounded-2xl pointer-events-none"
+          style={{
+            opacity: glareOpacity,
+            background: "linear-gradient(135deg, hsl(250 60% 58% / 0.3), transparent 60%)",
+          }}
+        />
+      )}
     </motion.div>
   );
 };

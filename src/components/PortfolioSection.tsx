@@ -6,7 +6,7 @@ const projects = [
     title: "Real Estate Property Marketplace",
     category: "Real Estate · Web Platform",
     description: "A modern property buying and selling platform with advanced search, lead capture, and responsive design.",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80",
     link: "#",
     tags: ["Next.js", "Responsive UI", "Lead Capture"],
   },
@@ -14,7 +14,7 @@ const projects = [
     title: "AI-Powered Analytics Dashboard",
     category: "SaaS · Dashboard",
     description: "Intelligent data visualization platform with automated reporting and predictive insights.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
     link: "#",
     tags: ["React", "AI Integration", "Data Viz"],
   },
@@ -22,7 +22,7 @@ const projects = [
     title: "E-Commerce Experience Platform",
     category: "Retail · E-Commerce",
     description: "Streamlined shopping experience with smart inventory management and conversion-optimized checkout.",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
     link: "#",
     tags: ["Shopify", "UX Design", "Automation"],
   },
@@ -72,6 +72,10 @@ const PortfolioSection = () => {
                 <img
                   src={project.image}
                   alt={project.title}
+                  loading="lazy"
+                  decoding="async"
+                  width={600}
+                  height={400}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />

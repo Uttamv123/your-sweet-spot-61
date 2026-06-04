@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import CalendlyModal from "@/components/CalendlyModal";
@@ -7,30 +7,36 @@ import { scrollToContact } from "@/lib/scroll";
 
 const CtaSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: false, margin: "-50px" });
+  const reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const shouldAnimate = isInView && !reducedMotion;
 
   return (
-    <section className="py-28 relative overflow-hidden noise-overlay">
+    <section ref={sectionRef} className="py-28 relative overflow-hidden noise-overlay">
       <div className="absolute inset-0 gradient-hero" />
       
       {/* Morphing gradient blobs */}
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-primary/6 blur-[120px] pointer-events-none"
-        animate={{
+        animate={shouldAnimate ? {
           scale: [1, 1.2, 0.9, 1.1, 1],
           x: [0, 50, -30, 20, 0],
           y: [0, -30, 20, -10, 0],
           borderRadius: ["50%", "40% 60% 50% 50%", "50% 40% 60% 50%", "60% 50% 40% 50%", "50%"],
-        }}
-        transition={{ duration: 12, ease: "easeInOut", repeat: Infinity }}
+        } : { scale: 1, x: 0, y: 0, borderRadius: "50%" }}
+        transition={{ duration: 12, ease: "easeInOut", repeat: shouldAnimate ? Infinity : 0 }}
       />
       <motion.div
         className="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full bg-secondary/4 blur-[100px] pointer-events-none"
-        animate={{
+        animate={shouldAnimate ? {
           scale: [1, 0.8, 1.15, 0.95, 1],
           x: [0, -40, 30, -20, 0],
           y: [0, 20, -40, 15, 0],
-        }}
-        transition={{ duration: 10, ease: "easeInOut", repeat: Infinity, delay: 2 }}
+        } : { scale: 1, x: 0, y: 0 }}
+        transition={{ duration: 10, ease: "easeInOut", repeat: shouldAnimate ? Infinity : 0, delay: 2 }}
       />
 
       {/* Floating particles */}
@@ -42,15 +48,15 @@ const CtaSection = () => {
             left: `${15 + i * 14}%`,
             top: `${20 + (i % 3) * 25}%`,
           }}
-          animate={{
+          animate={shouldAnimate ? {
             y: [0, -30, 0],
             opacity: [0.2, 0.6, 0.2],
             scale: [1, 1.5, 1],
-          }}
+          } : { y: 0, opacity: 0.2, scale: 1 }}
           transition={{
             duration: 3 + i * 0.5,
             ease: "easeInOut",
-            repeat: Infinity,
+            repeat: shouldAnimate ? Infinity : 0,
             delay: i * 0.4,
           }}
         />
@@ -83,8 +89,8 @@ const CtaSection = () => {
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                 }}
-                animate={{ backgroundPosition: ["-200% 0", "200% 0"] }}
-                transition={{ duration: 3, repeat: Infinity, repeatDelay: 2, ease: "easeInOut" }}
+                animate={shouldAnimate ? { backgroundPosition: ["-200% 0", "200% 0"] } : { backgroundPosition: "-200% 0" }}
+                transition={{ duration: 3, repeat: shouldAnimate ? Infinity : 0, repeatDelay: 2, ease: "easeInOut" }}
               />
             </motion.span>
           </h2>

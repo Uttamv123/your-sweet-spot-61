@@ -26,12 +26,13 @@ const TimelineLine = () => {
         animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
         transition={{ duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.3 }}
       />
-      {/* Animated dot traveling along the line */}
+      {/* Dot: use x instead of left */}
       {isInView && (
         <motion.div
           className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-secondary shadow-glow-sm"
-          initial={{ left: "5%" }}
-          animate={{ left: "95%" }}
+          style={{ left: 0 }}
+          initial={{ x: 0 }}
+          animate={{ x: "calc(100% - 8px)" }}
           transition={{ duration: 2.5, ease: "easeInOut", delay: 0.8 }}
         />
       )}

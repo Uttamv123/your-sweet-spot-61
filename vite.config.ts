@@ -25,15 +25,21 @@ export default defineConfig(({ mode }) => ({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          "react-vendor": ["react", "react-dom", "react-router-dom"],
-          "motion": ["framer-motion", "lenis"],
-          "ui-vendor": [
-            "@radix-ui/react-dialog",
-            "@radix-ui/react-tooltip",
-            "@radix-ui/react-toast",
-            "@radix-ui/react-accordion",
-          ],
+        manualChunks(id: string) {
+          if (id.includes("node_modules/@radix-ui/")) return "radix-ui";
+          if (
+            id.includes("node_modules/react/") ||
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/react-router-dom/")
+          ) return "react-vendor";
+          if (
+            id.includes("node_modules/framer-motion/") ||
+            id.includes("node_modules/lenis/")
+          ) return "motion";
+          if (id.includes("node_modules/@tanstack/react-query")) return "query";
+          if (id.includes("node_modules/lucide-react/")) return "icons";
+          if (id.includes("node_modules/recharts/")) return "charts";
+          if (id.includes("node_modules/@supabase/supabase-js/")) return "supabase";
         },
       },
     },

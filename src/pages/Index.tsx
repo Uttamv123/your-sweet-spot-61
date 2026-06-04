@@ -16,10 +16,8 @@ import Footer from "@/components/Footer";
 import FloatingBubbles from "@/components/FloatingBubbles";
 import AmbientBackground from "@/components/AmbientBackground";
 import { SectionConnector, SectionGlow } from "@/components/SectionFlow";
-import useSmoothScroll from "@/hooks/useSmoothScroll";
 
 const Index = () => {
-  useSmoothScroll();
   return (
     <div className="min-h-screen bg-background relative">
       <AmbientBackground />
