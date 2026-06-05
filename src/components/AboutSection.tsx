@@ -64,8 +64,20 @@ const AnimatedCounter = ({ value, suffix, label, delay }: { value: number; suffi
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-28 relative">
-      <div className="container mx-auto px-4">
+    <section id="about" className="py-28 relative overflow-hidden">
+      {/* Background image — right side, partially visible */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-1/2 bg-cover bg-center opacity-15 pointer-events-none"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80')",
+        }}
+      />
+      {/* Left + top + bottom fades */}
+      <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-r from-background via-background/60 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-background to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+      <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           <motion.div
             initial={{ opacity: 0, x: -24 }}

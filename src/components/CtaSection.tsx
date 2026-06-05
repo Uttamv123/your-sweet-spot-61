@@ -16,7 +16,6 @@ const CtaSection = () => {
 
   return (
     <section ref={sectionRef} className="py-28 relative overflow-hidden noise-overlay">
-      <div className="absolute inset-0 gradient-hero" />
       
       {/* Morphing gradient blobs */}
       <motion.div

@@ -43,7 +43,6 @@ const TimelineLine = () => {
 const ProcessSection = () => {
   return (
     <section id="process" className="py-28 relative overflow-hidden">
-      <div className="absolute inset-0 gradient-hero opacity-80" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-primary/4 blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">

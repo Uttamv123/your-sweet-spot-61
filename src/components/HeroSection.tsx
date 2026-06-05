@@ -22,7 +22,19 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 noise-overlay">
-      <div className="absolute inset-0 gradient-hero" />
+      {/* Background photo */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-25"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1800&q=80')",
+        }}
+      />
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-background/75" />
+      {/* Top + bottom fade to blend into adjacent sections */}
+      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
       {/* Static layered glow — no per-frame animation */}
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
@@ -135,8 +147,8 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent" />
+      {/* Bottom gradient fade — extra tall to melt into next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background via-background/90 to-transparent" />
 
       <CalendlyModal open={calendlyOpen} onOpenChange={setCalendlyOpen} />
     </section>

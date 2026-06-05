@@ -74,8 +74,20 @@ const ServicesSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
 
   return (
-    <section id="services" className="py-28 relative">
-      <div className="container mx-auto px-4">
+    <section id="services" className="py-28 relative overflow-hidden">
+      {/* Subtle background image — code/tech theme */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-[0.10] pointer-events-none"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1800&q=80')",
+        }}
+      />
+      {/* Heavy top + bottom fades so image melts into page */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-background to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -11,8 +11,20 @@ const problems = [
 
 const ProblemSection = () => {
   return (
-    <section className="py-28 relative">
-      <div className="container mx-auto px-4 text-center">
+    <section className="py-28 relative overflow-hidden">
+      {/* Subtle background image — abstract/data theme */}
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-[0.12] pointer-events-none"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1800&q=80')",
+        }}
+      />
+      {/* Heavy top + bottom + side fades so image melts into page */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-background to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background to-transparent pointer-events-none" />
+      <div className="container mx-auto px-4 text-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -56,7 +68,6 @@ const ProblemSection = () => {
           ))}
         </div>
       </div>
-      <div className="section-divider mt-28" />
     </section>
   );
 };

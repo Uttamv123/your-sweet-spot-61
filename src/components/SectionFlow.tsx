@@ -1,19 +1,8 @@
 /**
- * Lightweight static section dividers — no animation to keep scroll smooth.
+ * Invisible section spacer — no visual line, keeps sections flowing as one page.
  */
 export const SectionConnector = ({ variant = "default" }: { variant?: "default" | "accent" }) => {
-  const color = variant === "accent"
-    ? "hsl(190 80% 50% / 0.15)"
-    : "hsl(250 60% 58% / 0.12)";
-
-  return (
-    <div className="relative py-2 flex justify-center" aria-hidden="true">
-      <div
-        className="w-px h-16"
-        style={{ background: `linear-gradient(to bottom, transparent, ${color}, transparent)` }}
-      />
-    </div>
-  );
+  return <div className="h-0" aria-hidden="true" />;
 };
 
 export const SectionGlow = ({
