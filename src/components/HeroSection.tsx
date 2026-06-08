@@ -153,19 +153,22 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 40, filter: "blur(8px)" }}
             animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
             transition={{ delay: 0.8, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="hidden lg:flex flex-shrink-0 w-[42%] max-w-[520px]"
+            className="hidden lg:flex flex-shrink-0 w-[52%] max-w-[640px]"
           >
             <div className="relative w-full">
-              {/* Glow ring behind image */}
-              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent blur-2xl" />
               <img
                 src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80"
                 alt="Team collaborating on digital systems"
-                className="relative w-full h-auto rounded-2xl object-cover shadow-2xl border border-white/5"
-                style={{ aspectRatio: "4/3" }}
+                className="w-full h-auto object-cover"
+                style={{
+                  aspectRatio: "4/3",
+                  opacity: 0.85,
+                  maskImage:
+                    "radial-gradient(ellipse 88% 88% at 50% 50%, black 30%, transparent 100%)",
+                  WebkitMaskImage:
+                    "radial-gradient(ellipse 88% 88% at 50% 50%, black 30%, transparent 100%)",
+                }}
               />
-              {/* Subtle overlay to match dark theme */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-background/40 via-transparent to-transparent" />
             </div>
           </motion.div>
         </motion.div>
