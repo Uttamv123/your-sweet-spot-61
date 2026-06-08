@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -22,9 +23,9 @@ const sections = [
     ],
   },
   {
-    title: "3. Cookies & Tracking",
-    content:
-      "We may use cookies to improve website experience and analyze traffic. Users can disable cookies in browser settings.",
+    title: "3. Cookies & Consent",
+    content: null,
+    cookiesSection: true,
   },
   {
     title: "4. Data Protection",
@@ -81,6 +82,22 @@ const PrivacyPolicy = () => {
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
+                  ) : section.cookiesSection ? (
+                    <div className="text-muted-foreground text-sm leading-relaxed space-y-3">
+                      <p>
+                        We use cookies to keep this website running smoothly and to understand how visitors use it. When you visit the site, a value is stored in your browser's <code className="text-xs bg-muted px-1 py-0.5 rounded">localStorage</code> under the key <code className="text-xs bg-muted px-1 py-0.5 rounded">cookie_notice_dismissed</code> to record that you have acknowledged the cookie notice.
+                      </p>
+                      <p>
+                        If you wish to withdraw acknowledgement, you can clear this entry at any time via your browser's developer tools (Application → Local Storage) or by clearing your browser's site data for this domain.
+                      </p>
+                      <p>
+                        For a full breakdown of the cookies used on this site, visit our{" "}
+                        <Link to="/cookie-policy" className="text-primary hover:underline">
+                          Cookie Policy
+                        </Link>
+                        .
+                      </p>
+                    </div>
                   ) : (
                     <p className="text-muted-foreground text-sm leading-relaxed">
                       {section.content}

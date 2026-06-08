@@ -59,90 +59,114 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="max-w-4xl"
+          className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16"
         >
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-10"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
-            <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
-              Digital Systems &amp; AI Automation Agency
-            </span>
-          </motion.div>
+          {/* ── Left: Text content ── */}
+          <div className="flex-1 min-w-0">
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.3, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-10"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />
+              <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">
+                Digital Systems &amp; AI Automation Agency
+              </span>
+            </motion.div>
 
-          <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6">
-            {words.map((word, i) => (
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6">
+              {words.map((word, i) => (
+                <motion.span
+                  key={word}
+                  initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  transition={{
+                    delay: 0.5 + i * 0.1,
+                    duration: 0.7,
+                    ease: [0.25, 0.46, 0.45, 0.94],
+                  }}
+                  className={`inline-block mr-[0.3em] ${glowWords.includes(word) ? "gradient-text" : ""}`}
+                >
+                  {word}
+                </motion.span>
+              ))}
+              <br />
               <motion.span
-                key={word}
                 initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{
-                  delay: 0.5 + i * 0.1,
-                  duration: 0.7,
-                  ease: [0.25, 0.46, 0.45, 0.94],
-                }}
-                className={`inline-block mr-[0.3em] ${glowWords.includes(word) ? "gradient-text" : ""}`}
+                transition={{ delay: 1.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="gradient-text"
               >
-                {word}
+                Businesses
               </motion.span>
-            ))}
-            <br />
-            <motion.span
-              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 1.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="gradient-text"
+            </h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.3, duration: 0.8, ease: "easeOut" }}
+              className="text-muted-foreground text-lg md:text-xl max-w-xl mb-4 font-body leading-relaxed"
             >
-              Businesses
-            </motion.span>
-          </h1>
+              We design, automate, and scale high-performance web platforms and AI-driven workflows that reduce operational friction and increase measurable growth.
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.3, duration: 0.8, ease: "easeOut" }}
-            className="text-muted-foreground text-lg md:text-xl max-w-xl mb-4 font-body leading-relaxed"
-          >
-            We design, automate, and scale high-performance web platforms and AI-driven workflows that reduce operational friction and increase measurable growth.
-          </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.8 }}
+              className="text-muted-foreground/50 text-sm mb-12"
+            >
+              Trusted by startups and growing service businesses worldwide.
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
-            className="text-muted-foreground/50 text-sm mb-12"
-          >
-            Trusted by startups and growing service businesses worldwide.
-          </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.7, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <Button
+                variant="hero"
+                size="lg"
+                className="text-base px-8 py-6 animate-pulse-glow"
+                onClick={() => setCalendlyOpen(true)}
+              >
+                Book a Free Strategy Call
+                <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={18} />
+              </Button>
+              <Button
+                variant="hero-outline"
+                size="lg"
+                className="text-base px-8 py-6"
+                onClick={() => scrollToSection("case-studies")}
+              >
+                <Play size={16} className="mr-2" />
+                View Our Work
+              </Button>
+            </motion.div>
+          </div>
 
+          {/* ── Right: Hero image ── */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.7, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="flex flex-col sm:flex-row gap-4"
+            initial={{ opacity: 0, x: 40, filter: "blur(8px)" }}
+            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+            transition={{ delay: 0.8, duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="hidden lg:flex flex-shrink-0 w-[42%] max-w-[520px]"
           >
-            <Button
-              variant="hero"
-              size="lg"
-              className="text-base px-8 py-6 animate-pulse-glow"
-              onClick={() => setCalendlyOpen(true)}
-            >
-              Book a Free Strategy Call
-              <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={18} />
-            </Button>
-            <Button
-              variant="hero-outline"
-              size="lg"
-              className="text-base px-8 py-6"
-              onClick={() => scrollToSection("case-studies")}
-            >
-              <Play size={16} className="mr-2" />
-              View Our Work
-            </Button>
+            <div className="relative w-full">
+              {/* Glow ring behind image */}
+              <div className="absolute -inset-4 rounded-3xl bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent blur-2xl" />
+              <img
+                src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=900&q=80"
+                alt="Team collaborating on digital systems"
+                className="relative w-full h-auto rounded-2xl object-cover shadow-2xl border border-white/5"
+                style={{ aspectRatio: "4/3" }}
+              />
+              {/* Subtle overlay to match dark theme */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+            </div>
           </motion.div>
         </motion.div>
       </div>

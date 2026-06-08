@@ -8,21 +8,21 @@ import CalendlyModal from "@/components/CalendlyModal";
 
 const freeTier = {
   name: "Free — Starter Partnership",
-  price: "₹0",
+  price: "$0",
   priceNote: "No upfront cost. Ever.",
   badge: "For Beginners",
   badgeColor: "text-secondary",
   description:
     "We build your website for free and grow alongside you. You pay nothing until your business starts generating revenue.",
   features: [
-    "Full custom website design & development",
+    "A website design and development",
     "Responsive across all devices",
     "SEO-ready structure out of the box",
     "Basic AI automation integrations",
-    "Ongoing support until first revenue",
+    "Ongoing support",
     "Revenue-share model after launch",
   ],
-  cta: "Start for Free",
+  cta: "Contact Us to Start",
   highlight: false,
 };
 
@@ -44,7 +44,7 @@ const customTier = {
     "Scalable to any traffic volume",
     "Tailored to your specific business needs",
   ],
-  cta: "Get Started",
+  cta: "Contact Us for a Custom Plan",
   highlight: true,
 };
 
@@ -54,7 +54,7 @@ const faqs = [
     a: "We partner with you — we design and build the site at zero cost. After your business starts generating revenue, we take a small percentage share. No hidden fees.",
   },
   {
-    q: "What does the $10/month Custom plan include?",
+    q: "What does the Custom plan include?",
     a: "You get full website ownership, hosting setup, AI automation, priority support, and monthly reports. It's built entirely around your requirements.",
   },
   {
