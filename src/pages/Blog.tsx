@@ -40,6 +40,18 @@ const blogPosts: BlogPost[] = [
     author: "Code Reflections Team",
     link: "/blog/ai-devops-cloud.html",
   },
+  {
+    title: "Why AIOps is the Future of DevOps & Cloud Engineering",
+    excerpt:
+      "How AIOps is transforming DevOps and cloud engineering by bringing intelligent automation, predictive insights, and self-healing systems to modern infrastructure.",
+    category: "AIOps & Cloud",
+    date: "Jun 24, 2026",
+    readTime: "5 min read",
+    image:
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80",
+    author: "Code Reflections Team",
+    link: "#",
+  },
 ];
 
 const Blog = () => {
