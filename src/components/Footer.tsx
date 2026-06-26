@@ -27,9 +27,15 @@ const Footer = () => {
           className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-14"
         >
           <div className="md:col-span-2">
-            <a href="/" className="flex items-center gap-2.5">
-              <img src={logo} alt="The Code Reflections" className="h-12 w-12 rounded-md object-contain" />
-              <span className="font-display text-xl font-bold text-foreground">
+            <a href="/" className="flex items-center gap-2.5 group w-fit">
+              <motion.img
+                whileHover={{ rotate: [0, -8, 8, -4, 0], scale: 1.08 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                src={logo}
+                alt="The Code Reflections"
+                className="h-12 w-12 rounded-md object-contain"
+              />
+              <span className="font-display text-xl font-bold text-foreground transition-transform duration-300 group-hover:translate-x-0.5">
                 Code <span className="gradient-text">Reflections</span>
               </span>
             </a>
@@ -41,24 +47,36 @@ const Footer = () => {
           <div>
             <h4 className="font-display font-semibold text-foreground/80 mb-5 text-xs uppercase tracking-[0.2em]">Company</h4>
             <ul className="space-y-3">
-              {companyLinks.map((link) => (
-                <li key={link.label}>
-                  <Link to={link.href} className="text-sm text-muted-foreground/60 hover:text-foreground transition-colors duration-300 animated-underline pb-0.5">
+              {companyLinks.map((link, i) => (
+                <motion.li
+                  key={link.label}
+                  initial={{ opacity: 0, x: -8 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
+                >
+                  <Link to={link.href} className="text-sm text-muted-foreground/60 hover:text-foreground transition-all duration-300 animated-underline pb-0.5 inline-block hover:translate-x-1">
                     {link.label}
                   </Link>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </div>
           <div>
             <h4 className="font-display font-semibold text-foreground/80 mb-5 text-xs uppercase tracking-[0.2em]">Legal</h4>
             <ul className="space-y-3">
-              {legalLinks.map((link) => (
-                <li key={link.label}>
-                  <Link to={link.href} className="text-sm text-muted-foreground/60 hover:text-foreground transition-colors duration-300 animated-underline pb-0.5">
+              {legalLinks.map((link, i) => (
+                <motion.li
+                  key={link.label}
+                  initial={{ opacity: 0, x: -8 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2 + i * 0.06, duration: 0.4 }}
+                >
+                  <Link to={link.href} className="text-sm text-muted-foreground/60 hover:text-foreground transition-all duration-300 animated-underline pb-0.5 inline-block hover:translate-x-1">
                     {link.label}
                   </Link>
-                </li>
+                </motion.li>
               ))}
             </ul>
           </div>
