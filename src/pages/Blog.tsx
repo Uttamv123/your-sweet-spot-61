@@ -62,7 +62,7 @@ const blogPosts: BlogPost[] = [
     image:
       "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80",
     author: "Code Reflections Team",
-    link: "#",
+    link: "/blog/truth-about-ai-small-business-india.html",
   },
 ];
 
