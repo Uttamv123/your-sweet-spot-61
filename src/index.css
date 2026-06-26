@@ -324,14 +324,39 @@ main > div > section {
   contain-intrinsic-size: 1px 900px;
 }
 
-/* Disable continuous infinite animations sitewide — they keep the GPU
-   busy on every frame and hurt scroll smoothness. Keep one-shot enter
-   animations and hover transitions intact. */
-.animate-gradient,
+/* Keep the heaviest infinite background animations off for scroll
+   smoothness, but allow lightweight glow/breathe pulses for life. */
 .animate-float-shape,
-.animate-pulse-glow,
-.animate-orbit,
-.animate-breathe,
-.shimmer {
+.animate-orbit {
   animation: none !important;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient,
+  .animate-pulse-glow,
+  .animate-breathe,
+  .shimmer {
+    animation: none !important;
+  }
+}
+
+/* Sparkle / twinkle keyframes for decorative elements */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.animate-twinkle { animation: twinkle 2.5s ease-in-out infinite; }
+
+/* Marquee for trust bar / strips */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 30s linear infinite; }
+
+/* Smooth image kenburns */
+@keyframes kenburns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1%, -1%); }
+}
+.animate-kenburns { animation: kenburns 14s ease-in-out infinite alternate; }

@@ -169,10 +169,11 @@ const Blog = () => {
             {rest.map((post, index) => (
               <motion.article
                 key={post.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30, scale: 0.96, filter: "blur(6px)" }}
+                whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
+                transition={{ duration: 0.65, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{ y: -10, transition: { duration: 0.35, ease: "easeOut" } }}
               >
                 <a
                   href={post.link ?? "#"}
@@ -180,21 +181,23 @@ const Blog = () => {
                   rel={post.link ? "noopener noreferrer" : undefined}
                   className="block"
                 >
-                  <Card className="h-full group overflow-hidden border-border/60 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 cursor-pointer">
+                  <Card className="h-full group overflow-hidden border-border/60 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all duration-500 cursor-pointer">
                     <div className="relative overflow-hidden aspect-[16/10]">
                       <img
                         src={post.image}
                         alt={post.title}
                         loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110 group-hover:rotate-1"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent opacity-90 group-hover:opacity-60 transition-opacity duration-500" />
+                      {/* Sheen sweep on hover */}
+                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
                     </div>
                     <CardContent className="p-6 flex flex-col">
                       <span className="text-[11px] font-medium text-primary mb-3 uppercase tracking-[0.18em]">
                         {post.category}
                       </span>
-                      <h2 className="font-display text-lg font-semibold text-card-foreground mb-3 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                      <h2 className="font-display text-lg font-semibold text-card-foreground mb-3 leading-snug group-hover:text-primary transition-colors duration-300 line-clamp-2">
                         {post.title}
                       </h2>
                       <p className="text-muted-foreground text-sm leading-relaxed mb-5 line-clamp-3">
@@ -211,8 +214,8 @@ const Blog = () => {
                             {post.readTime}
                           </span>
                         </div>
-                        <span className="text-xs font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
-                          Read <ArrowRight size={11} />
+                        <span className="text-xs font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+                          Read <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform duration-300" />
                         </span>
                       </div>
                     </CardContent>
