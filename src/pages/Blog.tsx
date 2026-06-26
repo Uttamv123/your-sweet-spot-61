@@ -52,6 +52,18 @@ const blogPosts: BlogPost[] = [
     author: "Code Reflections Team",
     link:"/blog/future-of-ai.html",
   },
+  {
+    title: "The Truth About AI for Small Businesses in India: What Works and What Doesn't",
+    excerpt:
+      "A grounded look at where AI actually delivers value for small businesses in India — and where the hype falls short.",
+    category: "AI & Business",
+    date: "Jun 26, 2026",
+    readTime: "6 min read",
+    image:
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80",
+    author: "Code Reflections Team",
+    link: "#",
+  },
 ];
 
 const Blog = () => {
