@@ -48,51 +48,106 @@ const TeamSection = () => {
           {team.map((member, i) => (
             <motion.div
               key={member.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, delay: i * 0.15 }}
-              className="gradient-border-card rounded-2xl p-8 hover-lift group"
+              transition={{ duration: 0.8, delay: i * 0.18, ease: [0.25, 0.46, 0.45, 0.94] }}
+              whileHover={{ y: -8, transition: { duration: 0.4, ease: "easeOut" } }}
+              className="gradient-border-card rounded-2xl p-8 hover-lift group relative overflow-hidden"
             >
+              {/* Sheen sweep on hover */}
+              <span
+                className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1400ms] ease-out"
+                style={{
+                  background:
+                    "linear-gradient(115deg, transparent 35%, hsl(250 60% 58% / 0.08) 50%, transparent 65%)",
+                }}
+              />
+
               {/* Header */}
-              <div className="mb-6">
-                <h3 className="font-display text-2xl font-bold text-foreground">{member.name}</h3>
+              <motion.div
+                className="mb-6"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.18 + 0.15 }}
+              >
+                <h3 className="font-display text-2xl font-bold text-foreground transition-transform duration-500 group-hover:-translate-y-0.5">
+                  {member.name}
+                </h3>
                 <span className="text-sm font-semibold gradient-text">{member.role}</span>
                 <p className="text-xs text-muted-foreground/60 mt-2 leading-relaxed">{member.tagline}</p>
-              </div>
+              </motion.div>
 
               {/* Bio */}
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">{member.bio}</p>
+              <motion.p
+                className="text-sm text-muted-foreground leading-relaxed mb-5"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.18 + 0.25 }}
+              >
+                {member.bio}
+              </motion.p>
 
               {/* Philosophy Card */}
-              <div className="glass rounded-xl p-5 mb-6">
+              <motion.div
+                className="glass rounded-xl p-5 mb-6 transition-transform duration-500 group-hover:-translate-y-0.5"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.18 + 0.35 }}
+              >
                 <h4 className="font-display text-sm font-semibold text-foreground mb-2">Core Philosophy & Vision</h4>
                 <p className="text-xs text-muted-foreground/70 leading-relaxed">{member.philosophy}</p>
-              </div>
+              </motion.div>
 
               {/* Expertise */}
               <div className="mb-6">
                 <h4 className="font-display text-sm font-semibold text-foreground mb-3">Core Expertise:</h4>
                 <div className="flex flex-wrap gap-2">
-                  {member.expertise.map((skill) => (
-                    <span
+                  {member.expertise.map((skill, j) => (
+                    <motion.span
                       key={skill}
-                      className="text-[11px] px-3 py-1.5 rounded-full border border-primary/20 text-muted-foreground/80 bg-primary/[0.04] hover:border-primary/40 hover:bg-primary/[0.08] transition-all duration-300"
+                      initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 0.4,
+                        delay: i * 0.18 + 0.45 + j * 0.04,
+                        ease: [0.25, 0.46, 0.45, 0.94],
+                      }}
+                      whileHover={{ scale: 1.08, y: -2, transition: { duration: 0.2 } }}
+                      className="text-[11px] px-3 py-1.5 rounded-full border border-primary/20 text-muted-foreground/80 bg-primary/[0.04] hover:border-primary/40 hover:bg-primary/[0.08] cursor-default"
                     >
                       {skill}
-                    </span>
+                    </motion.span>
                   ))}
                 </div>
               </div>
 
               {/* LinkedIn */}
               {member.linkedin && (
-                <a href={member.linkedin} target="_blank" rel="noopener noreferrer">
+                <motion.a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.18 + 0.7 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="block"
+                >
                   <Button variant="outline" size="sm" className="w-full group/btn">
-                    <Linkedin size={16} className="mr-2" />
+                    <Linkedin
+                      size={16}
+                      className="mr-2 transition-transform duration-500 group-hover/btn:rotate-[-8deg] group-hover/btn:scale-110"
+                    />
                     Connect with {member.name.split(" ")[0]} on LinkedIn
                   </Button>
-                </a>
+                </motion.a>
               )}
             </motion.div>
           ))}
