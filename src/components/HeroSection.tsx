@@ -51,8 +51,31 @@ const HeroSection = () => {
       }} />
 
       {/* Static decorative orbs (blur cached once, not re-painted per frame) */}
-      <div className="absolute w-[500px] h-[500px] rounded-full bg-primary/8 blur-[100px] top-10 -right-32 pointer-events-none" />
-      <div className="absolute w-[400px] h-[400px] rounded-full bg-secondary/6 blur-[80px] bottom-10 -left-20 pointer-events-none" />
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full bg-primary/8 blur-[100px] top-10 -right-32 pointer-events-none"
+        animate={{ x: [0, 24, -16, 0], y: [0, -18, 12, 0] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full bg-secondary/6 blur-[80px] bottom-10 -left-20 pointer-events-none"
+        animate={{ x: [0, -20, 14, 0], y: [0, 16, -10, 0] }}
+        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Twinkling stars */}
+      {[
+        { top: "18%", left: "12%", delay: 0 },
+        { top: "32%", left: "85%", delay: 0.8 },
+        { top: "68%", left: "8%", delay: 1.4 },
+        { top: "78%", left: "72%", delay: 0.4 },
+        { top: "22%", left: "60%", delay: 2 },
+      ].map((s, i) => (
+        <span
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-secondary/70 animate-twinkle pointer-events-none"
+          style={{ top: s.top, left: s.left, animationDelay: `${s.delay}s` }}
+        />
+      ))}
 
       <div className="container relative z-10 mx-auto px-4 py-20">
         <motion.div
