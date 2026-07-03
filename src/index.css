@@ -193,6 +193,22 @@
     border: 1px solid hsl(230 12% 22% / 0.6);
   }
 
+  /* Frosted glass navigation — backdrop blur for premium feel */
+  .glass-nav {
+    background: hsl(230 15% 8% / 0.55);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border-bottom: 1px solid hsl(230 12% 22% / 0.35);
+    box-shadow: 0 8px 32px -8px hsl(0 0% 0% / 0.4), inset 0 1px 0 hsl(250 60% 58% / 0.06);
+  }
+
+  .glass-nav-idle {
+    background: hsl(230 15% 8% / 0.25);
+    backdrop-filter: blur(8px) saturate(140%);
+    -webkit-backdrop-filter: blur(8px) saturate(140%);
+    border-bottom: 1px solid transparent;
+  }
+
   /* Gradient border card */
   .gradient-border-card {
     position: relative;
