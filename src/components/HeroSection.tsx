@@ -24,9 +24,18 @@ const useReducedMotion = () => {
 
 const HeroSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 noise-overlay">
+      {/* 3D animated background (particles + glow orbs) */}
+      {!reducedMotion && (
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <Suspense fallback={null}>
+            <HeroScene />
+          </Suspense>
+        </div>
+      )}
       {/* Background photo */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-25"
