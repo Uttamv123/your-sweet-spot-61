@@ -1,21 +1,26 @@
-import { useState } from "react";
+import { useState, lazy, Suspense, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { scrollToSection } from "@/lib/scroll";
 import CalendlyModal from "@/components/CalendlyModal";
 
+const HeroScene = lazy(() => import("@/components/hero/HeroScene"));
+
 const words = ["Intelligent", "Digital", "Systems", "for", "Modern"];
 const glowWords = ["Intelligent", "Systems"];
 
-const Orb = ({ className, delay = 0 }: { className?: string; delay?: number }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ delay, duration: 3, ease: "easeOut" }}
-    className={`absolute rounded-full pointer-events-none ${className}`}
-  />
-);
+const useReducedMotion = () => {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return reduced;
+};
 
 const HeroSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
