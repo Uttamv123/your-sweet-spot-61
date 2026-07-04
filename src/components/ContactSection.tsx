@@ -55,9 +55,15 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-28 relative">
+    <section id="contact" className="py-28 relative overflow-hidden">
+      {/* decorative floating orbs */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute top-10 -left-20 w-80 h-80 rounded-full float-orb-slow" style={{ background: "radial-gradient(circle, hsl(250 60% 58% / 0.18), transparent 70%)", filter: "blur(20px)" }} />
+        <div className="absolute bottom-10 -right-20 w-96 h-96 rounded-full float-orb" style={{ background: "radial-gradient(circle, hsl(190 80% 50% / 0.15), transparent 70%)", filter: "blur(20px)" }} />
+      </div>
       <div className="section-divider mb-28" />
       <div className="container mx-auto px-4">
+
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -129,12 +135,14 @@ const ContactSection = () => {
               method="POST"
               data-netlify="true"
               onSubmit={handleSubmit}
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, x: 20, rotateY: -6 }}
+              whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="lg:col-span-3 space-y-4"
+              transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{ transformStyle: "preserve-3d", perspective: 1000 }}
+              className="lg:col-span-3 space-y-4 contact-glass rounded-2xl p-6 md:p-8"
             >
+
               <input type="hidden" name="form-name" value="contact" />
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>

@@ -248,6 +248,37 @@
   .portfolio-3d-card:hover .p3d-tags  { transform: translateZ(15px); }
   .portfolio-3d-card:hover .p3d-badge { transform: translateZ(50px); }
 
+  /* Contact glass panel */
+  .contact-glass {
+    position: relative;
+    background: linear-gradient(180deg, hsl(230 15% 12% / 0.7) 0%, hsl(230 15% 9% / 0.7) 100%);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid hsl(230 12% 22% / 0.5);
+    box-shadow:
+      0 1px 0 hsl(0 0% 100% / 0.05) inset,
+      0 30px 60px -30px hsl(0 0% 0% / 0.6),
+      0 0 60px -20px hsl(250 60% 58% / 0.15);
+    transition: box-shadow 500ms ease, border-color 500ms ease;
+  }
+  .contact-glass:hover {
+    border-color: hsl(250 60% 58% / 0.35);
+    box-shadow:
+      0 1px 0 hsl(0 0% 100% / 0.07) inset,
+      0 40px 80px -30px hsl(0 0% 0% / 0.7),
+      0 0 80px -20px hsl(250 60% 58% / 0.3),
+      0 0 120px -30px hsl(190 80% 50% / 0.2);
+  }
+
+  /* Floating orbs (decorative) */
+  @keyframes float-orb {
+    0%, 100% { transform: translate3d(0,0,0); }
+    50% { transform: translate3d(0,-16px,0); }
+  }
+  .float-orb { animation: float-orb 7s ease-in-out infinite; }
+  .float-orb-slow { animation: float-orb 11s ease-in-out infinite; }
+
+
   /* Premium floating glass service card */
   .service-glass-card {
     background: linear-gradient(180deg, hsl(230 15% 12% / 0.75) 0%, hsl(230 15% 9% / 0.75) 100%);
