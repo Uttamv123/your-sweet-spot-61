@@ -17,8 +17,13 @@ const legalLinks = [
 
 const Footer = () => {
   return (
-    <footer className="py-16 border-t border-border/50 bg-card/30">
+    <footer className="py-16 border-t border-border/50 bg-card/30 relative overflow-hidden">
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute -top-20 left-1/4 w-96 h-96 rounded-full float-orb-slow" style={{ background: "radial-gradient(circle, hsl(250 60% 58% / 0.10), transparent 70%)", filter: "blur(30px)" }} />
+        <div className="absolute -bottom-24 right-1/4 w-96 h-96 rounded-full float-orb" style={{ background: "radial-gradient(circle, hsl(190 80% 50% / 0.08), transparent 70%)", filter: "blur(30px)" }} />
+      </div>
       <div className="container mx-auto px-4">
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
