@@ -1,5 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { useRef } from "react";
 
 const projects = [
   {
@@ -28,6 +29,109 @@ const projects = [
   },
 ];
 
+type Project = (typeof projects)[number];
+
+const TiltCard = ({ project, index }: { project: Project; index: number }) => {
+  const ref = useRef<HTMLAnchorElement | null>(null);
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const gx = useMotionValue(50);
+  const gy = useMotionValue(50);
+
+  const rotateX = useSpring(rx, { stiffness: 200, damping: 20, mass: 0.4 });
+  const rotateY = useSpring(ry, { stiffness: 200, damping: 20, mass: 0.4 });
+  const glowBg = useTransform(
+    [gx, gy],
+    ([x, y]: number[]) =>
+      `radial-gradient(500px circle at ${x}% ${y}%, hsl(250 60% 58% / 0.22), transparent 45%)`,
+  );
+
+  const handleMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    ry.set((px - 0.5) * 12);
+    rx.set(-(py - 0.5) * 12);
+    gx.set(px * 100);
+    gy.set(py * 100);
+  };
+
+  const handleLeave = () => {
+    rx.set(0);
+    ry.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={project.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ delay: index * 0.12, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+      style={{ perspective: 1000 }}
+      className="block cursor-pointer group"
+    >
+      <motion.div
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="portfolio-3d-card rounded-2xl overflow-hidden relative"
+      >
+        {/* ambient hover glow */}
+        <motion.div
+          aria-hidden
+          style={{ background: glowBg }}
+          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+        />
+
+        <div className="relative h-48 overflow-hidden p3d-layer p3d-media">
+          <img
+            src={project.image}
+            alt={project.title}
+            loading="lazy"
+            decoding="async"
+            width={600}
+            height={400}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
+          {/* sheen sweep */}
+          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1400ms] ease-out bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
+          <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 p3d-layer p3d-badge">
+            <ExternalLink size={14} className="text-foreground" />
+          </div>
+        </div>
+        <div className="p-6 relative z-10">
+          <span className="text-[10px] text-secondary/70 font-semibold uppercase tracking-[0.2em] p3d-layer p3d-title inline-block">
+            {project.category}
+          </span>
+          <h3 className="font-display text-lg font-semibold text-card-foreground mt-2 mb-3 p3d-layer p3d-title">
+            {project.title}
+          </h3>
+          <p className="text-sm text-muted-foreground leading-relaxed mb-4 p3d-layer p3d-desc">
+            {project.description}
+          </p>
+          <div className="flex flex-wrap gap-2 p3d-layer p3d-tags">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="text-[10px] px-2.5 py-1 rounded-full bg-secondary/10 text-secondary/80 font-medium transition-transform duration-300 group-hover:-translate-y-0.5"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+    </motion.a>
+  );
+};
+
 const PortfolioSection = () => {
   return (
     <section id="portfolio" className="py-28 relative">
@@ -51,53 +155,7 @@ const PortfolioSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {projects.map((project, i) => (
-            <motion.a
-              key={project.title}
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 40, rotateX: 10 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-              whileHover={{
-                y: -10,
-                scale: 1.02,
-                transition: { duration: 0.3, ease: "easeOut" },
-              }}
-              className="gradient-border-card rounded-2xl overflow-hidden cursor-pointer group relative block"
-              style={{ perspective: 600 }}
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
-                  decoding="async"
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 to-transparent" />
-                <motion.div
-                  className="absolute top-3 right-3 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                >
-                  <ExternalLink size={14} className="text-foreground" />
-                </motion.div>
-              </div>
-              <div className="p-6 relative z-10">
-                <span className="text-[10px] text-secondary/70 font-semibold uppercase tracking-[0.2em]">{project.category}</span>
-                <h3 className="font-display text-lg font-semibold text-card-foreground mt-2 mb-3">{project.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-secondary/10 text-secondary/80 font-medium">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.a>
+            <TiltCard key={project.title} project={project} index={i} />
           ))}
         </div>
 

@@ -217,6 +217,37 @@
     background-clip: padding-box;
   }
 
+  /* Portfolio 3D tilt card */
+  .portfolio-3d-card {
+    position: relative;
+    transform-style: preserve-3d;
+    background: linear-gradient(180deg, hsl(230 15% 12% / 0.78) 0%, hsl(230 15% 9% / 0.78) 100%);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid hsl(230 12% 22% / 0.55);
+    box-shadow:
+      0 1px 0 hsl(0 0% 100% / 0.04) inset,
+      0 20px 40px -20px hsl(0 0% 0% / 0.5);
+    transition: box-shadow 500ms ease, border-color 500ms ease, transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .portfolio-3d-card:hover {
+    border-color: hsl(250 60% 58% / 0.45);
+    box-shadow:
+      0 1px 0 hsl(0 0% 100% / 0.07) inset,
+      0 40px 80px -24px hsl(0 0% 0% / 0.65),
+      0 0 50px -10px hsl(250 60% 58% / 0.35),
+      0 0 90px -24px hsl(190 80% 50% / 0.28);
+  }
+  .portfolio-3d-card .p3d-layer {
+    transform: translateZ(0);
+    transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .portfolio-3d-card:hover .p3d-media { transform: translateZ(40px) scale(1.04); }
+  .portfolio-3d-card:hover .p3d-title { transform: translateZ(30px); }
+  .portfolio-3d-card:hover .p3d-desc  { transform: translateZ(20px); }
+  .portfolio-3d-card:hover .p3d-tags  { transform: translateZ(15px); }
+  .portfolio-3d-card:hover .p3d-badge { transform: translateZ(50px); }
+
   /* Premium floating glass service card */
   .service-glass-card {
     background: linear-gradient(180deg, hsl(230 15% 12% / 0.75) 0%, hsl(230 15% 9% / 0.75) 100%);
