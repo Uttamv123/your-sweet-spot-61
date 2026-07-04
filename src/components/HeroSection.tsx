@@ -177,10 +177,12 @@ const HeroSection = () => {
                 variant="hero-outline"
                 size="lg"
                 className="text-base px-8 py-6"
-                onClick={() => scrollToSection("case-studies")}
+                asChild
               >
-                <Play size={16} className="mr-2" />
-                View Our Work
+                <a href="/portfolio">
+                  <Play size={16} className="mr-2" />
+                  View Our Work
+                </a>
               </Button>
             </motion.div>
           </div>
