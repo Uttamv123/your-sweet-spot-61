@@ -114,36 +114,47 @@ const HeroSection = () => {
             </motion.div>
 
             <h1
-              className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6 hero-3d-title"
+              className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6 hero-3d-title select-none"
               style={{ perspective: "1200px", transformStyle: "preserve-3d" }}
             >
-              {words.map((word, i) => (
-                <motion.span
-                  key={word}
-                  initial={{ opacity: 0, y: 60, rotateX: -80, filter: "blur(12px)" }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
-                  transition={{
-                    delay: 0.5 + i * 0.12,
-                    duration: 0.9,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  whileHover={{ rotateY: 12, rotateX: -8, z: 40, scale: 1.06 }}
-                  className={`inline-block mr-[0.3em] cursor-default hero-word ${glowWords.includes(word) ? "gradient-text hero-word-glow animate-gradient" : ""}`}
-                  style={{ transformStyle: "preserve-3d", transformOrigin: "50% 100%" }}
-                >
-                  {word}
-                </motion.span>
-              ))}
+              {words.map((word, i) => {
+                const isGlow = glowWords.includes(word);
+                return (
+                  <motion.span
+                    key={word}
+                    initial={{ opacity: 0, y: 60, rotateX: -80, filter: "blur(12px)" }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
+                    transition={{
+                      delay: 0.5 + i * 0.12,
+                      duration: 0.9,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    whileHover={{ rotateY: 12, rotateX: -8, z: 40, scale: 1.06 }}
+                    className={`relative inline-block mr-[0.3em] cursor-default hero-word ${isGlow ? "holo-text hero-word-glow" : ""}`}
+                    style={{ transformStyle: "preserve-3d", transformOrigin: "50% 100%" }}
+                  >
+                    {word}
+                    {isGlow && (
+                      <span className="holo-text kinetic-layer" aria-hidden="true">
+                        {word}
+                      </span>
+                    )}
+                  </motion.span>
+                );
+              })}
               <br />
               <motion.span
                 initial={{ opacity: 0, y: 60, rotateX: -80, filter: "blur(12px)" }}
                 animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
                 transition={{ delay: 1.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ rotateY: -10, rotateX: -6, z: 60, scale: 1.05 }}
-                className="inline-block gradient-text hero-word-glow animate-gradient hero-word-businesses"
+                className="relative inline-block holo-text hero-word-glow hero-word-businesses"
                 style={{ transformStyle: "preserve-3d", transformOrigin: "50% 100%" }}
               >
                 Businesses
+                <span className="holo-text kinetic-layer" aria-hidden="true">
+                  Businesses
+                </span>
               </motion.span>
             </h1>
 
