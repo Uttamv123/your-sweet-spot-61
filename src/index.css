@@ -498,23 +498,27 @@ main > div > section {
 .hero-word:nth-child(4) { animation-delay: 1.2s; }
 .hero-word:nth-child(5) { animation-delay: 1.6s; }
 
-/* Holographic prism gradient text */
+/* Silver shine — metallic base with a bright highlight sweeping across */
 .holo-text {
   background: linear-gradient(
-    90deg,
-    #22d3ee 0%,
-    #8b5cf6 25%,
-    #3b82f6 50%,
-    #22d3ee 75%,
-    #8b5cf6 100%
+    100deg,
+    #cfd6e4 0%,
+    #e8edf5 20%,
+    #ffffff 42%,
+    #ffffff 50%,
+    #f4f7fb 58%,
+    #b8c1d1 80%,
+    #cfd6e4 100%
   );
-  background-size: 200% auto;
+  background-size: 250% auto;
+  background-position: 100% center;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
   animation: prism-sweep 5s linear infinite, holographic-glow 6s ease-in-out infinite;
 }
+
 .hero-word-glow {
   /* stack float + prism sweep + glow */
   animation:
