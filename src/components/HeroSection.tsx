@@ -113,28 +113,35 @@ const HeroSection = () => {
               </span>
             </motion.div>
 
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6">
+            <h1
+              className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6 hero-3d-title"
+              style={{ perspective: "1200px", transformStyle: "preserve-3d" }}
+            >
               {words.map((word, i) => (
                 <motion.span
                   key={word}
-                  initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  initial={{ opacity: 0, y: 60, rotateX: -80, filter: "blur(12px)" }}
+                  animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
                   transition={{
-                    delay: 0.5 + i * 0.1,
-                    duration: 0.7,
-                    ease: [0.25, 0.46, 0.45, 0.94],
+                    delay: 0.5 + i * 0.12,
+                    duration: 0.9,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
-                  className={`inline-block mr-[0.3em] ${glowWords.includes(word) ? "gradient-text" : ""}`}
+                  whileHover={{ rotateY: 12, rotateX: -8, z: 40, scale: 1.06 }}
+                  className={`inline-block mr-[0.3em] cursor-default hero-word ${glowWords.includes(word) ? "gradient-text hero-word-glow animate-gradient" : ""}`}
+                  style={{ transformStyle: "preserve-3d", transformOrigin: "50% 100%" }}
                 >
                   {word}
                 </motion.span>
               ))}
               <br />
               <motion.span
-                initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{ delay: 1.1, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="gradient-text"
+                initial={{ opacity: 0, y: 60, rotateX: -80, filter: "blur(12px)" }}
+                animate={{ opacity: 1, y: 0, rotateX: 0, filter: "blur(0px)" }}
+                transition={{ delay: 1.1, duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ rotateY: -10, rotateX: -6, z: 60, scale: 1.05 }}
+                className="inline-block gradient-text hero-word-glow animate-gradient hero-word-businesses"
+                style={{ transformStyle: "preserve-3d", transformOrigin: "50% 100%" }}
               >
                 Businesses
               </motion.span>
