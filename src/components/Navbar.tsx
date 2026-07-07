@@ -169,7 +169,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 250 }}
-            className="lg:hidden fixed top-16 right-0 bottom-0 w-72 glass-nav px-6 py-8 overflow-hidden"
+            className="lg:hidden fixed top-16 right-0 bottom-0 w-72 glass-nav px-6 py-8 overflow-y-auto"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link, i) => {
