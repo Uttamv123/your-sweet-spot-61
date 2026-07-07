@@ -165,11 +165,11 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
+            initial={{ opacity: 0, x: "-100%" }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
+            exit={{ opacity: 0, x: "-100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 250 }}
-            className="lg:hidden fixed top-16 right-0 bottom-0 w-72 glass-nav px-6 py-8 overflow-y-auto"
+            className="lg:hidden fixed top-16 left-0 bottom-0 w-72 glass-nav px-6 py-8 overflow-hidden"
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link, i) => {
@@ -178,7 +178,7 @@ const Navbar = () => {
                   <motion.a
                     key={link.label}
                     href={link.href}
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.04, duration: 0.3 }}
                     className={`text-sm py-2.5 px-3 rounded-md transition-colors duration-300 ${
