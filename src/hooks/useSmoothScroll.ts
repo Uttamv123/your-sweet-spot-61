@@ -7,11 +7,38 @@ const useSmoothScroll = () => {
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // Detect touch/mobile — Lenis smooth-scroll on touch devices fights native
+    // momentum and causes jank. Use native scrolling there instead.
+    const isTouch =
+      typeof window !== "undefined" &&
+      (window.matchMedia("(hover: none) and (pointer: coarse)").matches ||
+        window.innerWidth < 1024);
+
+    if (isTouch) {
+      // Native smooth scrolling for anchor jumps only.
+      const handleAnchorClick = (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const anchor = target.closest("a[href^='#']");
+        if (anchor) {
+          const href = anchor.getAttribute("href");
+          if (href && href !== "#") {
+            const el = document.querySelector(href) as HTMLElement | null;
+            if (el) {
+              e.preventDefault();
+              const top = el.getBoundingClientRect().top + window.scrollY - 80;
+              window.scrollTo({ top, behavior: reduced ? "auto" : "smooth" });
+            }
+          }
+        }
+      };
+      document.addEventListener("click", handleAnchorClick);
+      return () => document.removeEventListener("click", handleAnchorClick);
+    }
+
     const lenis = new Lenis({
       duration: 0.9,
       easing: (t) => 1 - Math.pow(1 - t, 3),
       smoothWheel: !reduced,
-      touchMultiplier: 1.5,
       wheelMultiplier: 1,
     });
 
