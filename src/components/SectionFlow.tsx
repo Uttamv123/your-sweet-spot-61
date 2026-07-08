@@ -1,8 +1,22 @@
 /**
- * Invisible section spacer — no visual line, keeps sections flowing as one page.
+ * Liquid Glass section transitions — Apple-inspired sticky refractive strip
+ * that blurs and highlights the content scrolling underneath it.
  */
 export const SectionConnector = ({ variant = "default" }: { variant?: "default" | "accent" }) => {
-  return <div className="h-0" aria-hidden="true" />;
+  return (
+    <div
+      aria-hidden="true"
+      className="liquid-glass-divider"
+      style={
+        variant === "accent"
+          ? {
+              background:
+                "linear-gradient(180deg, hsl(190 50% 12% / 0.22) 0%, hsl(250 40% 14% / 0.38) 50%, hsl(190 50% 12% / 0.22) 100%)",
+            }
+          : undefined
+      }
+    />
+  );
 };
 
 export const SectionGlow = ({
@@ -18,12 +32,12 @@ export const SectionGlow = ({
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
       <div
-        className="absolute w-[500px] h-[500px] rounded-full opacity-[0.04]"
+        className="absolute w-[500px] h-[500px] rounded-full opacity-[0.05]"
         style={{
           left: posMap[position],
           top: "50%",
           transform: "translate(-50%, -50%)",
-          background: `radial-gradient(circle, hsl(${hue} / 0.4) 0%, transparent 70%)`,
+          background: `radial-gradient(circle, hsl(${hue} / 0.5) 0%, transparent 70%)`,
         }}
       />
     </div>
