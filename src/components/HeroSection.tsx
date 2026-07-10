@@ -264,82 +264,143 @@ const RobotAnimation = () => {
           </svg>
 
           {/* ── Cards ── */}
-          {/* Top-left */}
+          {/* Top-left: Custom Web Development */}
           <div id="rs-c-tl" className="rs-card" style={{top:16, left:16, width:220}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
-                <ellipse cx="78" cy="42" rx="34" ry="22" fill="#1A2E80" opacity=".9"/>
-                <ellipse cx="56" cy="48" rx="20" ry="16" fill="#1A2E80" opacity=".9"/>
-                <rect x="42" y="47" width="66" height="28" rx="2" fill="#1A2E80" opacity=".9"/>
-                <circle cx="24" cy="42" r="13" stroke="#00D4FF" strokeWidth="2.2" fill="rgba(0,212,255,.08)"/>
-                <line x1="34" y1="52" x2="44" y2="62" stroke="#00D4FF" strokeWidth="2.8" strokeLinecap="round"/>
-                <rect x="108" y="28" width="62" height="60" rx="8" fill="#0A1840" stroke="#1A6FFF" strokeWidth="1.2"/>
-                <rect x="116" y="38" width="46" height="5" rx="2.5" fill="#4DA3FF" opacity=".8"/>
-                <rect x="116" y="47" width="34" height="5" rx="2.5" fill="#4DA3FF" opacity=".65"/>
-                <rect x="116" y="56" width="40" height="5" rx="2.5" fill="#00D4FF" opacity=".5"/>
+                {/* Browser window */}
+                <rect x="10" y="12" width="120" height="80" rx="8" fill="#0A1840" stroke="#1A6FFF" strokeWidth="1.5"/>
+                <rect x="10" y="12" width="120" height="18" rx="8" fill="#112060"/>
+                <circle cx="22" cy="21" r="3" fill="#FF5F57"/><circle cx="32" cy="21" r="3" fill="#FFBD2E"/><circle cx="42" cy="21" r="3" fill="#28CA41"/>
+                <rect x="52" y="16" width="68" height="10" rx="4" fill="#0A1840" stroke="#1A6FFF" strokeWidth="0.8"/>
+                {/* Code lines */}
+                <rect x="18" y="38" width="30" height="4" rx="2" fill="#4DA3FF" opacity=".8"/>
+                <rect x="52" y="38" width="50" height="4" rx="2" fill="#E8F4FF" opacity=".5"/>
+                <rect x="18" y="48" width="20" height="4" rx="2" fill="#7C3AED" opacity=".9"/>
+                <rect x="42" y="48" width="60" height="4" rx="2" fill="#00D4FF" opacity=".6"/>
+                <rect x="18" y="58" width="40" height="4" rx="2" fill="#4DA3FF" opacity=".5"/>
+                <rect x="62" y="58" width="35" height="4" rx="2" fill="#E8F4FF" opacity=".35"/>
+                <rect x="18" y="68" width="55" height="4" rx="2" fill="#00D4FF" opacity=".4"/>
+                <rect x="18" y="78" width="25" height="4" rx="2" fill="#7C3AED" opacity=".6"/>
+                {/* Rocket */}
+                <ellipse cx="163" cy="54" rx="16" ry="22" fill="#1A6FFF" opacity=".9" transform="rotate(-30 163 54)"/>
+                <ellipse cx="163" cy="54" rx="9" ry="14" fill="#4DA3FF" opacity=".7" transform="rotate(-30 163 54)"/>
+                <ellipse cx="163" cy="54" rx="4" ry="6" fill="#A0EEFF" opacity=".9" transform="rotate(-30 163 54)"/>
+                <path d="M154 68 Q152 78 158 72 Z" fill="#FF6B35" opacity=".9"/>
+                <path d="M168 68 Q174 76 170 70 Z" fill="#FF8C55" opacity=".8"/>
+                <text x="145" y="24" fontSize="12" fill="#00D4FF" opacity=".7">✦</text>
+                <text x="182" y="88" fontSize="9" fill="#4DA3FF" opacity=".5">✦</text>
               </svg>
             </div>
             <div className="rs-card-body">
-              <div className="rs-card-tag"><span className="rs-tag-dot"/>Data Layer</div>
-              <div className="rs-card-title">Your Data Sources</div>
-              <div className="rs-card-desc">Train on documents, client records, repositories, and databases.</div>
+              <div className="rs-card-tag"><span className="rs-tag-dot"/>Web Development</div>
+              <div className="rs-card-title">Custom Web Development</div>
+              <div className="rs-card-desc">Fast, conversion-focused websites tailored to your business model.</div>
             </div>
           </div>
-          {/* Top-right */}
+
+          {/* Top-right: AI Workflow Automation */}
           <div id="rs-c-tr" className="rs-card" style={{top:16, right:16, width:220}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
-                <rect x="16" y="8" width="100" height="88" rx="12" fill="#08122E" stroke="#1A6FFF" strokeWidth="1.8"/>
-                <rect x="26" y="20" width="80" height="7" rx="3.5" fill="#4DA3FF" opacity=".3"/>
-                <rect x="26" y="32" width="58" height="6" rx="3" fill="#4DA3FF" opacity=".55"/>
-                <rect x="26" y="42" width="44" height="6" rx="3" fill="#00D4FF" opacity=".6"/>
-                <rect x="26" y="76" width="30" height="12" rx="6" fill="#1A6FFF"/>
-                <rect x="124" y="20" width="60" height="76" rx="10" fill="#08122E" stroke="#4DA3FF" strokeWidth="1"/>
-                <rect x="132" y="30" width="44" height="5" rx="2.5" fill="#4DA3FF" opacity=".5"/>
-                <rect x="132" y="39" width="32" height="5" rx="2.5" fill="#4DA3FF" opacity=".35"/>
+                {/* Flow nodes */}
+                <rect x="8" y="38" width="36" height="32" rx="8" fill="#08122E" stroke="#1A6FFF" strokeWidth="1.5"/>
+                <rect x="14" y="46" width="24" height="4" rx="2" fill="#4DA3FF" opacity=".7"/>
+                <rect x="14" y="54" width="18" height="4" rx="2" fill="#00D4FF" opacity=".5"/>
+                {/* Arrow 1 */}
+                <line x1="44" y1="54" x2="62" y2="54" stroke="#1A6FFF" strokeWidth="2" strokeDasharray="4,2"/>
+                <polygon points="62,50 70,54 62,58" fill="#1A6FFF"/>
+                {/* Centre AI node */}
+                <rect x="72" y="30" width="56" height="48" rx="10" fill="#0A1840" stroke="#00D4FF" strokeWidth="1.8"/>
+                <text x="88" y="52" fontSize="14" fill="#00D4FF" opacity=".9" fontWeight="bold">AI</text>
+                <rect x="80" y="58" width="40" height="4" rx="2" fill="#00D4FF" opacity=".5"/>
+                <rect x="84" y="65" width="32" height="4" rx="2" fill="#4DA3FF" opacity=".35"/>
+                {/* Arrow 2 */}
+                <line x1="128" y1="54" x2="146" y2="54" stroke="#7C3AED" strokeWidth="2" strokeDasharray="4,2"/>
+                <polygon points="146,50 154,54 146,58" fill="#7C3AED"/>
+                {/* Output node */}
+                <rect x="156" y="38" width="36" height="32" rx="8" fill="#08122E" stroke="#7C3AED" strokeWidth="1.5"/>
+                <rect x="162" y="46" width="24" height="4" rx="2" fill="#A78BFA" opacity=".7"/>
+                <rect x="162" y="54" width="18" height="4" rx="2" fill="#7C3AED" opacity=".5"/>
+                {/* Sparks */}
+                <text x="88" y="26" fontSize="10" fill="#00D4FF" opacity=".8">✦</text>
+                <text x="104" y="23" fontSize="7" fill="#4DA3FF" opacity=".6">✦</text>
+                <text x="78" y="91" fontSize="8" fill="#00D4FF" opacity=".4">✦</text>
               </svg>
             </div>
             <div className="rs-card-body">
-              <div className="rs-card-tag"><span className="rs-tag-dot"/>Intelligence</div>
-              <div className="rs-card-title">AI Training Interface</div>
-              <div className="rs-card-desc">Conversational knowledge extraction through adaptive simulation.</div>
+              <div className="rs-card-tag"><span className="rs-tag-dot"/>AI Automation</div>
+              <div className="rs-card-title">AI Workflow Automation</div>
+              <div className="rs-card-desc">Eliminate repetitive tasks with intelligent systems that save time and reduce errors.</div>
             </div>
           </div>
-          {/* Bottom-left */}
+
+          {/* Bottom-left: CRM & System Integration */}
           <div id="rs-c-bl" className="rs-card" style={{bottom:16, left:16, width:220}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
-                <rect x="8" y="18" width="36" height="46" rx="6" fill="#08122E" stroke="#1A6FFF" strokeWidth="1" opacity=".8"/>
-                <rect x="58" y="6" width="44" height="86" rx="10" fill="#0A1840" stroke="#1A6FFF" strokeWidth="1.8"/>
-                <rect x="64" y="14" width="32" height="54" rx="5" fill="#06102A"/>
-                <rect x="68" y="40" width="18" height="14" rx="4" fill="#1A6FFF"/>
-                <rect x="140" y="28" width="52" height="50" rx="7" fill="#08122E" stroke="#4DA3FF" strokeWidth="1" opacity=".7"/>
-                <rect x="148" y="36" width="36" height="4" rx="2" fill="#4DA3FF" opacity=".5"/>
+                {/* Central hub */}
+                <circle cx="100" cy="54" r="20" fill="#0A1840" stroke="#1A6FFF" strokeWidth="1.8"/>
+                <text x="91" y="58" fontSize="11" fill="#4DA3FF" opacity=".9" fontWeight="bold">CRM</text>
+                {/* Spokes */}
+                <line x1="80" y1="40" x2="56" y2="22" stroke="#1A6FFF" strokeWidth="1.2" strokeDasharray="4,2"/>
+                <line x1="120" y1="40" x2="144" y2="22" stroke="#1A6FFF" strokeWidth="1.2" strokeDasharray="4,2"/>
+                <line x1="80" y1="68" x2="56" y2="86" stroke="#7C3AED" strokeWidth="1.2" strokeDasharray="4,2"/>
+                <line x1="120" y1="68" x2="144" y2="86" stroke="#7C3AED" strokeWidth="1.2" strokeDasharray="4,2"/>
+                <line x1="100" y1="34" x2="100" y2="12" stroke="#00D4FF" strokeWidth="1.2" strokeDasharray="4,2"/>
+                {/* Satellite nodes */}
+                <rect x="36" y="8" width="40" height="24" rx="6" fill="#08122E" stroke="#4DA3FF" strokeWidth="1"/>
+                <rect x="42" y="14" width="28" height="4" rx="2" fill="#4DA3FF" opacity=".6"/>
+                <rect x="42" y="21" width="18" height="3" rx="1.5" fill="#00D4FF" opacity=".4"/>
+                <rect x="124" y="8" width="40" height="24" rx="6" fill="#08122E" stroke="#4DA3FF" strokeWidth="1"/>
+                <rect x="130" y="14" width="28" height="4" rx="2" fill="#4DA3FF" opacity=".6"/>
+                <rect x="130" y="21" width="18" height="3" rx="1.5" fill="#00D4FF" opacity=".4"/>
+                <rect x="36" y="76" width="40" height="24" rx="6" fill="#08122E" stroke="#7C3AED" strokeWidth="1"/>
+                <rect x="42" y="82" width="28" height="4" rx="2" fill="#A78BFA" opacity=".6"/>
+                <rect x="124" y="76" width="40" height="24" rx="6" fill="#08122E" stroke="#7C3AED" strokeWidth="1"/>
+                <rect x="130" y="82" width="28" height="4" rx="2" fill="#A78BFA" opacity=".6"/>
+                <circle cx="100" cy="8" r="6" fill="#00D4FF" opacity=".7"/>
               </svg>
             </div>
             <div className="rs-card-body">
-              <div className="rs-card-tag"><span className="rs-tag-dot"/>Flexibility</div>
-              <div className="rs-card-title">Mode Selection</div>
-              <div className="rs-card-desc">Your work, your mode — fully adaptive to how your team operates.</div>
+              <div className="rs-card-tag"><span className="rs-tag-dot"/>Integration</div>
+              <div className="rs-card-title">CRM & System Integration</div>
+              <div className="rs-card-desc">Connect marketing, sales, and operations into one seamless ecosystem.</div>
             </div>
           </div>
-          {/* Bottom-right */}
+
+          {/* Bottom-right: UI/UX Optimisation */}
           <div id="rs-c-br" className="rs-card" style={{bottom:16, right:16, width:220}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
-                <rect x="8" y="6" width="130" height="80" rx="8" fill="#08122E" stroke="#1A6FFF" strokeWidth="1.8"/>
-                <rect x="14" y="12" width="118" height="68" rx="5" fill="#050E22"/>
-                <rect x="20" y="20" width="48" height="4" rx="2" fill="#00D4FF" opacity=".85"/>
-                <rect x="20" y="28" width="72" height="4" rx="2" fill="#4DA3FF" opacity=".65"/>
-                <rect x="20" y="36" width="36" height="4" rx="2" fill="#00D4FF" opacity=".55"/>
-                <rect x="148" y="14" width="44" height="60" rx="8" fill="#08122E" stroke="#4DA3FF" strokeWidth="1"/>
-                <rect x="155" y="22" width="30" height="4" rx="2" fill="#4DA3FF" opacity=".55"/>
+                {/* Phone frame */}
+                <rect x="62" y="6" width="44" height="76" rx="10" fill="#0A1840" stroke="#1A6FFF" strokeWidth="1.8"/>
+                <rect x="66" y="14" width="36" height="56" rx="6" fill="#060E24"/>
+                {/* Hero block */}
+                <rect x="70" y="18" width="28" height="14" rx="4" fill="#1A6FFF" opacity=".8"/>
+                <rect x="72" y="22" width="20" height="3" rx="1.5" fill="white" opacity=".7"/>
+                <rect x="72" y="27" width="14" height="2" rx="1" fill="white" opacity=".4"/>
+                {/* Content rows */}
+                <rect x="70" y="36" width="28" height="4" rx="2" fill="#4DA3FF" opacity=".5"/>
+                <rect x="70" y="44" width="22" height="4" rx="2" fill="#00D4FF" opacity=".4"/>
+                {/* CTA button */}
+                <rect x="72" y="53" width="24" height="8" rx="4" fill="#7C3AED"/>
+                <rect x="75" y="56" width="18" height="2" rx="1" fill="white" opacity=".8"/>
+                <circle cx="84" cy="78" r="3" fill="rgba(77,163,255,.3)" stroke="#4DA3FF" strokeWidth="1"/>
+                {/* Cursor */}
+                <polygon points="140,30 150,44 144,42 140,50 136,36" fill="#00D4FF" opacity=".9"/>
+                {/* Sparkle */}
+                <text x="148" y="22" fontSize="14" fill="#00D4FF" opacity=".7">✦</text>
+                <text x="20" y="60" fontSize="10" fill="#7C3AED" opacity=".6">✦</text>
+                {/* Rating stars */}
+                <text x="16" y="30" fontSize="9" fill="#FFD700" opacity=".8">★★★★★</text>
+                <rect x="12" y="32" width="36" height="3" rx="1.5" fill="#FFD700" opacity=".2"/>
               </svg>
             </div>
             <div className="rs-card-body">
-              <div className="rs-card-tag"><span className="rs-tag-dot"/>Automation</div>
-              <div className="rs-card-title">Visual Workflow Builder</div>
-              <div className="rs-card-desc">Build AI-powered CRM pipelines — zero code required.</div>
+              <div className="rs-card-tag"><span className="rs-tag-dot"/>UI/UX Design</div>
+              <div className="rs-card-title">UI/UX Optimisation</div>
+              <div className="rs-card-desc">Intuitive digital experiences that increase engagement and retention.</div>
             </div>
           </div>
 
