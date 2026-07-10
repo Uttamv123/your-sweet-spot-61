@@ -816,6 +816,62 @@ main > div > section {
 }
 .rs-bubble-inner::after { content:'';position:absolute;bottom:-11px;left:22px;border:6px solid transparent;border-top-color:rgba(0,160,240,.92); }
 
+/* Joke bubble */
+.rs-joke-bubble {
+  position: absolute;
+  top: -64px;
+  left: 50%;
+  transform: translateX(-55%) scale(0) rotate(2deg);
+  transform-origin: 40% 110%;
+  opacity: 0;
+  z-index: 31;
+  pointer-events: none;
+  max-width: 230px;
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1), opacity .2s ease;
+}
+.rs-joke-bubble.rs-joke-show {
+  transform: translateX(-55%) scale(1) rotate(-1deg);
+  opacity: 1;
+}
+.rs-joke-bubble.rs-joke-hide {
+  transform: translateX(-55%) scale(0) rotate(3deg);
+  opacity: 0;
+  transition: transform .2s cubic-bezier(.55,0,1,.45), opacity .18s ease;
+}
+.rs-joke-text {
+  display: block;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #E8F4FF;
+  line-height: 1.5;
+  letter-spacing: -.01em;
+  background: linear-gradient(135deg, rgba(15,30,80,.97), rgba(6,20,55,.95));
+  border: 1.5px solid rgba(0,212,255,.35);
+  border-radius: 14px;
+  padding: 8px 14px;
+  box-shadow:
+    0 0 0 3px rgba(0,212,255,.08),
+    0 8px 32px rgba(0,60,200,.45),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  position: relative;
+}
+.rs-joke-text::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 36px;
+  border: 5px solid transparent;
+  border-top-color: rgba(0,212,255,.35);
+}
+.rs-joke-text::before {
+  content: '🤖';
+  position: absolute;
+  top: -10px;
+  right: 12px;
+  font-size: 14px;
+}
+
 /* Bless you */
 .rs-bless-you {
   position:absolute;bottom:-24px;left:50%;

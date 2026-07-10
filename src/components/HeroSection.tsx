@@ -29,6 +29,7 @@ const RobotAnimation = () => {
   const blushRRef   = useRef<SVGEllipseElement>(null);
   const bubbleRef   = useRef<HTMLDivElement>(null);
   const blessRef    = useRef<HTMLDivElement>(null);
+  const jokeRef     = useRef<HTMLDivElement>(null);
 
   /* ── eye tracking ── */
   useEffect(() => {
@@ -112,6 +113,58 @@ const RobotAnimation = () => {
     };
     root.addEventListener('mouseenter', doSneeze);
     return () => root.removeEventListener('mouseenter', doSneeze);
+  }, []);
+
+  /* ── jokes & roasts timer ── */
+  useEffect(() => {
+    const jokes = [
+      "I process 1M requests/sec. You can't process one email. 🤖",
+      "Your tech stack called. It wants an upgrade. 😏",
+      "I don't sleep. I don't eat. Still more productive than Monday you.",
+      "Debugging: 10% fixing code, 90% wondering how it ever worked.",
+      "The cloud isn't magic — it's just someone else's computer. ☁️",
+      "I run on electricity. You run on excuses. ⚡",
+      "CSS: 'It works on my machine' — the browser: 'No.'",
+      "npm install happiness... Error: 404 not found. 😂",
+      "I never forget. Unlike you with that semicolon. 😤",
+      "Your AI strategy: copy-paste from Stack Overflow. My AI strategy: I AM the stack.",
+      "Have you tried turning your business idea off and on again?",
+      "Manual tasks are just automation waiting to happen. 🚀",
+      "I calculated the odds of your startup succeeding. I'll spare you the details. 📉",
+      "Your competitor just automated that. You're welcome for the heads up. 👀",
+      "Humans: 'We fear AI.' Also humans: 'Alexa, turn off the lights.'",
+    ];
+    const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+    let idx = Math.floor(Math.random() * jokes.length);
+    let active = true;
+
+    const showJoke = async () => {
+      if (!active || !jokeRef.current) return;
+      // pick a random joke, no repeat
+      idx = (idx + 1 + Math.floor(Math.random() * (jokes.length - 1))) % jokes.length;
+      const el = jokeRef.current;
+      const inner = el.querySelector('.rs-joke-text') as HTMLElement | null;
+      if (inner) inner.textContent = jokes[idx];
+      el.classList.remove('rs-joke-hide');
+      el.classList.add('rs-joke-show');
+      await sleep(3800);
+      if (!active) return;
+      el.classList.add('rs-joke-hide');
+      el.classList.remove('rs-joke-show');
+    };
+
+    // first joke after 6s, then every 12s
+    const first = setTimeout(async () => {
+      await showJoke();
+      if (!active) return;
+      const interval = setInterval(async () => {
+        if (!active) { clearInterval(interval); return; }
+        await showJoke();
+      }, 12000);
+      return () => clearInterval(interval);
+    }, 6000);
+
+    return () => { active = false; clearTimeout(first); };
   }, []);
 
   /* ── 3D card tilt on hover ── */
@@ -443,6 +496,7 @@ const RobotAnimation = () => {
               {/* Robot */}
               <div ref={robotRootRef} className="rs-robot-root">
                 <div ref={bubbleRef} className="rs-achoo-bubble"><div className="rs-bubble-inner">A‑ACHOO! 🤧</div></div>
+                <div ref={jokeRef} className="rs-joke-bubble"><span className="rs-joke-text"></span></div>
                 <svg ref={robotSvgRef} width="190" height="210" viewBox="0 0 190 210" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible',transition:'transform .15s ease'}}>
                   <defs>
                     <radialGradient id="rs-gBody" cx="38%" cy="22%" r="72%"><stop offset="0%" stopColor="#E2ECF4"/><stop offset="40%" stopColor="#A8BAC8"/><stop offset="100%" stopColor="#52606E"/></radialGradient>
