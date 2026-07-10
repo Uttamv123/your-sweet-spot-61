@@ -114,13 +114,45 @@ const RobotAnimation = () => {
     return () => root.removeEventListener('mouseenter', doSneeze);
   }, []);
 
-  /* ── SVG connector lines animation ── */
+  /* ── SVG connector lines + travelling dots animation ── */
   useEffect(() => {
     const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+
+    // helper: extract {x,y}[] from a polyline id
+    const getpts = (id: string) => {
+      const el = document.getElementById(id) as SVGPolylineElement | null;
+      if (!el) return [];
+      const arr: {x:number;y:number}[] = [];
+      for (let i = 0; i < el.points.numberOfItems; i++) {
+        const p = el.points.getItem(i); arr.push({x:p.x, y:p.y});
+      }
+      return arr;
+    };
+
+    // helper: position along a polyline at fraction t [0..1]
+    const ptAt = (pts: {x:number;y:number}[], t: number) => {
+      if (!pts.length) return {x:0,y:0};
+      let segs: number[] = [], total = 0;
+      for (let i = 1; i < pts.length; i++) {
+        const l = Math.hypot(pts[i].x-pts[i-1].x, pts[i].y-pts[i-1].y);
+        segs.push(l); total += l;
+      }
+      let d = t * total;
+      for (let i = 0; i < segs.length; i++) {
+        if (d <= segs[i]) {
+          const tt = d / segs[i];
+          return { x: pts[i].x+(pts[i+1].x-pts[i].x)*tt, y: pts[i].y+(pts[i+1].y-pts[i].y)*tt };
+        }
+        d -= segs[i];
+      }
+      return pts[pts.length-1];
+    };
+
     const animate = async () => {
       await sleep(400);
-      const lines = ['rs-ln-tl','rs-ln-tr','rs-ln-bl','rs-ln-br'];
-      lines.forEach(id => {
+      // draw lines
+      const lineIds = ['rs-ln-tl','rs-ln-tr','rs-ln-bl','rs-ln-br'];
+      lineIds.forEach(id => {
         const el = document.getElementById(id) as SVGPolylineElement | null;
         if (!el) return;
         const pts = el.points; let len = 0;
@@ -135,9 +167,49 @@ const RobotAnimation = () => {
         requestAnimationFrame(() => requestAnimationFrame(() => { el.style.strokeDashoffset = '0'; }));
       });
       await sleep(600);
+      // show cards
       ['rs-c-tl','rs-c-tr','rs-c-bl','rs-c-br'].forEach((id,i) => {
         setTimeout(() => document.getElementById(id)?.classList.add('rs-card-show'), i*120);
       });
+      await sleep(500);
+
+      // start travelling dots
+      const dotDefs = [
+        { lead:'rs-td-tl', trail:'rs-td-tl2', lineId:'rs-ln-tl', phase:0.00, speed:0.20, col:'#00D4FF', col2:'#4DA3FF' },
+        { lead:'rs-td-tr', trail:'rs-td-tr2', lineId:'rs-ln-tr', phase:0.30, speed:0.18, col:'#00D4FF', col2:'#4DA3FF' },
+        { lead:'rs-td-bl', trail:'rs-td-bl2', lineId:'rs-ln-bl', phase:0.60, speed:0.21, col:'#A78BFA', col2:'#7C3AED' },
+        { lead:'rs-td-br', trail:'rs-td-br2', lineId:'rs-ln-br', phase:0.82, speed:0.19, col:'#A78BFA', col2:'#7C3AED' },
+      ];
+      const paths = dotDefs.map(d => getpts(d.lineId));
+
+      // make dots visible
+      dotDefs.forEach(d => {
+        [d.lead, d.trail].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.style.opacity = '1';
+        });
+      });
+
+      let t0: number | null = null;
+      const TRAIL_OFFSET = 0.06;
+      const tick = (ts: number) => {
+        if (!t0) t0 = ts;
+        const s = (ts - t0) / 1000;
+        dotDefs.forEach((d, i) => {
+          const pts = paths[i];
+          if (!pts.length) return;
+          const t  = ((s * d.speed + d.phase) % 1);
+          const t2 = ((t - TRAIL_OFFSET + 1) % 1);
+          const p  = ptAt(pts, t);
+          const p2 = ptAt(pts, t2);
+          const lead  = document.getElementById(d.lead);
+          const trail = document.getElementById(d.trail);
+          if (lead)  { lead.setAttribute('cx', String(p.x));  lead.setAttribute('cy', String(p.y));  lead.setAttribute('opacity',  String(0.6 + 0.4*Math.sin(s*4 + d.phase*8))); }
+          if (trail) { trail.setAttribute('cx', String(p2.x)); trail.setAttribute('cy', String(p2.y)); trail.setAttribute('opacity', '0.3'); }
+        });
+        requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
     };
     animate();
   }, []);
@@ -180,6 +252,15 @@ const RobotAnimation = () => {
             <circle cx="548" cy="426" r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0.8"/>
             <circle cx="350" cy="94"  r="4" fill="#1A6FFF" filter="url(#rs-gf)" opacity="0.8"/>
             <circle cx="350" cy="426" r="4" fill="#7C3AED" filter="url(#rs-gf)" opacity="0.8"/>
+            {/* travelling dots — lead (bright) + trail (dim) per line */}
+            <circle id="rs-td-tl"  r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0"/>
+            <circle id="rs-td-tl2" r="3" fill="#4DA3FF" filter="url(#rs-gf)" opacity="0"/>
+            <circle id="rs-td-tr"  r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0"/>
+            <circle id="rs-td-tr2" r="3" fill="#4DA3FF" filter="url(#rs-gf)" opacity="0"/>
+            <circle id="rs-td-bl"  r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0"/>
+            <circle id="rs-td-bl2" r="3" fill="#7C3AED" filter="url(#rs-gf)" opacity="0"/>
+            <circle id="rs-td-br"  r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0"/>
+            <circle id="rs-td-br2" r="3" fill="#7C3AED" filter="url(#rs-gf)" opacity="0"/>
           </svg>
 
           {/* ── Cards ── */}
