@@ -1,4 +1,4 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -182,7 +182,7 @@
     box-shadow: var(--shadow-elegant);
   }
 
-  /* Glassmorphism — solid translucent (no backdrop-blur) for scroll perf */
+  /* Glassmorphism ΓÇö solid translucent (no backdrop-blur) for scroll perf */
   .glass {
     background: hsl(230 15% 11% / 0.92);
     border: 1px solid hsl(230 12% 22% / 0.4);
@@ -324,7 +324,7 @@ main > div > section {
   contain-intrinsic-size: 1px 900px;
 }
 
-/* Disable continuous infinite animations sitewide — they keep the GPU
+/* Disable continuous infinite animations sitewide ΓÇö they keep the GPU
    busy on every frame and hurt scroll smoothness. Keep one-shot enter
    animations and hover transitions intact. */
 .animate-gradient,
@@ -336,7 +336,7 @@ main > div > section {
   animation: none !important;
 }
 
-/* ── Robot Animation ─────────────────────────────────────────── */
+/* ΓöÇΓöÇ Robot Animation ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 .robot-stage {
   position: relative;
   width: 100%;
@@ -419,7 +419,7 @@ main > div > section {
   box-shadow: 0 0 10px #4DA3FF;
 }
 
-/* Robot root — float */
+/* Robot root ΓÇö float */
 .robot-root {
   animation: robotFloat 4.5s ease-in-out infinite;
 }
@@ -521,4 +521,128 @@ main > div > section {
   border: 6px solid transparent;
   border-top-color: rgba(0,160,240,.92);
 }
-/* ─────────────────────────────────────────────────────────────── */
+/* ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient,
+  .animate-pulse-glow,
+  .animate-breathe,
+  .shimmer {
+    animation: none !important;
+  }
+}
+
+/* Sparkle / twinkle keyframes for decorative elements */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.animate-twinkle { animation: twinkle 2.5s ease-in-out infinite; }
+
+/* Marquee for trust bar / strips */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 30s linear infinite; }
+
+/* Smooth image kenburns */
+@keyframes kenburns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.08) translate(-1%, -1%); }
+}
+.animate-kenburns { animation: kenburns 14s ease-in-out infinite alternate; }
+
+/* ── Hero 3D + Holographic Prism headline ── */
+@keyframes hero-word-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotateX(0deg); }
+  50%      { transform: translate3d(0, -14px, 30px) rotateX(3deg); }
+}
+@keyframes hero-title-tilt {
+  0%, 100% { transform: rotateX(0deg) rotateY(0deg); }
+  25%      { transform: rotateX(1.5deg) rotateY(-2deg); }
+  75%      { transform: rotateX(-1.5deg) rotateY(2deg); }
+}
+@keyframes prism-sweep {
+  0%   { background-position: 200% center; }
+  100% { background-position: -50% center; }
+}
+@keyframes holographic-glow {
+  0%, 100% { filter: brightness(1) drop-shadow(0 0 6px hsl(250 70% 60% / 0.18)); }
+  50%      { filter: brightness(1.05) drop-shadow(0 0 12px hsl(190 80% 55% / 0.25)); }
+}
+
+.hero-3d-title {
+  animation: hero-title-tilt 14s ease-in-out infinite;
+  will-change: transform;
+}
+.hero-word {
+  transition: transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1), text-shadow 500ms ease;
+  animation: hero-word-float 5s ease-in-out infinite;
+  text-shadow: 0 6px 24px hsl(0 0% 0% / 0.5);
+}
+.hero-word:nth-child(2) { animation-delay: 0.3s; }
+.hero-word:nth-child(3) { animation-delay: 0.6s; }
+.hero-word:nth-child(4) { animation-delay: 0.9s; }
+.hero-word:nth-child(5) { animation-delay: 1.2s; }
+
+/* Holographic prism — violet → cyan → magenta iridescence */
+.holo-text {
+  background: linear-gradient(
+    100deg,
+    hsl(250 70% 65%) 0%,
+    hsl(220 80% 70%) 20%,
+    hsl(190 85% 65%) 42%,
+    hsl(280 75% 70%) 58%,
+    hsl(320 70% 68%) 80%,
+    hsl(250 70% 65%) 100%
+  );
+  background-size: 250% auto;
+  background-position: 100% center;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: prism-sweep 6s linear infinite, holographic-glow 7s ease-in-out infinite;
+}
+
+.hero-word-glow {
+  animation:
+    hero-word-float 5s ease-in-out infinite,
+    prism-sweep 6s linear infinite,
+    holographic-glow 7s ease-in-out infinite;
+}
+.hero-word-businesses {
+  animation:
+    hero-word-float 5s ease-in-out infinite,
+    prism-sweep 6s linear infinite,
+    holographic-glow 7s ease-in-out infinite;
+}
+
+/* Kinetic blurred mirror layer sitting behind the word for depth */
+.kinetic-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
+  opacity: 0.55;
+  filter: blur(10px);
+  transform: translateZ(-10px);
+}
+
+.hero-word:hover {
+  text-shadow:
+    0 10px 40px hsl(250 70% 60% / 0.6),
+    0 0 60px hsl(190 80% 55% / 0.5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d-title,
+  .hero-word,
+  .hero-word-glow,
+  .hero-word-businesses,
+  .holo-text {
+    animation: none !important;
+  }
+}

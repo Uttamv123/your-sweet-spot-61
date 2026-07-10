@@ -109,13 +109,29 @@ const ServicesSection = () => {
             <TiltCard
               key={service.title}
               delay={i * 0.08}
-              className="relative group gradient-border-card rounded-2xl p-8 cursor-default"
+              className="relative group service-glass-card rounded-2xl p-8 cursor-default overflow-hidden"
             >
-              <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-glow-sm transition-all duration-500 ease-out">
-                <service.icon size={20} className="text-accent-foreground" />
+              {/* Ambient glow that follows hover */}
+              <div className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background:
+                    "radial-gradient(600px circle at 50% 0%, hsl(250 60% 58% / 0.18), transparent 40%)",
+                }}
+              />
+              {/* Sheen sweep */}
+              <span className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1400ms] ease-out"
+                style={{
+                  background:
+                    "linear-gradient(115deg, transparent 30%, hsl(0 0% 100% / 0.06) 50%, transparent 70%)",
+                }}
+              />
+              <div className="relative">
+                <div className="w-11 h-11 rounded-xl gradient-accent flex items-center justify-center mb-6 group-hover:scale-110 group-hover:shadow-glow-sm group-hover:-rotate-6 transition-all duration-500 ease-out">
+                  <service.icon size={20} className="text-accent-foreground transition-transform duration-500 group-hover:rotate-6" />
+                </div>
+                <h3 className="font-display text-lg font-semibold text-card-foreground mb-3 transition-transform duration-500 group-hover:translate-x-0.5">{service.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
               </div>
-              <h3 className="font-display text-lg font-semibold text-card-foreground mb-3">{service.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
             </TiltCard>
           ))}
         </div>

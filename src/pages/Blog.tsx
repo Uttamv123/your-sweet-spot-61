@@ -52,6 +52,18 @@ const blogPosts: BlogPost[] = [
     author: "Code Reflections Team",
     link:"/blog/future-of-ai.html",
   },
+  {
+    title: "The Truth About AI for Small Businesses in India: What Works and What Doesn't",
+    excerpt:
+      "A grounded look at where AI actually delivers value for small businesses in India — and where the hype falls short.",
+    category: "AI & Business",
+    date: "Jun 26, 2026",
+    readTime: "6 min read",
+    image:
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80",
+    author: "Code Reflections Team",
+    link: "/blog/truth-about-ai-small-business-india.html",
+  },
 ];
 
 const Blog = () => {
@@ -153,14 +165,16 @@ const Blog = () => {
           </motion.div>
 
           {/* Grid of posts */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" style={{ perspective: 1200 }}>
             {rest.map((post, index) => (
               <motion.article
                 key={post.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40, rotateX: 12 }}
+                whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: index * 0.08 }}
+                transition={{ duration: 0.75, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                whileHover={{ y: -12, rotateX: -3, rotateY: 3, transition: { duration: 0.4, ease: "easeOut" } }}
+                style={{ transformStyle: "preserve-3d" }}
               >
                 <a
                   href={post.link ?? "#"}
@@ -168,27 +182,28 @@ const Blog = () => {
                   rel={post.link ? "noopener noreferrer" : undefined}
                   className="block"
                 >
-                  <Card className="h-full group overflow-hidden border-border/60 hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 cursor-pointer">
-                    <div className="relative overflow-hidden aspect-[16/10]">
+                  <Card className="h-full group overflow-hidden portfolio-3d-card cursor-pointer">
+                    <div className="relative overflow-hidden aspect-[16/10] p3d-layer p3d-media">
                       <img
                         src={post.image}
                         alt={post.title}
                         loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-90 group-hover:opacity-60 transition-opacity duration-500" />
+                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1400ms] ease-out bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none" />
                     </div>
                     <CardContent className="p-6 flex flex-col">
-                      <span className="text-[11px] font-medium text-primary mb-3 uppercase tracking-[0.18em]">
+                      <span className="text-[11px] font-medium text-primary mb-3 uppercase tracking-[0.18em] p3d-layer p3d-title inline-block">
                         {post.category}
                       </span>
-                      <h2 className="font-display text-lg font-semibold text-card-foreground mb-3 leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                      <h2 className="font-display text-lg font-semibold text-card-foreground mb-3 leading-snug group-hover:text-primary transition-colors duration-300 line-clamp-2 p3d-layer p3d-title">
                         {post.title}
                       </h2>
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-5 line-clamp-3">
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-5 line-clamp-3 p3d-layer p3d-desc">
                         {post.excerpt}
                       </p>
-                      <div className="flex items-center justify-between pt-4 border-t border-border/50 mt-auto">
+                      <div className="flex items-center justify-between pt-4 border-t border-border/50 mt-auto p3d-layer p3d-tags">
                         <div className="flex items-center gap-3 text-[11px] text-muted-foreground">
                           <span className="flex items-center gap-1.5">
                             <Calendar size={11} />
@@ -199,8 +214,8 @@ const Blog = () => {
                             {post.readTime}
                           </span>
                         </div>
-                        <span className="text-xs font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
-                          Read <ArrowRight size={11} />
+                        <span className="text-xs font-medium text-primary flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+                          Read <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform duration-300" />
                         </span>
                       </div>
                     </CardContent>
@@ -209,6 +224,7 @@ const Blog = () => {
               </motion.article>
             ))}
           </div>
+
         </div>
       </main>
       <Footer />

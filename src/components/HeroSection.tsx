@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { scrollToSection } from "@/lib/scroll";
 import CalendlyModal from "@/components/CalendlyModal";
 
-// ─── Robot Animation Component ───────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ Robot Animation Component ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const RobotAnimation = () => {
   const robotRootRef = useRef<HTMLDivElement>(null);
   const robotSvgRef  = useRef<SVGSVGElement>(null);
@@ -181,7 +181,7 @@ const RobotAnimation = () => {
         <div ref={robotRootRef} className="robot-root" style={{ position:'relative', zIndex:2, width:190, height:210, cursor:'default' }}>
           {/* Sneeze bubble */}
           <div ref={bubbleRef} className="robot-achoo-bubble">
-            <div className="robot-bubble-inner">A‑ACHOO! 🤧</div>
+            <div className="robot-bubble-inner">AΓÇæACHOO! ≡ƒñº</div>
           </div>
 
           <svg ref={robotSvgRef} id="robot-body-svg-hero" width="190" height="210" viewBox="0 0 190 210" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible', transition:'transform .15s ease'}}>
@@ -270,12 +270,12 @@ const RobotAnimation = () => {
         <div className="robot-floor-shadow" />
       </div>
 
-      <div ref={blessRef} className="robot-bless-you">✦ Bless you, little bot ✦</div>
+      <div ref={blessRef} className="robot-bless-you">Γ£ª Bless you, little bot Γ£ª</div>
       <canvas ref={snotRef} className="robot-snot-canvas" style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:25,display:'none',width:'100%',height:'100%'}} />
     </div>
   );
 };
-// ─────────────────────────────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 
 const words = ["Intelligent", "Digital", "Systems", "for", "Modern"];
 const glowWords = ["Intelligent", "Systems"];
@@ -307,7 +307,7 @@ const HeroSection = () => {
       {/* Top + bottom fade to blend into adjacent sections */}
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent pointer-events-none z-10" />
-      {/* Static layered glow — no per-frame animation */}
+      {/* Static layered glow ΓÇö no per-frame animation */}
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
         style={{
@@ -333,7 +333,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8 }}
           className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16"
         >
-          {/* ── Left: Text content ── */}
+          {/* ΓöÇΓöÇ Left: Text content ΓöÇΓöÇ */}
           <div className="flex-1 min-w-0">
             {/* Badge */}
             <motion.div
@@ -420,7 +420,7 @@ const HeroSection = () => {
             </motion.div>
           </div>
 
-          {/* ── Right: Robot Animation ── */}
+          {/* ΓöÇΓöÇ Right: Robot Animation ΓöÇΓöÇ */}
           <motion.div
             initial={{ opacity: 0, x: 40, filter: "blur(8px)" }}
             animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
@@ -432,7 +432,7 @@ const HeroSection = () => {
         </motion.div>
       </div>
 
-      {/* Bottom gradient fade — extra tall to melt into next section */}
+      {/* Bottom gradient fade ΓÇö extra tall to melt into next section */}
       <div className="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-background via-background/90 to-transparent" />
 
       <CalendlyModal open={calendlyOpen} onOpenChange={setCalendlyOpen} />
