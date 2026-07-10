@@ -11,11 +11,18 @@ const RobotAnimation = () => {
   const robotRootRef= useRef<HTMLDivElement>(null);
   const robotSvgRef = useRef<SVGSVGElement>(null);
   const antennaRef  = useRef<SVGGElement>(null);
+  // Left eye refs
   const scleraRef   = useRef<SVGCircleElement>(null);
   const irisRef     = useRef<SVGCircleElement>(null);
   const pupilRef    = useRef<SVGCircleElement>(null);
   const catchRef    = useRef<SVGCircleElement>(null);
   const ring1Ref    = useRef<SVGCircleElement>(null);
+  // Right eye refs
+  const scleraRRef  = useRef<SVGCircleElement>(null);
+  const irisRRef    = useRef<SVGCircleElement>(null);
+  const pupilRRef   = useRef<SVGCircleElement>(null);
+  const catchRRef   = useRef<SVGCircleElement>(null);
+  const ring1RRef   = useRef<SVGCircleElement>(null);
   const squintRef   = useRef<SVGRectElement>(null);
   const squintLRef  = useRef<SVGPathElement>(null);
   const blushLRef   = useRef<SVGEllipseElement>(null);
@@ -25,24 +32,33 @@ const RobotAnimation = () => {
 
   /* ── eye tracking ── */
   useEffect(() => {
-    const EYE_CX = 79, EYE_CY = 58, MAX_TRAVEL = 4.5;
-    let tx = EYE_CX, ty = EYE_CY, cx = EYE_CX, cy = EYE_CY, raf: number;
-    const setPos = (x: number, y: number) => {
+    // Left eye base center: cx=75, Right eye base center: cx=115 (both at cy=58)
+    const L_CX = 75, R_CX = 115, EYE_CY = 58, MAX_TRAVEL = 4.0;
+    let tx = 0, ty = 0, cx = 0, cy = 0, raf: number;
+
+    const setPos = (ox: number, oy: number) => {
+      // Left eye
       [scleraRef, irisRef, pupilRef, ring1Ref].forEach(r => {
-        if (r.current) { r.current.setAttribute('cx', String(x)); r.current.setAttribute('cy', String(y)); }
+        if (r.current) { r.current.setAttribute('cx', String(L_CX + ox)); r.current.setAttribute('cy', String(EYE_CY + oy)); }
       });
-      if (catchRef.current) { catchRef.current.setAttribute('cx', String(x+2)); catchRef.current.setAttribute('cy', String(y-3)); }
+      if (catchRef.current) { catchRef.current.setAttribute('cx', String(L_CX + ox + 2)); catchRef.current.setAttribute('cy', String(EYE_CY + oy - 3)); }
+      // Right eye (same offset)
+      [scleraRRef, irisRRef, pupilRRef, ring1RRef].forEach(r => {
+        if (r.current) { r.current.setAttribute('cx', String(R_CX + ox)); r.current.setAttribute('cy', String(EYE_CY + oy)); }
+      });
+      if (catchRRef.current) { catchRRef.current.setAttribute('cx', String(R_CX + ox + 2)); catchRRef.current.setAttribute('cy', String(EYE_CY + oy - 3)); }
     };
+
     const onMove = (e: MouseEvent) => {
       const root = robotRootRef.current; if (!root) return;
       const rect = root.getBoundingClientRect();
-      const dx = e.clientX - (rect.left + rect.width*0.42);
-      const dy = e.clientY - (rect.top  + rect.height*0.30);
+      const dx = e.clientX - (rect.left + rect.width * 0.50);
+      const dy = e.clientY - (rect.top  + rect.height * 0.30);
       const angle = Math.atan2(dy, dx);
       const travel = Math.min(Math.sqrt(dx*dx+dy*dy)/60, 1) * MAX_TRAVEL;
-      tx = EYE_CX + Math.cos(angle)*travel; ty = EYE_CY + Math.sin(angle)*travel;
+      tx = Math.cos(angle) * travel; ty = Math.sin(angle) * travel;
     };
-    const loop = () => { cx += (tx-cx)*0.10; cy += (ty-cy)*0.10; setPos(cx,cy); raf = requestAnimationFrame(loop); };
+    const loop = () => { cx += (tx-cx)*0.10; cy += (ty-cy)*0.10; setPos(cx, cy); raf = requestAnimationFrame(loop); };
     window.addEventListener('mousemove', onMove);
     loop();
     return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); };
@@ -270,7 +286,8 @@ const RobotAnimation = () => {
                     <linearGradient id="rs-gChest" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,80,180,0.35)"/><stop offset="100%" stopColor="rgba(0,40,100,0.5)"/></linearGradient>
                     <filter id="rs-fSh" x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="rgba(0,0,0,0.45)"/></filter>
                     <filter id="rs-fGl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                    <clipPath id="rs-eyeClip"><rect x="58" y="46" width="42" height="24" rx="5"/></clipPath>
+                    <clipPath id="rs-eyeClip"><rect x="48" y="46" width="44" height="24" rx="5"/></clipPath>
+                    <clipPath id="rs-eyeClipR"><rect x="94" y="46" width="44" height="24" rx="5"/></clipPath>
                   </defs>
                   <ellipse cx="95" cy="204" rx="56" ry="7" fill="rgba(20,80,200,0.18)"/>
                   <circle cx="20" cy="154" r="18" fill="url(#rs-gSph)"  filter="url(#rs-fSh)"/>
@@ -294,17 +311,29 @@ const RobotAnimation = () => {
                   <ellipse cx="72" cy="38" rx="22" ry="11" fill="rgba(255,255,255,0.13)"/>
                   <rect x="26" y="42" width="20" height="30" rx="8" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
                   <rect x="144" y="42" width="20" height="30" rx="8" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
-                  <rect x="56" y="44" width="78" height="28" rx="14" fill="#060E24" stroke="rgba(77,163,255,0.55)" strokeWidth="1.6"/>
-                  <rect x="58" y="46" width="74" height="24" rx="12" fill="rgba(0,40,110,0.5)"/>
+                  {/* Visor — wider to hold two eyes */}
+                  <rect x="46" y="44" width="98" height="28" rx="14" fill="#060E24" stroke="rgba(77,163,255,0.55)" strokeWidth="1.6"/>
+                  <rect x="48" y="46" width="94" height="24" rx="12" fill="rgba(0,40,110,0.5)"/>
+                  {/* Left eye */}
                   <g clipPath="url(#rs-eyeClip)">
-                    <circle ref={scleraRef} cx="79" cy="58" r="11" fill="#0A1840"/>
-                    <circle ref={irisRef}   cx="79" cy="58" r="8"  fill="url(#rs-gEye)"/>
-                    <circle ref={pupilRef}  cx="79" cy="58" r="4.5" fill="#001830"/>
-                    <circle ref={catchRef}  cx="81" cy="55" r="1.8" fill="rgba(255,255,255,0.9)"/>
-                    <circle ref={ring1Ref}  cx="79" cy="58" r="6"  stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
+                    <circle ref={scleraRef} cx="75" cy="58" r="9"   fill="#0A1840"/>
+                    <circle ref={irisRef}   cx="75" cy="58" r="6.5" fill="url(#rs-gEye)"/>
+                    <circle ref={pupilRef}  cx="75" cy="58" r="3.5" fill="#001830"/>
+                    <circle ref={catchRef}  cx="77" cy="55" r="1.4" fill="rgba(255,255,255,0.9)"/>
+                    <circle ref={ring1Ref}  cx="75" cy="58" r="5"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
                   </g>
-                  <rect ref={squintRef}  x="56" y="44" width="78" height="28" rx="14" fill="#060E24" opacity="0"/>
-                  <path ref={squintLRef} d="M62 58 Q79 50 96 58" stroke="#4DA3FF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0"/>
+                  {/* Right eye */}
+                  <g clipPath="url(#rs-eyeClipR)">
+                    <circle ref={scleraRRef} cx="115" cy="58" r="9"   fill="#0A1840"/>
+                    <circle ref={irisRRef}   cx="115" cy="58" r="6.5" fill="url(#rs-gEye)"/>
+                    <circle ref={pupilRRef}  cx="115" cy="58" r="3.5" fill="#001830"/>
+                    <circle ref={catchRRef}  cx="117" cy="55" r="1.4" fill="rgba(255,255,255,0.9)"/>
+                    <circle ref={ring1RRef}  cx="115" cy="58" r="5"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
+                  </g>
+                  {/* Nose bridge divider */}
+                  <rect x="93" y="50" width="4" height="16" rx="2" fill="rgba(0,0,0,0.18)"/>
+                  <rect ref={squintRef}  x="46" y="44" width="98" height="28" rx="14" fill="#060E24" opacity="0"/>
+                  <path ref={squintLRef} d="M52 58 Q95 48 138 58" stroke="#4DA3FF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0"/>
                   <g ref={antennaRef}>
                     <rect x="92" y="10" width="6" height="22" rx="3" fill="url(#rs-gBody)"/>
                     <circle cx="95" cy="8" r="10" fill="#1A6FFF"/>
