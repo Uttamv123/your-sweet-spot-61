@@ -114,6 +114,32 @@ const RobotAnimation = () => {
     return () => root.removeEventListener('mouseenter', doSneeze);
   }, []);
 
+  /* ── 3D card tilt on hover ── */
+  useEffect(() => {
+    const cards = document.querySelectorAll<HTMLElement>('.rs-card');
+    const handlers: Array<{ el: HTMLElement; move: (e: MouseEvent) => void; leave: () => void }> = [];
+    cards.forEach(card => {
+      const move = (e: MouseEvent) => {
+        const r = card.getBoundingClientRect();
+        const dx = (e.clientX - r.left) / r.width  - 0.5;
+        const dy = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transform = `scale(1.04) translateY(-4px) rotateY(${dx*10}deg) rotateX(${-dy*8}deg)`;
+      };
+      const leave = () => {
+        card.style.transform = 'scale(1.04) translateY(-4px)';
+        // reset after transition
+        setTimeout(() => { if (!card.matches(':hover')) card.style.transform = ''; }, 300);
+      };
+      card.addEventListener('mousemove', move);
+      card.addEventListener('mouseleave', leave);
+      handlers.push({ el: card, move, leave });
+    });
+    return () => handlers.forEach(({ el, move, leave }) => {
+      el.removeEventListener('mousemove', move);
+      el.removeEventListener('mouseleave', leave);
+    });
+  }, []);
+
   /* ── SVG connector lines + travelling dots animation ── */
   useEffect(() => {
     const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
@@ -410,7 +436,7 @@ const RobotAnimation = () => {
             <div style={{position:'absolute',width:330,height:330,borderRadius:'50%',background:'radial-gradient(circle,rgba(26,111,255,.15) 0%,transparent 65%)',animation:'rs-cgp 3s ease-in-out infinite'}}/>
             <div style={{position:'absolute',width:220,height:220,borderRadius:'50%',background:'radial-gradient(circle,rgba(0,212,255,.10) 0%,transparent 60%)',animation:'rs-cgp 3s ease-in-out .7s infinite'}}/>
             {/* orbits */}
-            <div style={{position:'relative',width:240,height:240,display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <div className="rs-orbits" style={{position:'relative',width:240,height:240,display:'flex',alignItems:'center',justifyContent:'center'}}>
               <div className="rs-orbit rs-o1"><div className="rs-odot"/></div>
               <div className="rs-orbit rs-o2"><div className="rs-odot2"/></div>
               <div className="rs-orbit rs-o3"/>
