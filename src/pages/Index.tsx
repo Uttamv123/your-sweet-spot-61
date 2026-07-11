@@ -34,6 +34,8 @@ const Index = () => {
       }, 100);
       return () => clearTimeout(timer);
     }
+  }, [location.state]);
+
   return (
     <div className="min-h-screen bg-background relative">
       <AmbientBackground />
