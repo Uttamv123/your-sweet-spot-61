@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
@@ -18,6 +20,20 @@ import AmbientBackground from "@/components/AmbientBackground";
 import { SectionConnector, SectionGlow } from "@/components/SectionFlow";
 
 const Index = () => {
+  const location = useLocation();
+
+  // When navigated here from another page with a target section (e.g. clicking
+  // "Services" in the navbar while on /team), scroll to that section after mount.
+  useEffect(() => {
+    const state = location.state as { scrollTo?: string } | null;
+    if (state?.scrollTo) {
+      // Give the page a moment to fully render before scrolling
+      const timer = setTimeout(() => {
+        const el = document.getElementById(state.scrollTo!);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
   return (
     <div className="min-h-screen bg-background relative">
       <AmbientBackground />

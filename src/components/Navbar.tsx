@@ -48,10 +48,12 @@ const Navbar = () => {
       if (location.pathname !== "/") { navigate("/"); }
       else { window.scrollTo({ top: 0, behavior: "smooth" }); }
     } else {
+      const id = href.replace("#", "");
       if (location.pathname !== "/") {
-        navigate("/" + href);
+        // Navigate to home first, then scroll to the section once the page has mounted.
+        // We pass the target hash as state so Index can pick it up on load.
+        navigate("/", { state: { scrollTo: id } });
       } else {
-        const id = href.replace("#", "");
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
