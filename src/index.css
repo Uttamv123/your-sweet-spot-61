@@ -752,16 +752,16 @@ main > div > section {
 
 /* Orbits */
 .rs-orbit { position: absolute; border-radius: 50%; border-style: solid; transition: border-color .4s ease; }
-.rs-o1 { width:216px;height:216px;border-width:1.5px;border-color:rgba(77,163,255,.35) rgba(77,163,255,.08) rgba(77,163,255,.35) rgba(77,163,255,.08);animation:rs-spin 7s linear infinite; }
-.rs-o2 { width:256px;height:102px;border-width:1px;border-color:rgba(0,212,255,.22) transparent rgba(0,212,255,.22) transparent;animation:rs-spin 11s linear infinite reverse; }
-.rs-o3 { width:174px;height:174px;border-width:1px;border-color:rgba(124,58,237,.18) rgba(124,58,237,.04) rgba(124,58,237,.18) rgba(124,58,237,.04);animation:rs-spin 15s linear infinite; }
+.rs-o1 { width:260px;height:260px;border-width:1.5px;border-color:rgba(77,163,255,.35) rgba(77,163,255,.08) rgba(77,163,255,.35) rgba(77,163,255,.08);animation:rs-spin 7s linear infinite; }
+.rs-o2 { width:300px;height:120px;border-width:1px;border-color:rgba(0,212,255,.22) transparent rgba(0,212,255,.22) transparent;animation:rs-spin 11s linear infinite reverse; }
+.rs-o3 { width:210px;height:210px;border-width:1px;border-color:rgba(124,58,237,.18) rgba(124,58,237,.04) rgba(124,58,237,.18) rgba(124,58,237,.04);animation:rs-spin 15s linear infinite; }
 @keyframes rs-spin { to { transform: rotate(360deg); } }
 .rs-odot  { position:absolute;width:10px;height:10px;border-radius:50%;top:-5px;left:50%;transform:translateX(-50%);background:#00D4FF;box-shadow:0 0 12px #00D4FF,0 0 24px rgba(0,212,255,.5); }
 .rs-odot2 { position:absolute;width:7px;height:7px;border-radius:50%;top:-4px;right:18px;background:#4DA3FF;box-shadow:0 0 10px #4DA3FF; }
 
 /* Robot float */
 .rs-robot-root {
-  position:relative; z-index:2; width:190px; height:210px;
+  position:relative; z-index:2; width:230px; height:260px;
   animation: rs-float 4.5s ease-in-out infinite;
   filter: drop-shadow(0 0 22px rgba(77,163,255,.35)) drop-shadow(0 16px 32px rgba(0,0,0,.5));
   transition: filter .4s ease;
@@ -819,57 +819,100 @@ main > div > section {
 /* Joke bubble */
 .rs-joke-bubble {
   position: absolute;
-  top: -64px;
+  top: -90px;
   left: 50%;
-  transform: translateX(-55%) scale(0) rotate(2deg);
-  transform-origin: 40% 110%;
+  transform: translateX(-50%) scale(0) rotate(2deg);
+  transform-origin: 50% 110%;
   opacity: 0;
   z-index: 31;
   pointer-events: none;
-  max-width: 230px;
+  width: 280px;
   transition: transform .28s cubic-bezier(.34,1.56,.64,1), opacity .2s ease;
 }
 .rs-joke-bubble.rs-joke-show {
-  transform: translateX(-55%) scale(1) rotate(-1deg);
+  transform: translateX(-50%) scale(1) rotate(-0.5deg);
   opacity: 1;
 }
 .rs-joke-bubble.rs-joke-hide {
-  transform: translateX(-55%) scale(0) rotate(3deg);
+  transform: translateX(-50%) scale(0) rotate(3deg);
   opacity: 0;
   transition: transform .2s cubic-bezier(.55,0,1,.45), opacity .18s ease;
 }
 .rs-joke-text {
   display: block;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 11.5px;
+  font-size: 13.5px;
   font-weight: 600;
   color: #E8F4FF;
-  line-height: 1.5;
+  line-height: 1.6;
   letter-spacing: -.01em;
-  background: linear-gradient(135deg, rgba(15,30,80,.97), rgba(6,20,55,.95));
-  border: 1.5px solid rgba(0,212,255,.35);
-  border-radius: 14px;
-  padding: 8px 14px;
+  background: linear-gradient(135deg, rgba(10,22,60,.98), rgba(5,14,42,.96));
+  border: 1.5px solid rgba(0,212,255,.45);
+  border-radius: 16px;
+  padding: 12px 18px 14px;
   box-shadow:
-    0 0 0 3px rgba(0,212,255,.08),
-    0 8px 32px rgba(0,60,200,.45),
-    inset 0 1px 0 rgba(255,255,255,.06);
+    0 0 0 4px rgba(0,212,255,.07),
+    0 10px 40px rgba(0,60,200,.5),
+    inset 0 1px 0 rgba(255,255,255,.07);
   position: relative;
 }
 .rs-joke-text::after {
   content: '';
   position: absolute;
-  bottom: -10px;
-  left: 36px;
-  border: 5px solid transparent;
-  border-top-color: rgba(0,212,255,.35);
+  bottom: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: rgba(0,212,255,.45);
 }
 .rs-joke-text::before {
   content: '🤖';
   position: absolute;
-  top: -10px;
-  right: 12px;
-  font-size: 14px;
+  top: -12px;
+  right: 14px;
+  font-size: 16px;
+}
+
+/* ZZZ sleeping bubble */
+.rs-zzz-bubble {
+  position: absolute;
+  top: -54px;
+  right: -10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: #4DA3FF;
+  letter-spacing: .12em;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 32;
+  text-shadow: 0 0 12px rgba(77,163,255,.7), 0 0 24px rgba(0,212,255,.4);
+  animation: rs-zzz-drift 2.4s ease-in-out infinite;
+  transition: opacity .5s ease;
+}
+@keyframes rs-zzz-drift {
+  0%   { transform: translate(0,0) scale(1);    opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 0.7; }
+  100% { transform: translate(14px,-28px) scale(1.3); opacity: 0; }
+}
+
+/* Chest ring pulse */
+.rs-chest-ring {
+  animation: rs-ring-pulse 2s ease-in-out infinite;
+}
+@keyframes rs-ring-pulse {
+  0%,100% { stroke-opacity: 0.25; r: 8; }
+  50%     { stroke-opacity: 0.6;  r: 12; }
+}
+
+/* Antenna ring */
+.rs-ant-ring {
+  animation: rs-ant-pulse 3s ease-in-out infinite;
+}
+@keyframes rs-ant-pulse {
+  0%,100% { stroke-opacity: 0.15; }
+  50%     { stroke-opacity: 0.45; }
 }
 
 /* Bless you */

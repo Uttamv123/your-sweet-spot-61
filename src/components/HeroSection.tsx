@@ -30,12 +30,24 @@ const RobotAnimation = () => {
   const bubbleRef   = useRef<HTMLDivElement>(null);
   const blessRef    = useRef<HTMLDivElement>(null);
   const jokeRef     = useRef<HTMLDivElement>(null);
+  // Arm refs
+  const armLRef     = useRef<SVGGElement>(null);
+  const armRRef     = useRef<SVGGElement>(null);
+  // Gesture / idle state
+  const gestureRef  = useRef<'awake'|'sleeping'|'bored'|'wave'|'thinking'>('sleeping');
+  const nearbyRef   = useRef(false);
+  // Sleep eye overlay refs
+  const sleepLRef   = useRef<SVGRectElement>(null);
+  const sleepRRef   = useRef<SVGRectElement>(null);
+  // ZZZ ref
+  const zzzRef      = useRef<HTMLDivElement>(null);
 
-  /* ── eye tracking ── */
+  /* ── eye tracking + proximity detection ── */
   useEffect(() => {
-    // Left eye base center: cx=75, Right eye base center: cx=115 (both at cy=58)
-    const L_CX = 75, R_CX = 115, EYE_CY = 58, MAX_TRAVEL = 4.0;
+    // Left eye base center: cx=82, Right eye base center: cx=148 (both at cy=67)
+    const L_CX = 82, R_CX = 148, EYE_CY = 67, MAX_TRAVEL = 4.0;
     let tx = 0, ty = 0, cx = 0, cy = 0, raf: number;
+    let wakeTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const setPos = (ox: number, oy: number) => {
       // Left eye
@@ -50,19 +62,46 @@ const RobotAnimation = () => {
       if (catchRRef.current) { catchRRef.current.setAttribute('cx', String(R_CX + ox + 2)); catchRRef.current.setAttribute('cy', String(EYE_CY + oy - 3)); }
     };
 
+    const setEyesOpen = (open: boolean) => {
+      const op = open ? '0' : '1';
+      if (sleepLRef.current) sleepLRef.current.style.opacity = op;
+      if (sleepRRef.current) sleepRRef.current.style.opacity = op;
+    };
+
     const onMove = (e: MouseEvent) => {
       const root = robotRootRef.current; if (!root) return;
       const rect = root.getBoundingClientRect();
       const dx = e.clientX - (rect.left + rect.width * 0.50);
       const dy = e.clientY - (rect.top  + rect.height * 0.30);
-      const angle = Math.atan2(dy, dx);
-      const travel = Math.min(Math.sqrt(dx*dx+dy*dy)/60, 1) * MAX_TRAVEL;
-      tx = Math.cos(angle) * travel; ty = Math.sin(angle) * travel;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      const wasNear = nearbyRef.current;
+      nearbyRef.current = dist < 320;
+
+      if (nearbyRef.current && !wasNear) {
+        // Wake up!
+        if (wakeTimeout) clearTimeout(wakeTimeout);
+        gestureRef.current = 'awake';
+        setEyesOpen(true);
+        if (zzzRef.current) zzzRef.current.style.opacity = '0';
+        if (armLRef.current) { armLRef.current.style.transform = ''; }
+        if (armRRef.current) { armRRef.current.style.transform = ''; }
+        if (robotSvgRef.current) {
+          robotSvgRef.current.style.transform = '';
+          robotSvgRef.current.style.filter = 'drop-shadow(0 0 28px rgba(0,212,255,0.6))';
+          setTimeout(() => { if (robotSvgRef.current) robotSvgRef.current.style.filter = ''; }, 600);
+        }
+      }
+
+      if (nearbyRef.current) {
+        const angle = Math.atan2(dy, dx);
+        const travel = Math.min(dist/60, 1) * MAX_TRAVEL;
+        tx = Math.cos(angle) * travel; ty = Math.sin(angle) * travel;
+      }
     };
-    const loop = () => { cx += (tx-cx)*0.10; cy += (ty-cy)*0.10; setPos(cx, cy); raf = requestAnimationFrame(loop); };
+    const loop = () => { cx += (tx-cx)*0.10; cy += (ty-cy)*0.10; if (gestureRef.current === 'awake') setPos(cx, cy); raf = requestAnimationFrame(loop); };
     window.addEventListener('mousemove', onMove);
     loop();
-    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); };
+    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf); if (wakeTimeout) clearTimeout(wakeTimeout); };
   }, []);
 
   /* ── sneeze ── */
@@ -78,7 +117,7 @@ const RobotAnimation = () => {
     const setAnt = (r: number) => {
       if (!antennaRef.current) return;
       antennaRef.current.style.transform = `rotate(${r}deg)`;
-      antennaRef.current.style.transformOrigin = '95px 28px';
+      antennaRef.current.style.transformOrigin = '115px 8px';
     };
     const setSquint = (op: number) => {
       if (squintRef.current) squintRef.current.style.opacity = String(op);
@@ -90,7 +129,7 @@ const RobotAnimation = () => {
       blushRRef.current?.setAttribute('fill', col);
     };
     const doSneeze = async () => {
-      if (sneezing) return; sneezing = true;
+      if (sneezing || gestureRef.current !== 'awake') return; sneezing = true;
       setBody(-6,-5); setAnt(-12); await sleep(120);
       setSquint(0.5); await sleep(150);
       setBody(-9,-7); setAnt(10); await sleep(120);
@@ -113,6 +152,121 @@ const RobotAnimation = () => {
     };
     root.addEventListener('mouseenter', doSneeze);
     return () => root.removeEventListener('mouseenter', doSneeze);
+  }, []);
+
+  /* ── idle gestures (sleeping / bored / wave / thinking when cursor far) ── */
+  useEffect(() => {
+    const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+    let active = true;
+    let idleTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const setBody = (rot: number, ty: number) => {
+      if (!robotSvgRef.current) return;
+      robotSvgRef.current.style.transform = `rotate(${rot}deg) translateY(${ty}px)`;
+      robotSvgRef.current.style.transformOrigin = '50% 80%';
+    };
+    const setEyesOpen = (open: boolean) => {
+      const op = open ? '0' : '1';
+      if (sleepLRef.current) sleepLRef.current.style.opacity = op;
+      if (sleepRRef.current) sleepRRef.current.style.opacity = op;
+    };
+    const setArmL = (transform: string) => { if (armLRef.current) armLRef.current.style.transform = transform; };
+    const setArmR = (transform: string) => { if (armRRef.current) armRRef.current.style.transform = transform; };
+
+    const doSleep = async () => {
+      if (!active) return;
+      gestureRef.current = 'sleeping';
+      // Droop head slightly
+      setBody(6, 4);
+      setEyesOpen(false);
+      if (zzzRef.current) zzzRef.current.style.opacity = '1';
+      // Arms hang down
+      setArmL('rotate(15deg)');
+      setArmR('rotate(-15deg)');
+    };
+
+    const doBored = async () => {
+      if (!active) return;
+      gestureRef.current = 'bored';
+      setEyesOpen(true);
+      if (zzzRef.current) zzzRef.current.style.opacity = '0';
+      // Slouch
+      setBody(4, 2);
+      // One arm propped up (chin rest pose)
+      setArmL('rotate(-20deg) translateY(-8px)');
+      setArmR('rotate(5deg)');
+      await sleep(800);
+      if (!active || gestureRef.current !== 'bored') return;
+      // Occasional sigh: lean & come back
+      setBody(6, 3);
+      await sleep(600);
+      if (!active || gestureRef.current !== 'bored') return;
+      setBody(4, 2);
+    };
+
+    const doWave = async () => {
+      if (!active) return;
+      gestureRef.current = 'wave';
+      setEyesOpen(true);
+      if (zzzRef.current) zzzRef.current.style.opacity = '0';
+      setBody(0, 0);
+      // Wave right arm
+      setArmR('rotate(-60deg) translateY(-12px)');
+      await sleep(300);
+      if (!active) return;
+      setArmR('rotate(-30deg) translateY(-6px)');
+      await sleep(300);
+      if (!active) return;
+      setArmR('rotate(-60deg) translateY(-12px)');
+      await sleep(300);
+      if (!active) return;
+      setArmR('rotate(-30deg) translateY(-6px)');
+      await sleep(300);
+      if (!active) return;
+      setArmR('');
+      gestureRef.current = 'awake';
+    };
+
+    const doThinking = async () => {
+      if (!active) return;
+      gestureRef.current = 'thinking';
+      setEyesOpen(true);
+      if (zzzRef.current) zzzRef.current.style.opacity = '0';
+      setBody(-3, -2);
+      // Arm up to chin
+      setArmL('rotate(-35deg) translateY(-10px)');
+      setArmR('rotate(10deg)');
+    };
+
+    const idleGestures = ['sleeping', 'bored', 'wave', 'thinking'] as const;
+    let gestureIdx = 0;
+
+    const runIdleCycle = async () => {
+      if (!active) return;
+      // Only go idle if cursor is far
+      if (nearbyRef.current) {
+        idleTimer = setTimeout(runIdleCycle, 3000);
+        return;
+      }
+      const g = idleGestures[gestureIdx % idleGestures.length];
+      gestureIdx++;
+      if (g === 'sleeping') await doSleep();
+      else if (g === 'bored') await doBored();
+      else if (g === 'wave') await doWave();
+      else if (g === 'thinking') await doThinking();
+
+      if (!active) return;
+      const holdTime = g === 'sleeping' ? 7000 : g === 'bored' ? 5000 : g === 'thinking' ? 4000 : 2500;
+      idleTimer = setTimeout(runIdleCycle, holdTime);
+    };
+
+    // Start first idle after 4s
+    idleTimer = setTimeout(runIdleCycle, 4000);
+
+    return () => {
+      active = false;
+      if (idleTimer) clearTimeout(idleTimer);
+    };
   }, []);
 
   /* ── jokes & roasts timer ── */
@@ -147,22 +301,22 @@ const RobotAnimation = () => {
       if (inner) inner.textContent = jokes[idx];
       el.classList.remove('rs-joke-hide');
       el.classList.add('rs-joke-show');
-      await sleep(3800);
+      await sleep(5500); // visible for 5.5 seconds so it's readable
       if (!active) return;
       el.classList.add('rs-joke-hide');
       el.classList.remove('rs-joke-show');
     };
 
-    // first joke after 6s, then every 12s
+    // first joke after 5s, then every 16s
     const first = setTimeout(async () => {
       await showJoke();
       if (!active) return;
       const interval = setInterval(async () => {
         if (!active) { clearInterval(interval); return; }
         await showJoke();
-      }, 12000);
+      }, 16000);
       return () => clearInterval(interval);
-    }, 6000);
+    }, 5000);
 
     return () => { active = false; clearTimeout(first); };
   }, []);
@@ -294,15 +448,15 @@ const RobotAnimation = () => {
   }, []);
 
   return (
-    /* outer: clips overflow, sets aspect ratio to match the 700×520 inner scene */
-    <div style={{ position:'relative', width:'100%', paddingBottom:'74.28%' /* 520/700 */ }}>
-      {/* scaler: positions absolute, scales the 700×520 scene to 100% width */}
-      <div style={{ position:'absolute', inset:0, overflow:'hidden' }}>
+    /* outer: clips overflow, sets aspect ratio to match the 800×600 inner scene */
+    <div style={{ position:'relative', width:'100%', paddingBottom:'75%' /* 600/800 */ }}>
+      {/* scaler: positions absolute, scales the 800×600 scene to 100% width */}
+      <div style={{ position:'absolute', inset:0, overflow:'visible' }}>
         <div
           ref={stageRef}
           style={{
             position:'absolute', top:0, left:0,
-            width:700, height:520,
+            width:800, height:600,
             transformOrigin:'top left',
             transform:'scale(var(--rs-scale, 1))',
           }}
@@ -311,7 +465,7 @@ const RobotAnimation = () => {
 
           {/* ── SVG connector lines layer ── */}
           <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',overflow:'visible',pointerEvents:'none',zIndex:3}}
-            viewBox="0 0 700 520" preserveAspectRatio="xMidYMid meet">
+            viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
             <defs>
               <linearGradient id="rs-lg-tl" x1="100%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#00D4FF" stopOpacity=".5"/></linearGradient>
               <linearGradient id="rs-lg-tr" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#00D4FF" stopOpacity=".5"/></linearGradient>
@@ -319,18 +473,18 @@ const RobotAnimation = () => {
               <linearGradient id="rs-lg-br" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#7C3AED" stopOpacity=".5"/></linearGradient>
               <filter id="rs-gf"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
-            {/* lines from centre (350,240) to card corners */}
-            <polyline id="rs-ln-tl" points="350,218 350,94 152,94"  fill="none" stroke="url(#rs-lg-tl)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
-            <polyline id="rs-ln-tr" points="350,218 350,94 548,94"  fill="none" stroke="url(#rs-lg-tr)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
-            <polyline id="rs-ln-bl" points="350,292 350,426 152,426" fill="none" stroke="url(#rs-lg-bl)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
-            <polyline id="rs-ln-br" points="350,292 350,426 548,426" fill="none" stroke="url(#rs-lg-br)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            {/* lines from centre (400,290) to card corners — cards at ~x=170 and x=580, y=100 and y=490 */}
+            <polyline id="rs-ln-tl" points="400,255 400,100 175,100"  fill="none" stroke="url(#rs-lg-tl)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            <polyline id="rs-ln-tr" points="400,255 400,100 625,100"  fill="none" stroke="url(#rs-lg-tr)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            <polyline id="rs-ln-bl" points="400,335 400,490 175,490" fill="none" stroke="url(#rs-lg-bl)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            <polyline id="rs-ln-br" points="400,335 400,490 625,490" fill="none" stroke="url(#rs-lg-br)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
             {/* endpoint dots */}
-            <circle cx="152" cy="94"  r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="548" cy="94"  r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="152" cy="426" r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="548" cy="426" r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="350" cy="94"  r="4" fill="#1A6FFF" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="350" cy="426" r="4" fill="#7C3AED" filter="url(#rs-gf)" opacity="0.8"/>
+            <circle cx="175" cy="100" r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0.8"/>
+            <circle cx="625" cy="100" r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0.8"/>
+            <circle cx="175" cy="490" r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0.8"/>
+            <circle cx="625" cy="490" r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0.8"/>
+            <circle cx="400" cy="100" r="4" fill="#1A6FFF" filter="url(#rs-gf)" opacity="0.8"/>
+            <circle cx="400" cy="490" r="4" fill="#7C3AED" filter="url(#rs-gf)" opacity="0.8"/>
             {/* travelling dots — lead (bright) + trail (dim) per line */}
             <circle id="rs-td-tl"  r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0"/>
             <circle id="rs-td-tl2" r="3" fill="#4DA3FF" filter="url(#rs-gf)" opacity="0"/>
@@ -344,7 +498,7 @@ const RobotAnimation = () => {
 
           {/* ── Cards ── */}
           {/* Top-left: Custom Web Development */}
-          <div id="rs-c-tl" className="rs-card" style={{top:16, left:16, width:220}}>
+          <div id="rs-c-tl" className="rs-card" style={{top:16, left:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Browser window */}
@@ -379,7 +533,7 @@ const RobotAnimation = () => {
           </div>
 
           {/* Top-right: AI Workflow Automation */}
-          <div id="rs-c-tr" className="rs-card" style={{top:16, right:16, width:220}}>
+          <div id="rs-c-tr" className="rs-card" style={{top:16, right:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Flow nodes */}
@@ -415,7 +569,7 @@ const RobotAnimation = () => {
           </div>
 
           {/* Bottom-left: CRM & System Integration */}
-          <div id="rs-c-bl" className="rs-card" style={{bottom:16, left:16, width:220}}>
+          <div id="rs-c-bl" className="rs-card" style={{bottom:16, left:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Central hub */}
@@ -449,7 +603,7 @@ const RobotAnimation = () => {
           </div>
 
           {/* Bottom-right: UI/UX Optimisation */}
-          <div id="rs-c-br" className="rs-card" style={{bottom:16, right:16, width:220}}>
+          <div id="rs-c-br" className="rs-card" style={{bottom:16, right:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Phone frame */}
@@ -486,10 +640,10 @@ const RobotAnimation = () => {
           {/* ── Center robot zone ── */}
           <div style={{position:'absolute',left:'50%',top:'50%',transform:'translate(-50%,-52%)',zIndex:6,display:'flex',flexDirection:'column',alignItems:'center'}}>
             {/* glow halos */}
-            <div style={{position:'absolute',width:330,height:330,borderRadius:'50%',background:'radial-gradient(circle,rgba(26,111,255,.15) 0%,transparent 65%)',animation:'rs-cgp 3s ease-in-out infinite'}}/>
-            <div style={{position:'absolute',width:220,height:220,borderRadius:'50%',background:'radial-gradient(circle,rgba(0,212,255,.10) 0%,transparent 60%)',animation:'rs-cgp 3s ease-in-out .7s infinite'}}/>
+            <div style={{position:'absolute',width:380,height:380,borderRadius:'50%',background:'radial-gradient(circle,rgba(26,111,255,.15) 0%,transparent 65%)',animation:'rs-cgp 3s ease-in-out infinite'}}/>
+            <div style={{position:'absolute',width:260,height:260,borderRadius:'50%',background:'radial-gradient(circle,rgba(0,212,255,.10) 0%,transparent 60%)',animation:'rs-cgp 3s ease-in-out .7s infinite'}}/>
             {/* orbits */}
-            <div className="rs-orbits" style={{position:'relative',width:240,height:240,display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <div className="rs-orbits" style={{position:'relative',width:280,height:280,display:'flex',alignItems:'center',justifyContent:'center'}}>
               <div className="rs-orbit rs-o1"><div className="rs-odot"/></div>
               <div className="rs-orbit rs-o2"><div className="rs-odot2"/></div>
               <div className="rs-orbit rs-o3"/>
@@ -497,7 +651,8 @@ const RobotAnimation = () => {
               <div ref={robotRootRef} className="rs-robot-root">
                 <div ref={bubbleRef} className="rs-achoo-bubble"><div className="rs-bubble-inner">A‑ACHOO! 🤧</div></div>
                 <div ref={jokeRef} className="rs-joke-bubble"><span className="rs-joke-text"></span></div>
-                <svg ref={robotSvgRef} width="190" height="210" viewBox="0 0 190 210" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible',transition:'transform .15s ease'}}>
+                <div ref={zzzRef} className="rs-zzz-bubble">z z Z</div>
+                <svg ref={robotSvgRef} width="230" height="260" viewBox="0 0 230 260" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible',transition:'transform .3s ease'}}>
                   <defs>
                     <radialGradient id="rs-gBody" cx="38%" cy="22%" r="72%"><stop offset="0%" stopColor="#E2ECF4"/><stop offset="40%" stopColor="#A8BAC8"/><stop offset="100%" stopColor="#52606E"/></radialGradient>
                     <radialGradient id="rs-gHead" cx="35%" cy="18%" r="75%"><stop offset="0%" stopColor="#EBF3FA"/><stop offset="45%" stopColor="#AABCCC"/><stop offset="100%" stopColor="#4E5C6A"/></radialGradient>
@@ -505,71 +660,158 @@ const RobotAnimation = () => {
                     <radialGradient id="rs-gSph2" cx="30%" cy="22%" r="70%"><stop offset="0%" stopColor="#A8B8C6"/><stop offset="100%" stopColor="#323840"/></radialGradient>
                     <radialGradient id="rs-gEye"  cx="38%" cy="30%" r="70%"><stop offset="0%" stopColor="#A0EEFF"/><stop offset="45%" stopColor="#0099EE"/><stop offset="100%" stopColor="#003A88"/></radialGradient>
                     <radialGradient id="rs-gAnt"  cx="40%" cy="28%" r="68%"><stop offset="0%" stopColor="#70DAFF"/><stop offset="100%" stopColor="#0060CC"/></radialGradient>
+                    <radialGradient id="rs-gArm"  cx="30%" cy="20%" r="75%"><stop offset="0%" stopColor="#D0DCE8"/><stop offset="100%" stopColor="#4A5660"/></radialGradient>
                     <linearGradient id="rs-gChest" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,80,180,0.35)"/><stop offset="100%" stopColor="rgba(0,40,100,0.5)"/></linearGradient>
                     <filter id="rs-fSh" x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="rgba(0,0,0,0.45)"/></filter>
                     <filter id="rs-fGl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                    <clipPath id="rs-eyeClip"><rect x="48" y="46" width="44" height="24" rx="5"/></clipPath>
-                    <clipPath id="rs-eyeClipR"><rect x="94" y="46" width="44" height="24" rx="5"/></clipPath>
+                    <clipPath id="rs-eyeClip"><rect x="58" y="56" width="44" height="24" rx="5"/></clipPath>
+                    <clipPath id="rs-eyeClipR"><rect x="114" y="56" width="44" height="24" rx="5"/></clipPath>
                   </defs>
-                  <ellipse cx="95" cy="204" rx="56" ry="7" fill="rgba(20,80,200,0.18)"/>
-                  <circle cx="20" cy="154" r="18" fill="url(#rs-gSph)"  filter="url(#rs-fSh)"/>
-                  <circle cx="170" cy="154" r="18" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
-                  <circle cx="46" cy="174" r="14" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
-                  <circle cx="144" cy="174" r="14" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
-                  <circle cx="95" cy="182" r="12" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="15" cy="148" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-                  <ellipse cx="165" cy="148" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-                  <ellipse cx="95" cy="136" rx="48" ry="52" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="78" cy="112" rx="20" ry="28" fill="rgba(255,255,255,0.09)"/>
-                  <rect x="66" y="116" width="58" height="42" rx="9" fill="url(#rs-gChest)" stroke="rgba(77,163,255,0.6)" strokeWidth="1.5"/>
-                  <rect x="66" y="116" width="58" height="42" rx="9" fill="none" stroke="rgba(0,212,255,0.2)" strokeWidth="3"/>
-                  <rect x="73" y="123" width="18" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".9"/>
-                  <rect x="73" y="130" width="28" height="3.5" rx="1.75" fill="#00D4FF" opacity=".75"/>
-                  <rect x="73" y="137" width="14" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".6"/>
-                  <rect x="73" y="144" width="22" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".4"/>
-                  <circle cx="108" cy="124" r="3.5" fill="#00D4FF" filter="url(#rs-fGl)"/>
-                  <rect x="81" y="80" width="28" height="18" rx="6" fill="url(#rs-gBody)"/>
-                  <rect x="44" y="28" width="102" height="64" rx="24" fill="url(#rs-gHead)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="72" cy="38" rx="22" ry="11" fill="rgba(255,255,255,0.13)"/>
-                  <rect x="26" y="42" width="20" height="30" rx="8" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
-                  <rect x="144" y="42" width="20" height="30" rx="8" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
+
+                  {/* Shadow */}
+                  <ellipse cx="115" cy="254" rx="62" ry="7" fill="rgba(20,80,200,0.18)"/>
+
+                  {/* Legs / feet */}
+                  <circle cx="82"  cy="224" r="16" fill="url(#rs-gSph)"  filter="url(#rs-fSh)"/>
+                  <circle cx="148" cy="224" r="16" fill="url(#rs-gSph)"  filter="url(#rs-fSh)"/>
+                  <circle cx="90"  cy="242" r="12" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
+                  <circle cx="140" cy="242" r="12" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
+                  <circle cx="115" cy="246" r="11" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="78"  cy="218" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
+                  <ellipse cx="144" cy="218" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
+
+                  {/* Body */}
+                  <ellipse cx="115" cy="178" rx="52" ry="56" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="96"  cy="152" rx="22" ry="28" fill="rgba(255,255,255,0.09)"/>
+
+                  {/* Chest panel */}
+                  <rect x="82" y="152" width="66" height="46" rx="10" fill="url(#rs-gChest)" stroke="rgba(77,163,255,0.6)" strokeWidth="1.5"/>
+                  <rect x="82" y="152" width="66" height="46" rx="10" fill="none" stroke="rgba(0,212,255,0.2)" strokeWidth="3"/>
+                  <rect x="90" y="160" width="20" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".9"/>
+                  <rect x="90" y="167" width="32" height="3.5" rx="1.75" fill="#00D4FF" opacity=".75"/>
+                  <rect x="90" y="174" width="16" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".6"/>
+                  <rect x="90" y="181" width="24" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".4"/>
+                  <circle cx="128" cy="162" r="4" fill="#00D4FF" filter="url(#rs-fGl)"/>
+                  {/* Chest animated ring */}
+                  <circle cx="128" cy="162" r="8" stroke="rgba(0,212,255,0.25)" strokeWidth="1" fill="none" className="rs-chest-ring"/>
+                  {/* Circuit lines on chest */}
+                  <path d="M90 188 L82 188 L82 192" stroke="rgba(77,163,255,0.4)" strokeWidth="1" fill="none"/>
+                  <path d="M140 188 L148 188 L148 192" stroke="rgba(77,163,255,0.4)" strokeWidth="1" fill="none"/>
+
+                  {/* Neck */}
+                  <rect x="101" y="98" width="28" height="20" rx="7" fill="url(#rs-gBody)"/>
+
+                  {/* ── Left Arm ── */}
+                  <g ref={armLRef} style={{transformOrigin:'30px 160px', transition:'transform 0.5s ease'}}>
+                    {/* Upper arm */}
+                    <rect x="22" y="148" width="22" height="42" rx="11" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="25" cy="152" rx="5" ry="3" fill="rgba(255,255,255,0.18)"/>
+                    {/* Elbow joint */}
+                    <circle cx="33" cy="192" r="10" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
+                    {/* Forearm */}
+                    <rect x="25" y="192" width="18" height="32" rx="9" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    {/* Hand */}
+                    <circle cx="34" cy="228" r="11" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
+                    {/* Finger nubs */}
+                    <circle cx="26" cy="236" r="4" fill="url(#rs-gArm)"/>
+                    <circle cx="34" cy="239" r="4" fill="url(#rs-gArm)"/>
+                    <circle cx="42" cy="236" r="4" fill="url(#rs-gArm)"/>
+                    {/* Arm panel accent */}
+                    <rect x="26" y="162" width="14" height="2" rx="1" fill="rgba(0,212,255,0.4)"/>
+                    <rect x="26" y="167" width="10" height="2" rx="1" fill="rgba(77,163,255,0.3)"/>
+                  </g>
+
+                  {/* ── Right Arm ── */}
+                  <g ref={armRRef} style={{transformOrigin:'196px 160px', transition:'transform 0.5s ease'}}>
+                    {/* Upper arm */}
+                    <rect x="186" y="148" width="22" height="42" rx="11" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="200" cy="152" rx="5" ry="3" fill="rgba(255,255,255,0.18)"/>
+                    {/* Elbow joint */}
+                    <circle cx="197" cy="192" r="10" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
+                    {/* Forearm */}
+                    <rect x="187" y="192" width="18" height="32" rx="9" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    {/* Hand */}
+                    <circle cx="196" cy="228" r="11" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
+                    {/* Finger nubs */}
+                    <circle cx="188" cy="236" r="4" fill="url(#rs-gArm)"/>
+                    <circle cx="196" cy="239" r="4" fill="url(#rs-gArm)"/>
+                    <circle cx="204" cy="236" r="4" fill="url(#rs-gArm)"/>
+                    {/* Arm panel accent */}
+                    <rect x="190" y="162" width="14" height="2" rx="1" fill="rgba(0,212,255,0.4)"/>
+                    <rect x="190" y="167" width="10" height="2" rx="1" fill="rgba(77,163,255,0.3)"/>
+                  </g>
+
+                  {/* Head */}
+                  <rect x="54" y="28" width="122" height="78" rx="28" fill="url(#rs-gHead)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="88"  cy="40" rx="26" ry="12" fill="rgba(255,255,255,0.13)"/>
+
+                  {/* Ear panels */}
+                  <rect x="34" y="48" width="22" height="34" rx="9" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
+                  <rect x="174" y="48" width="22" height="34" rx="9" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
+                  {/* Ear details */}
+                  <rect x="38" y="54" width="14" height="2" rx="1" fill="rgba(0,212,255,0.5)"/>
+                  <rect x="38" y="59" width="10" height="2" rx="1" fill="rgba(0,212,255,0.3)"/>
+                  <rect x="178" y="54" width="14" height="2" rx="1" fill="rgba(0,212,255,0.5)"/>
+                  <rect x="178" y="59" width="10" height="2" rx="1" fill="rgba(0,212,255,0.3)"/>
+
                   {/* Visor — wider to hold two eyes */}
-                  <rect x="46" y="44" width="98" height="28" rx="14" fill="#060E24" stroke="rgba(77,163,255,0.55)" strokeWidth="1.6"/>
-                  <rect x="48" y="46" width="94" height="24" rx="12" fill="rgba(0,40,110,0.5)"/>
+                  <rect x="56" y="50" width="118" height="34" rx="17" fill="#060E24" stroke="rgba(77,163,255,0.55)" strokeWidth="1.6"/>
+                  <rect x="58" y="52" width="114" height="30" rx="15" fill="rgba(0,40,110,0.5)"/>
+
                   {/* Left eye */}
                   <g clipPath="url(#rs-eyeClip)">
-                    <circle ref={scleraRef} cx="75" cy="58" r="9"   fill="#0A1840"/>
-                    <circle ref={irisRef}   cx="75" cy="58" r="6.5" fill="url(#rs-gEye)"/>
-                    <circle ref={pupilRef}  cx="75" cy="58" r="3.5" fill="#001830"/>
-                    <circle ref={catchRef}  cx="77" cy="55" r="1.4" fill="rgba(255,255,255,0.9)"/>
-                    <circle ref={ring1Ref}  cx="75" cy="58" r="5"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
+                    <circle ref={scleraRef} cx="82"  cy="67" r="10"  fill="#0A1840"/>
+                    <circle ref={irisRef}   cx="82"  cy="67" r="7.5" fill="url(#rs-gEye)"/>
+                    <circle ref={pupilRef}  cx="82"  cy="67" r="4"   fill="#001830"/>
+                    <circle ref={catchRef}  cx="84"  cy="64" r="1.6" fill="rgba(255,255,255,0.9)"/>
+                    <circle ref={ring1Ref}  cx="82"  cy="67" r="6"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
+                    {/* Sleep lid overlay */}
+                    <rect ref={sleepLRef} x="58" y="56" width="44" height="24" rx="5" fill="#060E24" opacity="0" style={{transition:'opacity 0.6s ease'}}/>
                   </g>
                   {/* Right eye */}
                   <g clipPath="url(#rs-eyeClipR)">
-                    <circle ref={scleraRRef} cx="115" cy="58" r="9"   fill="#0A1840"/>
-                    <circle ref={irisRRef}   cx="115" cy="58" r="6.5" fill="url(#rs-gEye)"/>
-                    <circle ref={pupilRRef}  cx="115" cy="58" r="3.5" fill="#001830"/>
-                    <circle ref={catchRRef}  cx="117" cy="55" r="1.4" fill="rgba(255,255,255,0.9)"/>
-                    <circle ref={ring1RRef}  cx="115" cy="58" r="5"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
+                    <circle ref={scleraRRef} cx="148" cy="67" r="10"  fill="#0A1840"/>
+                    <circle ref={irisRRef}   cx="148" cy="67" r="7.5" fill="url(#rs-gEye)"/>
+                    <circle ref={pupilRRef}  cx="148" cy="67" r="4"   fill="#001830"/>
+                    <circle ref={catchRRef}  cx="150" cy="64" r="1.6" fill="rgba(255,255,255,0.9)"/>
+                    <circle ref={ring1RRef}  cx="148" cy="67" r="6"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
+                    {/* Sleep lid overlay */}
+                    <rect ref={sleepRRef} x="114" y="56" width="44" height="24" rx="5" fill="#060E24" opacity="0" style={{transition:'opacity 0.6s ease'}}/>
                   </g>
+
                   {/* Nose bridge divider */}
-                  <rect x="93" y="50" width="4" height="16" rx="2" fill="rgba(0,0,0,0.18)"/>
-                  <rect ref={squintRef}  x="46" y="44" width="98" height="28" rx="14" fill="#060E24" opacity="0"/>
-                  <path ref={squintLRef} d="M52 58 Q95 48 138 58" stroke="#4DA3FF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0"/>
+                  <rect x="112" y="58" width="6" height="18" rx="3" fill="rgba(0,0,0,0.18)"/>
+
+                  {/* Mouth / speaker grille */}
+                  <rect x="90" y="92" width="50" height="8" rx="4" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" strokeWidth="1"/>
+                  <rect x="96"  y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.6)"/>
+                  <rect x="106" y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.5)"/>
+                  <rect x="116" y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.6)"/>
+                  <rect x="126" y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.4)"/>
+
+                  {/* Squint overlays */}
+                  <rect ref={squintRef}  x="56" y="50" width="118" height="34" rx="17" fill="#060E24" opacity="0"/>
+                  <path ref={squintLRef} d="M62 67 Q115 56 168 67" stroke="#4DA3FF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0"/>
+
+                  {/* Antenna */}
                   <g ref={antennaRef}>
-                    <rect x="92" y="10" width="6" height="22" rx="3" fill="url(#rs-gBody)"/>
-                    <circle cx="95" cy="8" r="10" fill="#1A6FFF"/>
-                    <circle cx="95" cy="8" r="6.5" fill="url(#rs-gAnt)"/>
-                    <circle cx="95" cy="8" r="3"   fill="rgba(255,255,255,0.92)"/>
-                    <circle cx="95" cy="8" r="14"  stroke="rgba(0,212,255,0.28)" strokeWidth="1.2" fill="none"/>
+                    <rect x="112" y="10" width="6" height="22" rx="3" fill="url(#rs-gBody)"/>
+                    <circle cx="115" cy="8" r="12"  fill="#1A6FFF"/>
+                    <circle cx="115" cy="8" r="8"   fill="url(#rs-gAnt)"/>
+                    <circle cx="115" cy="8" r="3.5" fill="rgba(255,255,255,0.92)"/>
+                    <circle cx="115" cy="8" r="16"  stroke="rgba(0,212,255,0.28)" strokeWidth="1.2" fill="none"/>
+                    {/* Antenna ring pulse */}
+                    <circle cx="115" cy="8" r="20"  stroke="rgba(0,212,255,0.15)" strokeWidth="1" fill="none" className="rs-ant-ring"/>
                   </g>
-                  <ellipse ref={blushLRef} cx="52"  cy="70" rx="10" ry="6" fill="rgba(255,100,140,0)"/>
-                  <ellipse ref={blushRRef} cx="138" cy="70" rx="10" ry="6" fill="rgba(255,100,140,0)"/>
+
+                  {/* Blush */}
+                  <ellipse ref={blushLRef} cx="62"  cy="84" rx="12" ry="7" fill="rgba(255,100,140,0)"/>
+                  <ellipse ref={blushRRef} cx="168" cy="84" rx="12" ry="7" fill="rgba(255,100,140,0)"/>
                 </svg>
               </div>
             </div>
             {/* floor */}
-            <div style={{position:'relative',width:340,height:60,marginTop:-10}}>
+            <div style={{position:'relative',width:380,height:70,marginTop:-10}}>
               <div className="rs-floor-grid"/>
               <div className="rs-floor-shadow"/>
             </div>
@@ -593,8 +835,8 @@ const HeroSection = () => {
   useEffect(() => {
     const update = () => {
       document.querySelectorAll<HTMLElement>('.rs-scale-stage').forEach(el => {
-        const w = el.parentElement?.offsetWidth ?? 700;
-        el.style.setProperty('--rs-scale', String(w / 700));
+        const w = el.parentElement?.offsetWidth ?? 800;
+        el.style.setProperty('--rs-scale', String(w / 800));
       });
     };
     update();
