@@ -669,38 +669,31 @@ const RobotAnimation = () => {
                   </defs>
                   {/* Shadow */}
                   <ellipse cx="115" cy="256" rx="58" ry="6" fill="rgba(10,40,140,0.22)"/>
-                  {/* Legs */}
-                  <rect x="80" y="208" width="26" height="32" rx="13" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
-                  <rect x="124" y="208" width="26" height="32" rx="13" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="93"  cy="240" rx="16" ry="9"  fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="137" cy="240" rx="16" ry="9"  fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="88"  cy="235" rx="5"  ry="3"  fill="rgba(255,255,255,0.22)"/>
-                  <ellipse cx="132" cy="235" rx="5"  ry="3"  fill="rgba(255,255,255,0.22)"/>
-                  {/* Body */}
-                  <rect x="58" y="138" width="114" height="82" rx="36" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="90" cy="150" rx="24" ry="14" fill="rgba(255,255,255,0.12)"/>
+                  {/* Body — round chubby belly, no legs */}
+                  <ellipse cx="115" cy="190" rx="58" ry="54" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="92" cy="162" rx="26" ry="15" fill="rgba(255,255,255,0.12)"/>
                   {/* Belly panel */}
-                  <rect x="76" y="150" width="78" height="54" rx="18" fill="url(#rs-gBelly)" stroke="rgba(77,163,255,0.5)" strokeWidth="1.4"/>
+                  <rect x="76" y="162" width="78" height="54" rx="20" fill="url(#rs-gBelly)" stroke="rgba(77,163,255,0.5)" strokeWidth="1.4"/>
                   {/* Heart */}
-                  <path d="M115 171 C115 171 107 163 103 166 C99 169 102 175 115 181 C128 175 131 169 127 166 C123 163 115 171 115 171Z" fill="rgba(0,212,255,0.65)" filter="url(#rs-fSoft)"/>
-                  <rect x="84" y="160" width="20" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".8"/>
-                  <rect x="84" y="165" width="30" height="2.5" rx="1.25" fill="#00D4FF" opacity=".6"/>
-                  <rect x="84" y="186" width="16" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".5"/>
-                  <circle cx="138" cy="166" r="5" fill="#00D4FF" filter="url(#rs-fGl)"/>
-                  <circle cx="138" cy="166" r="9" stroke="rgba(0,212,255,0.2)" strokeWidth="1" fill="none" className="rs-chest-ring"/>
-                  {/* Left Arm */}
-                  <g ref={armLRef} style={{transformOrigin:'46px 156px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
-                    <rect x="32" y="146" width="28" height="48" rx="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    <ellipse cx="38" cy="152" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-                    <circle cx="46" cy="202" r="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    <ellipse cx="42" cy="196" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
+                  <path d="M115 182 C115 182 107 174 103 177 C99 180 102 186 115 192 C128 186 131 180 127 177 C123 174 115 182 115 182Z" fill="rgba(0,212,255,0.65)" filter="url(#rs-fSoft)"/>
+                  <rect x="84" y="170" width="20" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".8"/>
+                  <rect x="84" y="175" width="30" height="2.5" rx="1.25" fill="#00D4FF" opacity=".6"/>
+                  <rect x="84" y="196" width="16" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".5"/>
+                  <circle cx="138" cy="174" r="5" fill="#00D4FF" filter="url(#rs-fGl)"/>
+                  <circle cx="138" cy="174" r="9" stroke="rgba(0,212,255,0.2)" strokeWidth="1" fill="none" className="rs-chest-ring"/>
+                  {/* Left Arm — attaches to round body sides */}
+                  <g ref={armLRef} style={{transformOrigin:'40px 172px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
+                    <rect x="26" y="162" width="30" height="46" rx="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="32" cy="168" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
+                    <circle cx="41" cy="215" r="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="37" cy="209" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
                   </g>
                   {/* Right Arm */}
-                  <g ref={armRRef} style={{transformOrigin:'184px 156px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
-                    <rect x="170" y="146" width="28" height="48" rx="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    <ellipse cx="190" cy="152" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-                    <circle cx="184" cy="202" r="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    <ellipse cx="180" cy="196" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
+                  <g ref={armRRef} style={{transformOrigin:'190px 172px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
+                    <rect x="174" y="162" width="30" height="46" rx="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="196" cy="168" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
+                    <circle cx="189" cy="215" r="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="185" cy="209" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
                   </g>
                   {/* Head — big round cute */}
                   <ellipse cx="115" cy="80" rx="66" ry="62" fill="url(#rs-gHead)" filter="url(#rs-fSh)"/>
@@ -734,11 +727,9 @@ const RobotAnimation = () => {
                     <circle ref={ring1RRef}  cx="150" cy="68" r="7.5" stroke="rgba(0,220,255,0.4)" strokeWidth="1" fill="none"/>
                     <rect ref={sleepRRef} x="134" y="52" width="32" height="32" rx="6" fill="#040C20" opacity="0" style={{transition:'opacity 0.5s ease'}}/>
                   </g>
-                  {/* Cute smile */}
-                  <rect x="92" y="98" width="46" height="15" rx="7.5" fill="rgba(0,30,80,0.65)" stroke="rgba(0,200,255,0.3)" strokeWidth="1"/>
-                  <path d="M99 102 Q115 113 131 102" stroke="#00D4FF" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-                  <rect x="107" y="102" width="5" height="6" rx="2" fill="rgba(200,240,255,0.8)"/>
-                  <rect x="115" y="102" width="5" height="6" rx="2" fill="rgba(200,240,255,0.8)"/>
+                  {/* Cute smile — no teeth, just a clean arc */}
+                  <rect x="92" y="98" width="46" height="15" rx="7.5" fill="rgba(0,30,80,0.6)" stroke="rgba(0,200,255,0.25)" strokeWidth="1"/>
+                  <path d="M99 102 Q115 114 131 102" stroke="#00D4FF" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
                   {/* Cheeks */}
                   <ellipse ref={blushLRef} cx="60"  cy="88" rx="14" ry="9" fill="rgba(255,100,140,0)"/>
                   <ellipse ref={blushRRef} cx="170" cy="88" rx="14" ry="9" fill="rgba(255,100,140,0)"/>
@@ -778,6 +769,7 @@ const RobotAnimation = () => {
 
 const words = ["Intelligent", "Digital", "Systems", "for", "Modern"];
 const glowWords = ["Intelligent", "Systems"];
+const wordDelays = [0, 0.3, 0.6, 0.9, 1.2]; // float stagger delays
 
 const HeroSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
@@ -821,17 +813,20 @@ const HeroSection = () => {
             </motion.div>
 
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6 hero-3d-title">
-              {words.map((word,i) => (
+              {words.map((word, i) => (
                 <motion.span key={word}
                   initial={{opacity:0,y:30,filter:"blur(8px)"}} animate={{opacity:1,y:0,filter:"blur(0px)"}}
                   transition={{delay:0.5+i*0.1,duration:0.7,ease:[0.25,0.46,0.45,0.94]}}
-                  className={`inline-block mr-[0.3em] hero-word ${glowWords.includes(word)?"holo-text gradient-text":"text-foreground"}`}>
+                  className={`inline-block mr-[0.3em] hero-word ${glowWords.includes(word) ? "holo-text" : "text-foreground"}`}
+                  style={{animationDelay: `${wordDelays[i]}s`}}>
                   {word}
                 </motion.span>
               ))}
               <br/>
               <motion.span initial={{opacity:0,y:30,filter:"blur(8px)"}} animate={{opacity:1,y:0,filter:"blur(0px)"}}
-                transition={{delay:1.1,duration:0.7,ease:[0.25,0.46,0.45,0.94]}} className="hero-word holo-text gradient-text">
+                transition={{delay:1.1,duration:0.7,ease:[0.25,0.46,0.45,0.94]}}
+                className="hero-word holo-text"
+                style={{animationDelay:'1.5s'}}>
                 Businesses
               </motion.span>
             </h1>
