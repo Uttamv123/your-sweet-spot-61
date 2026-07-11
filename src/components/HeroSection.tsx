@@ -44,8 +44,8 @@ const RobotAnimation = () => {
 
   /* ── eye tracking + proximity detection ── */
   useEffect(() => {
-    // Left eye base center: cx=82, Right eye base center: cx=148 (both at cy=67)
-    const L_CX = 82, R_CX = 148, EYE_CY = 67, MAX_TRAVEL = 4.0;
+    // Left eye base center: cx=80, Right eye base center: cx=150 (both at cy=68)
+    const L_CX = 80, R_CX = 150, EYE_CY = 68, MAX_TRAVEL = 5.0;
     let tx = 0, ty = 0, cx = 0, cy = 0, raf: number;
     let wakeTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -654,159 +654,110 @@ const RobotAnimation = () => {
                 <div ref={zzzRef} className="rs-zzz-bubble">z z Z</div>
                 <svg ref={robotSvgRef} width="230" height="260" viewBox="0 0 230 260" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible',transition:'transform .3s ease'}}>
                   <defs>
-                    <radialGradient id="rs-gBody" cx="38%" cy="22%" r="72%"><stop offset="0%" stopColor="#E2ECF4"/><stop offset="40%" stopColor="#A8BAC8"/><stop offset="100%" stopColor="#52606E"/></radialGradient>
-                    <radialGradient id="rs-gHead" cx="35%" cy="18%" r="75%"><stop offset="0%" stopColor="#EBF3FA"/><stop offset="45%" stopColor="#AABCCC"/><stop offset="100%" stopColor="#4E5C6A"/></radialGradient>
-                    <radialGradient id="rs-gSph"  cx="30%" cy="22%" r="70%"><stop offset="0%" stopColor="#C8D8E6"/><stop offset="100%" stopColor="#424E58"/></radialGradient>
-                    <radialGradient id="rs-gSph2" cx="30%" cy="22%" r="70%"><stop offset="0%" stopColor="#A8B8C6"/><stop offset="100%" stopColor="#323840"/></radialGradient>
-                    <radialGradient id="rs-gEye"  cx="38%" cy="30%" r="70%"><stop offset="0%" stopColor="#A0EEFF"/><stop offset="45%" stopColor="#0099EE"/><stop offset="100%" stopColor="#003A88"/></radialGradient>
-                    <radialGradient id="rs-gAnt"  cx="40%" cy="28%" r="68%"><stop offset="0%" stopColor="#70DAFF"/><stop offset="100%" stopColor="#0060CC"/></radialGradient>
-                    <radialGradient id="rs-gArm"  cx="30%" cy="20%" r="75%"><stop offset="0%" stopColor="#D0DCE8"/><stop offset="100%" stopColor="#4A5660"/></radialGradient>
-                    <linearGradient id="rs-gChest" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,80,180,0.35)"/><stop offset="100%" stopColor="rgba(0,40,100,0.5)"/></linearGradient>
-                    <filter id="rs-fSh" x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="10" floodColor="rgba(0,0,0,0.45)"/></filter>
-                    <filter id="rs-fGl"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                    <clipPath id="rs-eyeClip"><rect x="58" y="56" width="44" height="24" rx="5"/></clipPath>
-                    <clipPath id="rs-eyeClipR"><rect x="114" y="56" width="44" height="24" rx="5"/></clipPath>
+                    <radialGradient id="rs-gBody" cx="40%" cy="25%" r="70%"><stop offset="0%" stopColor="#D6E8F8"/><stop offset="50%" stopColor="#8BAABF"/><stop offset="100%" stopColor="#3A4E5E"/></radialGradient>
+                    <radialGradient id="rs-gHead" cx="38%" cy="20%" r="72%"><stop offset="0%" stopColor="#E8F4FF"/><stop offset="45%" stopColor="#9BBACF"/><stop offset="100%" stopColor="#3E5060"/></radialGradient>
+                    <radialGradient id="rs-gEye"  cx="35%" cy="28%" r="70%"><stop offset="0%" stopColor="#A0EEFF"/><stop offset="40%" stopColor="#00AAEE"/><stop offset="100%" stopColor="#0044AA"/></radialGradient>
+                    <radialGradient id="rs-gAnt"  cx="40%" cy="28%" r="68%"><stop offset="0%" stopColor="#80E8FF"/><stop offset="100%" stopColor="#0070DD"/></radialGradient>
+                    <radialGradient id="rs-gArm"  cx="35%" cy="22%" r="72%"><stop offset="0%" stopColor="#D2E6F4"/><stop offset="100%" stopColor="#4A6070"/></radialGradient>
+                    <radialGradient id="rs-gBelly" cx="50%" cy="30%" r="65%"><stop offset="0%" stopColor="rgba(0,140,255,0.22)"/><stop offset="100%" stopColor="rgba(0,60,160,0.32)"/></radialGradient>
+                    <linearGradient id="rs-gChest" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,90,200,0.3)"/><stop offset="100%" stopColor="rgba(0,40,110,0.45)"/></linearGradient>
+                    <filter id="rs-fSh" x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="8" floodColor="rgba(0,0,0,0.4)"/></filter>
+                    <filter id="rs-fGl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    <filter id="rs-fSoft"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    <clipPath id="rs-eyeClip"><ellipse cx="80" cy="68" rx="16" ry="16"/></clipPath>
+                    <clipPath id="rs-eyeClipR"><ellipse cx="150" cy="68" rx="16" ry="16"/></clipPath>
                   </defs>
-
                   {/* Shadow */}
-                  <ellipse cx="115" cy="254" rx="62" ry="7" fill="rgba(20,80,200,0.18)"/>
-
-                  {/* Legs / feet */}
-                  <circle cx="82"  cy="224" r="16" fill="url(#rs-gSph)"  filter="url(#rs-fSh)"/>
-                  <circle cx="148" cy="224" r="16" fill="url(#rs-gSph)"  filter="url(#rs-fSh)"/>
-                  <circle cx="90"  cy="242" r="12" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
-                  <circle cx="140" cy="242" r="12" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
-                  <circle cx="115" cy="246" r="11" fill="url(#rs-gSph2)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="78"  cy="218" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-                  <ellipse cx="144" cy="218" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-
+                  <ellipse cx="115" cy="256" rx="58" ry="6" fill="rgba(10,40,140,0.22)"/>
+                  {/* Legs */}
+                  <rect x="80" y="208" width="26" height="32" rx="13" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <rect x="124" y="208" width="26" height="32" rx="13" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="93"  cy="240" rx="16" ry="9"  fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="137" cy="240" rx="16" ry="9"  fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="88"  cy="235" rx="5"  ry="3"  fill="rgba(255,255,255,0.22)"/>
+                  <ellipse cx="132" cy="235" rx="5"  ry="3"  fill="rgba(255,255,255,0.22)"/>
                   {/* Body */}
-                  <ellipse cx="115" cy="178" rx="52" ry="56" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="96"  cy="152" rx="22" ry="28" fill="rgba(255,255,255,0.09)"/>
-
-                  {/* Chest panel */}
-                  <rect x="82" y="152" width="66" height="46" rx="10" fill="url(#rs-gChest)" stroke="rgba(77,163,255,0.6)" strokeWidth="1.5"/>
-                  <rect x="82" y="152" width="66" height="46" rx="10" fill="none" stroke="rgba(0,212,255,0.2)" strokeWidth="3"/>
-                  <rect x="90" y="160" width="20" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".9"/>
-                  <rect x="90" y="167" width="32" height="3.5" rx="1.75" fill="#00D4FF" opacity=".75"/>
-                  <rect x="90" y="174" width="16" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".6"/>
-                  <rect x="90" y="181" width="24" height="3.5" rx="1.75" fill="#4DA3FF" opacity=".4"/>
-                  <circle cx="128" cy="162" r="4" fill="#00D4FF" filter="url(#rs-fGl)"/>
-                  {/* Chest animated ring */}
-                  <circle cx="128" cy="162" r="8" stroke="rgba(0,212,255,0.25)" strokeWidth="1" fill="none" className="rs-chest-ring"/>
-                  {/* Circuit lines on chest */}
-                  <path d="M90 188 L82 188 L82 192" stroke="rgba(77,163,255,0.4)" strokeWidth="1" fill="none"/>
-                  <path d="M140 188 L148 188 L148 192" stroke="rgba(77,163,255,0.4)" strokeWidth="1" fill="none"/>
-
-                  {/* Neck */}
-                  <rect x="101" y="98" width="28" height="20" rx="7" fill="url(#rs-gBody)"/>
-
-                  {/* ── Left Arm ── */}
-                  <g ref={armLRef} style={{transformOrigin:'30px 160px', transition:'transform 0.5s ease'}}>
-                    {/* Upper arm */}
-                    <rect x="22" y="148" width="22" height="42" rx="11" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    <ellipse cx="25" cy="152" rx="5" ry="3" fill="rgba(255,255,255,0.18)"/>
-                    {/* Elbow joint */}
-                    <circle cx="33" cy="192" r="10" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
-                    {/* Forearm */}
-                    <rect x="25" y="192" width="18" height="32" rx="9" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    {/* Hand */}
-                    <circle cx="34" cy="228" r="11" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
-                    {/* Finger nubs */}
-                    <circle cx="26" cy="236" r="4" fill="url(#rs-gArm)"/>
-                    <circle cx="34" cy="239" r="4" fill="url(#rs-gArm)"/>
-                    <circle cx="42" cy="236" r="4" fill="url(#rs-gArm)"/>
-                    {/* Arm panel accent */}
-                    <rect x="26" y="162" width="14" height="2" rx="1" fill="rgba(0,212,255,0.4)"/>
-                    <rect x="26" y="167" width="10" height="2" rx="1" fill="rgba(77,163,255,0.3)"/>
+                  <rect x="58" y="138" width="114" height="82" rx="36" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="90" cy="150" rx="24" ry="14" fill="rgba(255,255,255,0.12)"/>
+                  {/* Belly panel */}
+                  <rect x="76" y="150" width="78" height="54" rx="18" fill="url(#rs-gBelly)" stroke="rgba(77,163,255,0.5)" strokeWidth="1.4"/>
+                  {/* Heart */}
+                  <path d="M115 171 C115 171 107 163 103 166 C99 169 102 175 115 181 C128 175 131 169 127 166 C123 163 115 171 115 171Z" fill="rgba(0,212,255,0.65)" filter="url(#rs-fSoft)"/>
+                  <rect x="84" y="160" width="20" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".8"/>
+                  <rect x="84" y="165" width="30" height="2.5" rx="1.25" fill="#00D4FF" opacity=".6"/>
+                  <rect x="84" y="186" width="16" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".5"/>
+                  <circle cx="138" cy="166" r="5" fill="#00D4FF" filter="url(#rs-fGl)"/>
+                  <circle cx="138" cy="166" r="9" stroke="rgba(0,212,255,0.2)" strokeWidth="1" fill="none" className="rs-chest-ring"/>
+                  {/* Left Arm */}
+                  <g ref={armLRef} style={{transformOrigin:'46px 156px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
+                    <rect x="32" y="146" width="28" height="48" rx="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="38" cy="152" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
+                    <circle cx="46" cy="202" r="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="42" cy="196" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
                   </g>
-
-                  {/* ── Right Arm ── */}
-                  <g ref={armRRef} style={{transformOrigin:'196px 160px', transition:'transform 0.5s ease'}}>
-                    {/* Upper arm */}
-                    <rect x="186" y="148" width="22" height="42" rx="11" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    <ellipse cx="200" cy="152" rx="5" ry="3" fill="rgba(255,255,255,0.18)"/>
-                    {/* Elbow joint */}
-                    <circle cx="197" cy="192" r="10" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
-                    {/* Forearm */}
-                    <rect x="187" y="192" width="18" height="32" rx="9" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
-                    {/* Hand */}
-                    <circle cx="196" cy="228" r="11" fill="url(#rs-gSph)" filter="url(#rs-fSh)"/>
-                    {/* Finger nubs */}
-                    <circle cx="188" cy="236" r="4" fill="url(#rs-gArm)"/>
-                    <circle cx="196" cy="239" r="4" fill="url(#rs-gArm)"/>
-                    <circle cx="204" cy="236" r="4" fill="url(#rs-gArm)"/>
-                    {/* Arm panel accent */}
-                    <rect x="190" y="162" width="14" height="2" rx="1" fill="rgba(0,212,255,0.4)"/>
-                    <rect x="190" y="167" width="10" height="2" rx="1" fill="rgba(77,163,255,0.3)"/>
+                  {/* Right Arm */}
+                  <g ref={armRRef} style={{transformOrigin:'184px 156px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
+                    <rect x="170" y="146" width="28" height="48" rx="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="190" cy="152" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
+                    <circle cx="184" cy="202" r="14" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <ellipse cx="180" cy="196" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
                   </g>
-
-                  {/* Head */}
-                  <rect x="54" y="28" width="122" height="78" rx="28" fill="url(#rs-gHead)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="88"  cy="40" rx="26" ry="12" fill="rgba(255,255,255,0.13)"/>
-
-                  {/* Ear panels */}
-                  <rect x="34" y="48" width="22" height="34" rx="9" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
-                  <rect x="174" y="48" width="22" height="34" rx="9" fill="url(#rs-gBody)" stroke="rgba(77,163,255,0.3)" strokeWidth="1.2"/>
-                  {/* Ear details */}
-                  <rect x="38" y="54" width="14" height="2" rx="1" fill="rgba(0,212,255,0.5)"/>
-                  <rect x="38" y="59" width="10" height="2" rx="1" fill="rgba(0,212,255,0.3)"/>
-                  <rect x="178" y="54" width="14" height="2" rx="1" fill="rgba(0,212,255,0.5)"/>
-                  <rect x="178" y="59" width="10" height="2" rx="1" fill="rgba(0,212,255,0.3)"/>
-
-                  {/* Visor — wider to hold two eyes */}
-                  <rect x="56" y="50" width="118" height="34" rx="17" fill="#060E24" stroke="rgba(77,163,255,0.55)" strokeWidth="1.6"/>
-                  <rect x="58" y="52" width="114" height="30" rx="15" fill="rgba(0,40,110,0.5)"/>
-
-                  {/* Left eye */}
+                  {/* Head — big round cute */}
+                  <ellipse cx="115" cy="80" rx="66" ry="62" fill="url(#rs-gHead)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="92"  cy="48" rx="28" ry="16" fill="rgba(255,255,255,0.16)"/>
+                  {/* Ears */}
+                  <ellipse cx="49"  cy="80" rx="13" ry="16" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="181" cy="80" rx="13" ry="16" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="49"  cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
+                  <ellipse cx="181" cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
+                  {/* Visor */}
+                  <rect x="56" y="50" width="118" height="44" rx="22" fill="#040C20" stroke="rgba(77,163,255,0.6)" strokeWidth="1.8"/>
+                  <rect x="58" y="52" width="114" height="40" rx="20" fill="rgba(0,30,90,0.55)"/>
+                  <rect x="66" y="53" width="62" height="6" rx="3" fill="rgba(255,255,255,0.07)"/>
+                  {/* Left Eye */}
                   <g clipPath="url(#rs-eyeClip)">
-                    <circle ref={scleraRef} cx="82"  cy="67" r="10"  fill="#0A1840"/>
-                    <circle ref={irisRef}   cx="82"  cy="67" r="7.5" fill="url(#rs-gEye)"/>
-                    <circle ref={pupilRef}  cx="82"  cy="67" r="4"   fill="#001830"/>
-                    <circle ref={catchRef}  cx="84"  cy="64" r="1.6" fill="rgba(255,255,255,0.9)"/>
-                    <circle ref={ring1Ref}  cx="82"  cy="67" r="6"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
-                    {/* Sleep lid overlay */}
-                    <rect ref={sleepLRef} x="58" y="56" width="44" height="24" rx="5" fill="#060E24" opacity="0" style={{transition:'opacity 0.6s ease'}}/>
+                    <circle ref={scleraRef} cx="80" cy="68" r="14" fill="#081428"/>
+                    <circle ref={irisRef}   cx="80" cy="68" r="10" fill="url(#rs-gEye)"/>
+                    <circle ref={pupilRef}  cx="80" cy="68" r="5.5" fill="#001020"/>
+                    <circle ref={catchRef}  cx="83" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
+                    <circle cx="77" cy="72" r="1.5" fill="rgba(255,255,255,0.5)"/>
+                    <circle ref={ring1Ref}  cx="80" cy="68" r="7.5" stroke="rgba(0,220,255,0.4)" strokeWidth="1" fill="none"/>
+                    <rect ref={sleepLRef} x="64" y="52" width="32" height="32" rx="6" fill="#040C20" opacity="0" style={{transition:'opacity 0.5s ease'}}/>
                   </g>
-                  {/* Right eye */}
+                  {/* Right Eye */}
                   <g clipPath="url(#rs-eyeClipR)">
-                    <circle ref={scleraRRef} cx="148" cy="67" r="10"  fill="#0A1840"/>
-                    <circle ref={irisRRef}   cx="148" cy="67" r="7.5" fill="url(#rs-gEye)"/>
-                    <circle ref={pupilRRef}  cx="148" cy="67" r="4"   fill="#001830"/>
-                    <circle ref={catchRRef}  cx="150" cy="64" r="1.6" fill="rgba(255,255,255,0.9)"/>
-                    <circle ref={ring1RRef}  cx="148" cy="67" r="6"   stroke="rgba(0,212,255,0.35)" strokeWidth="1" fill="none"/>
-                    {/* Sleep lid overlay */}
-                    <rect ref={sleepRRef} x="114" y="56" width="44" height="24" rx="5" fill="#060E24" opacity="0" style={{transition:'opacity 0.6s ease'}}/>
+                    <circle ref={scleraRRef} cx="150" cy="68" r="14" fill="#081428"/>
+                    <circle ref={irisRRef}   cx="150" cy="68" r="10" fill="url(#rs-gEye)"/>
+                    <circle ref={pupilRRef}  cx="150" cy="68" r="5.5" fill="#001020"/>
+                    <circle ref={catchRRef}  cx="153" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
+                    <circle cx="147" cy="72" r="1.5" fill="rgba(255,255,255,0.5)"/>
+                    <circle ref={ring1RRef}  cx="150" cy="68" r="7.5" stroke="rgba(0,220,255,0.4)" strokeWidth="1" fill="none"/>
+                    <rect ref={sleepRRef} x="134" y="52" width="32" height="32" rx="6" fill="#040C20" opacity="0" style={{transition:'opacity 0.5s ease'}}/>
                   </g>
-
-                  {/* Nose bridge divider */}
-                  <rect x="112" y="58" width="6" height="18" rx="3" fill="rgba(0,0,0,0.18)"/>
-
-                  {/* Mouth / speaker grille */}
-                  <rect x="90" y="92" width="50" height="8" rx="4" fill="rgba(0,212,255,0.12)" stroke="rgba(0,212,255,0.3)" strokeWidth="1"/>
-                  <rect x="96"  y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.6)"/>
-                  <rect x="106" y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.5)"/>
-                  <rect x="116" y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.6)"/>
-                  <rect x="126" y="94" width="6" height="4" rx="2" fill="rgba(0,212,255,0.4)"/>
-
+                  {/* Cute smile */}
+                  <rect x="92" y="98" width="46" height="15" rx="7.5" fill="rgba(0,30,80,0.65)" stroke="rgba(0,200,255,0.3)" strokeWidth="1"/>
+                  <path d="M99 102 Q115 113 131 102" stroke="#00D4FF" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+                  <rect x="107" y="102" width="5" height="6" rx="2" fill="rgba(200,240,255,0.8)"/>
+                  <rect x="115" y="102" width="5" height="6" rx="2" fill="rgba(200,240,255,0.8)"/>
+                  {/* Cheeks */}
+                  <ellipse ref={blushLRef} cx="60"  cy="88" rx="14" ry="9" fill="rgba(255,100,140,0)"/>
+                  <ellipse ref={blushRRef} cx="170" cy="88" rx="14" ry="9" fill="rgba(255,100,140,0)"/>
                   {/* Squint overlays */}
-                  <rect ref={squintRef}  x="56" y="50" width="118" height="34" rx="17" fill="#060E24" opacity="0"/>
-                  <path ref={squintLRef} d="M62 67 Q115 56 168 67" stroke="#4DA3FF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0"/>
-
+                  <rect ref={squintRef}  x="56" y="50" width="118" height="44" rx="22" fill="#040C20" opacity="0"/>
+                  <path ref={squintLRef} d="M63 70 Q115 56 167 70" stroke="#4DA3FF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0"/>
                   {/* Antenna */}
                   <g ref={antennaRef}>
-                    <rect x="112" y="10" width="6" height="22" rx="3" fill="url(#rs-gBody)"/>
-                    <circle cx="115" cy="8" r="12"  fill="#1A6FFF"/>
-                    <circle cx="115" cy="8" r="8"   fill="url(#rs-gAnt)"/>
-                    <circle cx="115" cy="8" r="3.5" fill="rgba(255,255,255,0.92)"/>
-                    <circle cx="115" cy="8" r="16"  stroke="rgba(0,212,255,0.28)" strokeWidth="1.2" fill="none"/>
-                    {/* Antenna ring pulse */}
-                    <circle cx="115" cy="8" r="20"  stroke="rgba(0,212,255,0.15)" strokeWidth="1" fill="none" className="rs-ant-ring"/>
+                    <rect x="112" y="8" width="6" height="26" rx="3" fill="url(#rs-gBody)"/>
+                    <circle cx="115" cy="6"  r="14" fill="#1A6FFF" opacity="0.9"/>
+                    <circle cx="115" cy="6"  r="9"  fill="url(#rs-gAnt)"/>
+                    <circle cx="115" cy="6"  r="4"  fill="rgba(255,255,255,0.95)"/>
+                    <circle cx="115" cy="6"  r="18" stroke="rgba(0,212,255,0.22)" strokeWidth="1.2" fill="none"/>
+                    <circle cx="115" cy="6"  r="22" stroke="rgba(0,212,255,0.1)"  strokeWidth="1"   fill="none" className="rs-ant-ring"/>
                   </g>
-
-                  {/* Blush */}
-                  <ellipse ref={blushLRef} cx="62"  cy="84" rx="12" ry="7" fill="rgba(255,100,140,0)"/>
-                  <ellipse ref={blushRRef} cx="168" cy="84" rx="12" ry="7" fill="rgba(255,100,140,0)"/>
+                  {/* Sparkles */}
+                  <circle cx="50"  cy="36" r="2.5" fill="#00D4FF" filter="url(#rs-fGl)" opacity="0.7"/>
+                  <circle cx="180" cy="30" r="2"   fill="#A78BFA" filter="url(#rs-fGl)" opacity="0.8"/>
+                  <circle cx="170" cy="48" r="1.5" fill="#00D4FF" opacity="0.5"/>
                 </svg>
               </div>
             </div>
@@ -869,18 +820,18 @@ const HeroSection = () => {
               <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">Digital Systems &amp; AI Automation Agency</span>
             </motion.div>
 
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.08] mb-6 hero-3d-title">
               {words.map((word,i) => (
                 <motion.span key={word}
                   initial={{opacity:0,y:30,filter:"blur(8px)"}} animate={{opacity:1,y:0,filter:"blur(0px)"}}
                   transition={{delay:0.5+i*0.1,duration:0.7,ease:[0.25,0.46,0.45,0.94]}}
-                  className={`inline-block mr-[0.3em] ${glowWords.includes(word)?"gradient-text":""}`}>
+                  className={`inline-block mr-[0.3em] hero-word ${glowWords.includes(word)?"holo-text gradient-text":"text-foreground"}`}>
                   {word}
                 </motion.span>
               ))}
               <br/>
               <motion.span initial={{opacity:0,y:30,filter:"blur(8px)"}} animate={{opacity:1,y:0,filter:"blur(0px)"}}
-                transition={{delay:1.1,duration:0.7,ease:[0.25,0.46,0.45,0.94]}} className="gradient-text">
+                transition={{delay:1.1,duration:0.7,ease:[0.25,0.46,0.45,0.94]}} className="hero-word holo-text gradient-text">
                 Businesses
               </motion.span>
             </h1>

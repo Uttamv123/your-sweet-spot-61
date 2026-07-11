@@ -324,17 +324,18 @@ main > div > section {
   contain-intrinsic-size: 1px 900px;
 }
 
-/* Disable continuous infinite animations sitewide ΓÇö they keep the GPU
+/* Disable continuous infinite animations sitewide — they keep the GPU
    busy on every frame and hurt scroll smoothness. Keep one-shot enter
-   animations and hover transitions intact. */
+   animations and hover transitions intact.
+   EXCEPTION: hero headline animations are intentionally kept alive. */
 .animate-gradient,
 .animate-float-shape,
-.animate-pulse-glow,
 .animate-orbit,
 .animate-breathe,
 .shimmer {
   animation: none !important;
 }
+/* animate-pulse-glow only on CTA button — allow it */
 
 /* ΓöÇΓöÇ Robot Animation ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
 .robot-stage {
