@@ -831,6 +831,16 @@ const HeroSection = () => {
               </motion.span>
             </h1>
 
+            {/* Mobile-only robot — shown below heading, hidden on lg+ */}
+            <motion.div
+              initial={{opacity:0,y:20,filter:"blur(8px)"}}
+              animate={{opacity:1,y:0,filter:"blur(0px)"}}
+              transition={{delay:0.8,duration:1,ease:[0.25,0.46,0.45,0.94]}}
+              className="lg:hidden w-full mb-2"
+              style={{maxWidth:'360px',margin:'0 auto 8px'}}>
+              <RobotAnimation/>
+            </motion.div>
+
             <motion.p initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:1.3,duration:0.8,ease:"easeOut"}}
               className="text-muted-foreground text-lg md:text-xl max-w-xl mb-4 font-body leading-relaxed">
               We design, automate, and scale high-performance web platforms and AI-driven workflows that reduce operational friction and increase measurable growth.

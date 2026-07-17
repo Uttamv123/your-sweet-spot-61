@@ -66,9 +66,15 @@ const Navbar = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled ? "glass-nav" : "glass-nav-idle"
-        }`}
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+        style={{
+          background: scrolled
+            ? 'hsl(230 15% 8% / 0.96)'
+            : 'hsl(230 15% 8% / 0.80)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderBottom: scrolled ? '1px solid hsl(230 12% 22% / 0.5)' : '1px solid transparent',
+        }}
       >
         {/* Subtle animated top gradient line */}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-70" />
@@ -175,7 +181,8 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 250 }}
-            className="lg:hidden fixed top-16 left-0 bottom-0 w-72 glass-nav px-6 py-8 overflow-hidden z-50"
+            className="lg:hidden fixed top-16 left-0 bottom-0 w-72 px-6 py-8 overflow-hidden z-50"
+            style={{ background: 'hsl(230 15% 8% / 0.97)', backdropFilter: 'blur(16px)', borderRight: '1px solid hsl(230 12% 22% / 0.4)' }}
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link, i) => {
