@@ -8,7 +8,7 @@ import AboutSection from "@/components/AboutSection";
 import ServicesSection from "@/components/ServicesSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import ProcessSection from "@/components/ProcessSection";
-
+import PortfolioSection from "@/components/PortfolioSection";
 import TechStackSection from "@/components/TechStackSection";
 import LeadMagnetSection from "@/components/LeadMagnetSection";
 import FaqSection from "@/components/FaqSection";
@@ -26,14 +26,27 @@ const Index = () => {
   // "Services" in the navbar while on /team), scroll to that section after mount.
   useEffect(() => {
     const state = location.state as { scrollTo?: string } | null;
-    if (state?.scrollTo) {
-      // Give the page a moment to fully render before scrolling
-      const timer = setTimeout(() => {
-        const el = document.getElementById(state.scrollTo!);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-      return () => clearTimeout(timer);
-    }
+    if (!state?.scrollTo) return;
+
+    const targetId = state.scrollTo;
+    let attempts = 0;
+    const maxAttempts = 20; // try for up to 2 seconds
+
+    const tryScroll = () => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(tryScroll, 100);
+      }
+    };
+
+    // Start trying after a short initial delay
+    const timer = setTimeout(tryScroll, 150);
+    return () => clearTimeout(timer);
   }, [location.state]);
 
   return (
@@ -66,6 +79,8 @@ const Index = () => {
           <SectionGlow position="center" color="secondary" />
           <ProcessSection />
         </div>
+        <SectionConnector variant="accent" />
+        <PortfolioSection />
         <SectionConnector />
         <TechStackSection />
         <SectionConnector variant="accent" />

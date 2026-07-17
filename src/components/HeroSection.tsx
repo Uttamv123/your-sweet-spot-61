@@ -1,6 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { scrollToSection } from "@/lib/scroll";
@@ -774,7 +773,6 @@ const wordDelays = [0, 0.3, 0.6, 0.9, 1.2]; // float stagger delays
 
 const HeroSection = () => {
   const [calendlyOpen, setCalendlyOpen] = useState(false);
-  const navigate = useNavigate();
 
   /* keep the CSS scale variable in sync with the container width */
   useEffect(() => {
@@ -848,7 +846,7 @@ const HeroSection = () => {
                 Book a Free Strategy Call
                 <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" size={18}/>
               </Button>
-              <Button variant="hero-outline" size="lg" className="text-base px-8 py-6" onClick={() => navigate("/portfolio")}>
+              <Button variant="hero-outline" size="lg" className="text-base px-8 py-6" onClick={() => scrollToSection("portfolio")}>
                 <Play size={16} className="mr-2"/>View Our Work
               </Button>
             </motion.div>
