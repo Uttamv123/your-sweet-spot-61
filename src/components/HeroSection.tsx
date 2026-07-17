@@ -5,6 +5,109 @@ import { ArrowRight, Play } from "lucide-react";
 import { scrollToSection } from "@/lib/scroll";
 import CalendlyModal from "@/components/CalendlyModal";
 
+// ── Mobile-only Robot (robot SVG + orbits only, no cards/lines) ─────────────
+const MobileRobotScene = () => {
+  const robotSvgRef = useRef<SVGSVGElement>(null);
+  const antennaRef  = useRef<SVGGElement>(null);
+  const armLRef     = useRef<SVGGElement>(null);
+  const armRRef     = useRef<SVGGElement>(null);
+
+  // Float animation
+  useEffect(() => {
+    let raf: number;
+    let t = 0;
+    const tick = () => {
+      t += 0.016;
+      const y = Math.sin(t * (2 * Math.PI / 4.5)) * 10;
+      if (robotSvgRef.current) robotSvgRef.current.style.transform = `translateY(${y}px)`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <div style={{position:'relative',width:'100%',paddingBottom:'70%',overflow:'hidden'}}>
+      <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
+        {/* glow halo */}
+        <div style={{position:'absolute',width:220,height:220,borderRadius:'50%',background:'radial-gradient(circle,rgba(26,111,255,.18) 0%,transparent 65%)'}}/>
+        {/* orbits */}
+        <div className="rs-orbits" style={{position:'relative',width:200,height:200,display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <div className="rs-orbit rs-o1"><div className="rs-odot"/></div>
+          <div className="rs-orbit rs-o2"><div className="rs-odot2"/></div>
+          <div className="rs-orbit rs-o3"/>
+          {/* Robot SVG — unique IDs prefixed with "mob-" */}
+          <div style={{position:'absolute',zIndex:2}}>
+            <svg ref={robotSvgRef} width="160" height="185" viewBox="0 0 230 260" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible',transition:'transform .1s linear',filter:'drop-shadow(0 0 18px rgba(0,212,255,0.45))'}}>
+              <defs>
+                <radialGradient id="mob-gBody" cx="40%" cy="25%" r="70%"><stop offset="0%" stopColor="#D6E8F8"/><stop offset="50%" stopColor="#8BAABF"/><stop offset="100%" stopColor="#3A4E5E"/></radialGradient>
+                <radialGradient id="mob-gHead" cx="38%" cy="20%" r="72%"><stop offset="0%" stopColor="#E8F4FF"/><stop offset="45%" stopColor="#9BBACF"/><stop offset="100%" stopColor="#3E5060"/></radialGradient>
+                <radialGradient id="mob-gEye"  cx="35%" cy="28%" r="70%"><stop offset="0%" stopColor="#A0EEFF"/><stop offset="40%" stopColor="#00AAEE"/><stop offset="100%" stopColor="#0044AA"/></radialGradient>
+                <radialGradient id="mob-gAnt"  cx="40%" cy="28%" r="68%"><stop offset="0%" stopColor="#80E8FF"/><stop offset="100%" stopColor="#0070DD"/></radialGradient>
+                <radialGradient id="mob-gArm"  cx="35%" cy="22%" r="72%"><stop offset="0%" stopColor="#D2E6F4"/><stop offset="100%" stopColor="#4A6070"/></radialGradient>
+                <radialGradient id="mob-gBelly" cx="50%" cy="30%" r="65%"><stop offset="0%" stopColor="rgba(0,140,255,0.22)"/><stop offset="100%" stopColor="rgba(0,60,160,0.32)"/></radialGradient>
+                <filter id="mob-fSh" x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="8" floodColor="rgba(0,0,0,0.4)"/></filter>
+                <filter id="mob-fGl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <filter id="mob-fSoft"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <clipPath id="mob-eyeClip"><ellipse cx="80" cy="68" rx="16" ry="16"/></clipPath>
+                <clipPath id="mob-eyeClipR"><ellipse cx="150" cy="68" rx="16" ry="16"/></clipPath>
+              </defs>
+              <ellipse cx="115" cy="256" rx="58" ry="6" fill="rgba(10,40,140,0.22)"/>
+              <ellipse cx="115" cy="190" rx="58" ry="54" fill="url(#mob-gBody)" filter="url(#mob-fSh)"/>
+              <ellipse cx="92" cy="162" rx="26" ry="15" fill="rgba(255,255,255,0.12)"/>
+              <rect x="76" y="162" width="78" height="54" rx="20" fill="url(#mob-gBelly)" stroke="rgba(77,163,255,0.5)" strokeWidth="1.4"/>
+              <path d="M115 182 C115 182 107 174 103 177 C99 180 102 186 115 192 C128 186 131 180 127 177 C123 174 115 182 115 182Z" fill="rgba(0,212,255,0.65)" filter="url(#mob-fSoft)"/>
+              <rect x="84" y="170" width="20" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".8"/>
+              <rect x="84" y="175" width="30" height="2.5" rx="1.25" fill="#00D4FF" opacity=".6"/>
+              <rect x="84" y="196" width="16" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".5"/>
+              <circle cx="138" cy="174" r="5" fill="#00D4FF" filter="url(#mob-fGl)"/>
+              <g ref={armLRef} style={{transformOrigin:'40px 172px'}}>
+                <rect x="26" y="162" width="30" height="46" rx="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
+                <circle cx="41" cy="215" r="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
+              </g>
+              <g ref={armRRef} style={{transformOrigin:'190px 172px'}}>
+                <rect x="174" y="162" width="30" height="46" rx="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
+                <circle cx="189" cy="215" r="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
+              </g>
+              <ellipse cx="115" cy="80" rx="66" ry="62" fill="url(#mob-gHead)" filter="url(#mob-fSh)"/>
+              <ellipse cx="92"  cy="48" rx="28" ry="16" fill="rgba(255,255,255,0.16)"/>
+              <ellipse cx="49"  cy="80" rx="13" ry="16" fill="url(#mob-gBody)" filter="url(#mob-fSh)"/>
+              <ellipse cx="181" cy="80" rx="13" ry="16" fill="url(#mob-gBody)" filter="url(#mob-fSh)"/>
+              <ellipse cx="49"  cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
+              <ellipse cx="181" cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
+              <rect x="56" y="50" width="118" height="44" rx="22" fill="#040C20" stroke="rgba(77,163,255,0.6)" strokeWidth="1.8"/>
+              <rect x="58" y="52" width="114" height="40" rx="20" fill="rgba(0,30,90,0.55)"/>
+              <g clipPath="url(#mob-eyeClip)">
+                <circle cx="80" cy="68" r="14" fill="#081428"/>
+                <circle cx="80" cy="68" r="10" fill="url(#mob-gEye)"/>
+                <circle cx="80" cy="68" r="5.5" fill="#001020"/>
+                <circle cx="83" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
+              </g>
+              <g clipPath="url(#mob-eyeClipR)">
+                <circle cx="150" cy="68" r="14" fill="#081428"/>
+                <circle cx="150" cy="68" r="10" fill="url(#mob-gEye)"/>
+                <circle cx="150" cy="68" r="5.5" fill="#001020"/>
+                <circle cx="153" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
+              </g>
+              <rect x="92" y="98" width="46" height="15" rx="7.5" fill="rgba(0,30,80,0.6)" stroke="rgba(0,200,255,0.25)" strokeWidth="1"/>
+              <path d="M99 102 Q115 114 131 102" stroke="#00D4FF" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+              <g ref={antennaRef}>
+                <rect x="112" y="8" width="6" height="26" rx="3" fill="url(#mob-gBody)"/>
+                <circle cx="115" cy="6" r="14" fill="#1A6FFF" opacity="0.9"/>
+                <circle cx="115" cy="6" r="9"  fill="url(#mob-gAnt)"/>
+                <circle cx="115" cy="6" r="4"  fill="rgba(255,255,255,0.95)"/>
+                <circle cx="115" cy="6" r="18" stroke="rgba(0,212,255,0.22)" strokeWidth="1.2" fill="none"/>
+              </g>
+              <circle cx="50"  cy="36" r="2.5" fill="#00D4FF" filter="url(#mob-fGl)" opacity="0.7"/>
+              <circle cx="180" cy="30" r="2"   fill="#A78BFA" filter="url(#mob-fGl)" opacity="0.8"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ── Robot Full-Scene Animation ──────────────────────────────────────────────
 const RobotAnimation = () => {
   const stageRef    = useRef<HTMLDivElement>(null);
@@ -837,8 +940,8 @@ const HeroSection = () => {
               animate={{opacity:1,y:0,filter:"blur(0px)"}}
               transition={{delay:0.8,duration:1,ease:[0.25,0.46,0.45,0.94]}}
               className="lg:hidden w-full mb-2"
-              style={{maxWidth:'360px',margin:'0 auto 8px'}}>
-              <RobotAnimation/>
+              style={{maxWidth:'320px',margin:'0 auto 8px'}}>
+              <MobileRobotScene/>
             </motion.div>
 
             <motion.p initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:1.3,duration:0.8,ease:"easeOut"}}
