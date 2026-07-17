@@ -5,111 +5,9 @@ import { ArrowRight, Play } from "lucide-react";
 import { scrollToSection } from "@/lib/scroll";
 import CalendlyModal from "@/components/CalendlyModal";
 
-// ── Mobile-only Robot (robot SVG + orbits only, no cards/lines) ─────────────
-const MobileRobotScene = () => {
-  const robotSvgRef = useRef<SVGSVGElement>(null);
-  const antennaRef  = useRef<SVGGElement>(null);
-  const armLRef     = useRef<SVGGElement>(null);
-  const armRRef     = useRef<SVGGElement>(null);
-
-  // Float animation
-  useEffect(() => {
-    let raf: number;
-    let t = 0;
-    const tick = () => {
-      t += 0.016;
-      const y = Math.sin(t * (2 * Math.PI / 4.5)) * 10;
-      if (robotSvgRef.current) robotSvgRef.current.style.transform = `translateY(${y}px)`;
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  return (
-    <div style={{position:'relative',width:'100%',paddingBottom:'70%',overflow:'hidden'}}>
-      <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
-        {/* glow halo */}
-        <div style={{position:'absolute',width:220,height:220,borderRadius:'50%',background:'radial-gradient(circle,rgba(26,111,255,.18) 0%,transparent 65%)'}}/>
-        {/* orbits */}
-        <div className="rs-orbits" style={{position:'relative',width:200,height:200,display:'flex',alignItems:'center',justifyContent:'center'}}>
-          <div className="rs-orbit rs-o1"><div className="rs-odot"/></div>
-          <div className="rs-orbit rs-o2"><div className="rs-odot2"/></div>
-          <div className="rs-orbit rs-o3"/>
-          {/* Robot SVG — unique IDs prefixed with "mob-" */}
-          <div style={{position:'absolute',zIndex:2}}>
-            <svg ref={robotSvgRef} width="160" height="185" viewBox="0 0 230 260" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible',transition:'transform .1s linear',filter:'drop-shadow(0 0 18px rgba(0,212,255,0.45))'}}>
-              <defs>
-                <radialGradient id="mob-gBody" cx="40%" cy="25%" r="70%"><stop offset="0%" stopColor="#D6E8F8"/><stop offset="50%" stopColor="#8BAABF"/><stop offset="100%" stopColor="#3A4E5E"/></radialGradient>
-                <radialGradient id="mob-gHead" cx="38%" cy="20%" r="72%"><stop offset="0%" stopColor="#E8F4FF"/><stop offset="45%" stopColor="#9BBACF"/><stop offset="100%" stopColor="#3E5060"/></radialGradient>
-                <radialGradient id="mob-gEye"  cx="35%" cy="28%" r="70%"><stop offset="0%" stopColor="#A0EEFF"/><stop offset="40%" stopColor="#00AAEE"/><stop offset="100%" stopColor="#0044AA"/></radialGradient>
-                <radialGradient id="mob-gAnt"  cx="40%" cy="28%" r="68%"><stop offset="0%" stopColor="#80E8FF"/><stop offset="100%" stopColor="#0070DD"/></radialGradient>
-                <radialGradient id="mob-gArm"  cx="35%" cy="22%" r="72%"><stop offset="0%" stopColor="#D2E6F4"/><stop offset="100%" stopColor="#4A6070"/></radialGradient>
-                <radialGradient id="mob-gBelly" cx="50%" cy="30%" r="65%"><stop offset="0%" stopColor="rgba(0,140,255,0.22)"/><stop offset="100%" stopColor="rgba(0,60,160,0.32)"/></radialGradient>
-                <filter id="mob-fSh" x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="8" floodColor="rgba(0,0,0,0.4)"/></filter>
-                <filter id="mob-fGl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <filter id="mob-fSoft"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                <clipPath id="mob-eyeClip"><ellipse cx="80" cy="68" rx="16" ry="16"/></clipPath>
-                <clipPath id="mob-eyeClipR"><ellipse cx="150" cy="68" rx="16" ry="16"/></clipPath>
-              </defs>
-              <ellipse cx="115" cy="256" rx="58" ry="6" fill="rgba(10,40,140,0.22)"/>
-              <ellipse cx="115" cy="190" rx="58" ry="54" fill="url(#mob-gBody)" filter="url(#mob-fSh)"/>
-              <ellipse cx="92" cy="162" rx="26" ry="15" fill="rgba(255,255,255,0.12)"/>
-              <rect x="76" y="162" width="78" height="54" rx="20" fill="url(#mob-gBelly)" stroke="rgba(77,163,255,0.5)" strokeWidth="1.4"/>
-              <path d="M115 182 C115 182 107 174 103 177 C99 180 102 186 115 192 C128 186 131 180 127 177 C123 174 115 182 115 182Z" fill="rgba(0,212,255,0.65)" filter="url(#mob-fSoft)"/>
-              <rect x="84" y="170" width="20" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".8"/>
-              <rect x="84" y="175" width="30" height="2.5" rx="1.25" fill="#00D4FF" opacity=".6"/>
-              <rect x="84" y="196" width="16" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".5"/>
-              <circle cx="138" cy="174" r="5" fill="#00D4FF" filter="url(#mob-fGl)"/>
-              <g ref={armLRef} style={{transformOrigin:'40px 172px'}}>
-                <rect x="26" y="162" width="30" height="46" rx="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
-                <circle cx="41" cy="215" r="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
-              </g>
-              <g ref={armRRef} style={{transformOrigin:'190px 172px'}}>
-                <rect x="174" y="162" width="30" height="46" rx="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
-                <circle cx="189" cy="215" r="15" fill="url(#mob-gArm)" filter="url(#mob-fSh)"/>
-              </g>
-              <ellipse cx="115" cy="80" rx="66" ry="62" fill="url(#mob-gHead)" filter="url(#mob-fSh)"/>
-              <ellipse cx="92"  cy="48" rx="28" ry="16" fill="rgba(255,255,255,0.16)"/>
-              <ellipse cx="49"  cy="80" rx="13" ry="16" fill="url(#mob-gBody)" filter="url(#mob-fSh)"/>
-              <ellipse cx="181" cy="80" rx="13" ry="16" fill="url(#mob-gBody)" filter="url(#mob-fSh)"/>
-              <ellipse cx="49"  cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
-              <ellipse cx="181" cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
-              <rect x="56" y="50" width="118" height="44" rx="22" fill="#040C20" stroke="rgba(77,163,255,0.6)" strokeWidth="1.8"/>
-              <rect x="58" y="52" width="114" height="40" rx="20" fill="rgba(0,30,90,0.55)"/>
-              <g clipPath="url(#mob-eyeClip)">
-                <circle cx="80" cy="68" r="14" fill="#081428"/>
-                <circle cx="80" cy="68" r="10" fill="url(#mob-gEye)"/>
-                <circle cx="80" cy="68" r="5.5" fill="#001020"/>
-                <circle cx="83" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
-              </g>
-              <g clipPath="url(#mob-eyeClipR)">
-                <circle cx="150" cy="68" r="14" fill="#081428"/>
-                <circle cx="150" cy="68" r="10" fill="url(#mob-gEye)"/>
-                <circle cx="150" cy="68" r="5.5" fill="#001020"/>
-                <circle cx="153" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
-              </g>
-              <rect x="92" y="98" width="46" height="15" rx="7.5" fill="rgba(0,30,80,0.6)" stroke="rgba(0,200,255,0.25)" strokeWidth="1"/>
-              <path d="M99 102 Q115 114 131 102" stroke="#00D4FF" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
-              <g ref={antennaRef}>
-                <rect x="112" y="8" width="6" height="26" rx="3" fill="url(#mob-gBody)"/>
-                <circle cx="115" cy="6" r="14" fill="#1A6FFF" opacity="0.9"/>
-                <circle cx="115" cy="6" r="9"  fill="url(#mob-gAnt)"/>
-                <circle cx="115" cy="6" r="4"  fill="rgba(255,255,255,0.95)"/>
-                <circle cx="115" cy="6" r="18" stroke="rgba(0,212,255,0.22)" strokeWidth="1.2" fill="none"/>
-              </g>
-              <circle cx="50"  cy="36" r="2.5" fill="#00D4FF" filter="url(#mob-fGl)" opacity="0.7"/>
-              <circle cx="180" cy="30" r="2"   fill="#A78BFA" filter="url(#mob-fGl)" opacity="0.8"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // ── Robot Full-Scene Animation ──────────────────────────────────────────────
-const RobotAnimation = () => {
+const RobotAnimation = ({ instanceId = 'rs' }: { instanceId?: string }) => {
   const stageRef    = useRef<HTMLDivElement>(null);
   const robotRootRef= useRef<HTMLDivElement>(null);
   const robotSvgRef = useRef<SVGSVGElement>(null);
@@ -487,7 +385,7 @@ const RobotAnimation = () => {
     const animate = async () => {
       await sleep(400);
       // draw lines
-      const lineIds = ['rs-ln-tl','rs-ln-tr','rs-ln-bl','rs-ln-br'];
+      const lineIds = [`${instanceId}-ln-tl`,`${instanceId}-ln-tr`,`${instanceId}-ln-bl`,`${instanceId}-ln-br`];
       lineIds.forEach(id => {
         const el = document.getElementById(id) as SVGPolylineElement | null;
         if (!el) return;
@@ -504,17 +402,17 @@ const RobotAnimation = () => {
       });
       await sleep(600);
       // show cards
-      ['rs-c-tl','rs-c-tr','rs-c-bl','rs-c-br'].forEach((id,i) => {
+      [`${instanceId}-c-tl`,`${instanceId}-c-tr`,`${instanceId}-c-bl`,`${instanceId}-c-br`].forEach((id,i) => {
         setTimeout(() => document.getElementById(id)?.classList.add('rs-card-show'), i*120);
       });
       await sleep(500);
 
       // start travelling dots
       const dotDefs = [
-        { lead:'rs-td-tl', trail:'rs-td-tl2', lineId:'rs-ln-tl', phase:0.00, speed:0.20, col:'#00D4FF', col2:'#4DA3FF' },
-        { lead:'rs-td-tr', trail:'rs-td-tr2', lineId:'rs-ln-tr', phase:0.30, speed:0.18, col:'#00D4FF', col2:'#4DA3FF' },
-        { lead:'rs-td-bl', trail:'rs-td-bl2', lineId:'rs-ln-bl', phase:0.60, speed:0.21, col:'#A78BFA', col2:'#7C3AED' },
-        { lead:'rs-td-br', trail:'rs-td-br2', lineId:'rs-ln-br', phase:0.82, speed:0.19, col:'#A78BFA', col2:'#7C3AED' },
+        { lead:`${instanceId}-td-tl`, trail:`${instanceId}-td-tl2`, lineId:`${instanceId}-ln-tl`, phase:0.00, speed:0.20, col:'#00D4FF', col2:'#4DA3FF' },
+        { lead:`${instanceId}-td-tr`, trail:`${instanceId}-td-tr2`, lineId:`${instanceId}-ln-tr`, phase:0.30, speed:0.18, col:'#00D4FF', col2:'#4DA3FF' },
+        { lead:`${instanceId}-td-bl`, trail:`${instanceId}-td-bl2`, lineId:`${instanceId}-ln-bl`, phase:0.60, speed:0.21, col:'#A78BFA', col2:'#7C3AED' },
+        { lead:`${instanceId}-td-br`, trail:`${instanceId}-td-br2`, lineId:`${instanceId}-ln-br`, phase:0.82, speed:0.19, col:'#A78BFA', col2:'#7C3AED' },
       ];
       const paths = dotDefs.map(d => getpts(d.lineId));
 
@@ -570,38 +468,38 @@ const RobotAnimation = () => {
           <svg style={{position:'absolute',inset:0,width:'100%',height:'100%',overflow:'visible',pointerEvents:'none',zIndex:3}}
             viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
             <defs>
-              <linearGradient id="rs-lg-tl" x1="100%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#00D4FF" stopOpacity=".5"/></linearGradient>
-              <linearGradient id="rs-lg-tr" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#00D4FF" stopOpacity=".5"/></linearGradient>
-              <linearGradient id="rs-lg-bl" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#7C3AED" stopOpacity=".5"/></linearGradient>
-              <linearGradient id="rs-lg-br" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#7C3AED" stopOpacity=".5"/></linearGradient>
-              <filter id="rs-gf"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <linearGradient id={`${instanceId}-lg-tl`} x1="100%" y1="100%" x2="0%" y2="0%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#00D4FF" stopOpacity=".5"/></linearGradient>
+              <linearGradient id={`${instanceId}-lg-tr`} x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#00D4FF" stopOpacity=".5"/></linearGradient>
+              <linearGradient id={`${instanceId}-lg-bl`} x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#7C3AED" stopOpacity=".5"/></linearGradient>
+              <linearGradient id={`${instanceId}-lg-br`} x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#1A6FFF" stopOpacity=".9"/><stop offset="100%" stopColor="#7C3AED" stopOpacity=".5"/></linearGradient>
+              <filter id={`${instanceId}-gf`}><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
             {/* lines from centre (400,290) to card corners — cards at ~x=170 and x=580, y=100 and y=490 */}
-            <polyline id="rs-ln-tl" points="400,255 400,100 175,100"  fill="none" stroke="url(#rs-lg-tl)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
-            <polyline id="rs-ln-tr" points="400,255 400,100 625,100"  fill="none" stroke="url(#rs-lg-tr)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
-            <polyline id="rs-ln-bl" points="400,335 400,490 175,490" fill="none" stroke="url(#rs-lg-bl)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
-            <polyline id="rs-ln-br" points="400,335 400,490 625,490" fill="none" stroke="url(#rs-lg-br)" strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            <polyline id={`${instanceId}-ln-tl`} points="400,255 400,100 175,100"  fill="none" stroke={`url(#${instanceId}-lg-tl)`} strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            <polyline id={`${instanceId}-ln-tr`} points="400,255 400,100 625,100"  fill="none" stroke={`url(#${instanceId}-lg-tr)`} strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            <polyline id={`${instanceId}-ln-bl`} points="400,335 400,490 175,490" fill="none" stroke={`url(#${instanceId}-lg-bl)`} strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
+            <polyline id={`${instanceId}-ln-br`} points="400,335 400,490 625,490" fill="none" stroke={`url(#${instanceId}-lg-br)`} strokeWidth="1.8" strokeLinecap="round" opacity="0"/>
             {/* endpoint dots */}
-            <circle cx="175" cy="100" r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="625" cy="100" r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="175" cy="490" r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="625" cy="490" r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="400" cy="100" r="4" fill="#1A6FFF" filter="url(#rs-gf)" opacity="0.8"/>
-            <circle cx="400" cy="490" r="4" fill="#7C3AED" filter="url(#rs-gf)" opacity="0.8"/>
+            <circle cx="175" cy="100" r="5" fill="#00D4FF" filter={`url(#${instanceId}-gf)`} opacity="0.8"/>
+            <circle cx="625" cy="100" r="5" fill="#00D4FF" filter={`url(#${instanceId}-gf)`} opacity="0.8"/>
+            <circle cx="175" cy="490" r="5" fill="#A78BFA" filter={`url(#${instanceId}-gf)`} opacity="0.8"/>
+            <circle cx="625" cy="490" r="5" fill="#A78BFA" filter={`url(#${instanceId}-gf)`} opacity="0.8"/>
+            <circle cx="400" cy="100" r="4" fill="#1A6FFF" filter={`url(#${instanceId}-gf)`} opacity="0.8"/>
+            <circle cx="400" cy="490" r="4" fill="#7C3AED" filter={`url(#${instanceId}-gf)`} opacity="0.8"/>
             {/* travelling dots — lead (bright) + trail (dim) per line */}
-            <circle id="rs-td-tl"  r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0"/>
-            <circle id="rs-td-tl2" r="3" fill="#4DA3FF" filter="url(#rs-gf)" opacity="0"/>
-            <circle id="rs-td-tr"  r="5" fill="#00D4FF" filter="url(#rs-gf)" opacity="0"/>
-            <circle id="rs-td-tr2" r="3" fill="#4DA3FF" filter="url(#rs-gf)" opacity="0"/>
-            <circle id="rs-td-bl"  r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0"/>
-            <circle id="rs-td-bl2" r="3" fill="#7C3AED" filter="url(#rs-gf)" opacity="0"/>
-            <circle id="rs-td-br"  r="5" fill="#A78BFA" filter="url(#rs-gf)" opacity="0"/>
-            <circle id="rs-td-br2" r="3" fill="#7C3AED" filter="url(#rs-gf)" opacity="0"/>
+            <circle id={`${instanceId}-td-tl`}  r="5" fill="#00D4FF" filter={`url(#${instanceId}-gf)`} opacity="0"/>
+            <circle id={`${instanceId}-td-tl2`} r="3" fill="#4DA3FF" filter={`url(#${instanceId}-gf)`} opacity="0"/>
+            <circle id={`${instanceId}-td-tr`}  r="5" fill="#00D4FF" filter={`url(#${instanceId}-gf)`} opacity="0"/>
+            <circle id={`${instanceId}-td-tr2`} r="3" fill="#4DA3FF" filter={`url(#${instanceId}-gf)`} opacity="0"/>
+            <circle id={`${instanceId}-td-bl`}  r="5" fill="#A78BFA" filter={`url(#${instanceId}-gf)`} opacity="0"/>
+            <circle id={`${instanceId}-td-bl2`} r="3" fill="#7C3AED" filter={`url(#${instanceId}-gf)`} opacity="0"/>
+            <circle id={`${instanceId}-td-br`}  r="5" fill="#A78BFA" filter={`url(#${instanceId}-gf)`} opacity="0"/>
+            <circle id={`${instanceId}-td-br2`} r="3" fill="#7C3AED" filter={`url(#${instanceId}-gf)`} opacity="0"/>
           </svg>
 
           {/* ── Cards ── */}
           {/* Top-left: Custom Web Development */}
-          <div id="rs-c-tl" className="rs-card" style={{top:16, left:16, width:240}}>
+          <div id={`${instanceId}-c-tl`} className="rs-card" style={{top:16, left:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Browser window */}
@@ -636,7 +534,7 @@ const RobotAnimation = () => {
           </div>
 
           {/* Top-right: AI Workflow Automation */}
-          <div id="rs-c-tr" className="rs-card" style={{top:16, right:16, width:240}}>
+          <div id={`${instanceId}-c-tr`} className="rs-card" style={{top:16, right:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Flow nodes */}
@@ -672,7 +570,7 @@ const RobotAnimation = () => {
           </div>
 
           {/* Bottom-left: CRM & System Integration */}
-          <div id="rs-c-bl" className="rs-card" style={{bottom:16, left:16, width:240}}>
+          <div id={`${instanceId}-c-bl`} className="rs-card" style={{bottom:16, left:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Central hub */}
@@ -706,7 +604,7 @@ const RobotAnimation = () => {
           </div>
 
           {/* Bottom-right: UI/UX Optimisation */}
-          <div id="rs-c-br" className="rs-card" style={{bottom:16, right:16, width:240}}>
+          <div id={`${instanceId}-c-br`} className="rs-card" style={{bottom:16, right:16, width:240}}>
             <div className="rs-card-illu">
               <svg width="190" height="90" viewBox="0 0 200 108" fill="none">
                 {/* Phone frame */}
@@ -757,53 +655,53 @@ const RobotAnimation = () => {
                 <div ref={zzzRef} className="rs-zzz-bubble">z z Z</div>
                 <svg ref={robotSvgRef} width="230" height="260" viewBox="0 0 230 260" fill="none" xmlns="http://www.w3.org/2000/svg" style={{overflow:'visible',transition:'transform .3s ease'}}>
                   <defs>
-                    <radialGradient id="rs-gBody" cx="40%" cy="25%" r="70%"><stop offset="0%" stopColor="#D6E8F8"/><stop offset="50%" stopColor="#8BAABF"/><stop offset="100%" stopColor="#3A4E5E"/></radialGradient>
-                    <radialGradient id="rs-gHead" cx="38%" cy="20%" r="72%"><stop offset="0%" stopColor="#E8F4FF"/><stop offset="45%" stopColor="#9BBACF"/><stop offset="100%" stopColor="#3E5060"/></radialGradient>
-                    <radialGradient id="rs-gEye"  cx="35%" cy="28%" r="70%"><stop offset="0%" stopColor="#A0EEFF"/><stop offset="40%" stopColor="#00AAEE"/><stop offset="100%" stopColor="#0044AA"/></radialGradient>
-                    <radialGradient id="rs-gAnt"  cx="40%" cy="28%" r="68%"><stop offset="0%" stopColor="#80E8FF"/><stop offset="100%" stopColor="#0070DD"/></radialGradient>
-                    <radialGradient id="rs-gArm"  cx="35%" cy="22%" r="72%"><stop offset="0%" stopColor="#D2E6F4"/><stop offset="100%" stopColor="#4A6070"/></radialGradient>
-                    <radialGradient id="rs-gBelly" cx="50%" cy="30%" r="65%"><stop offset="0%" stopColor="rgba(0,140,255,0.22)"/><stop offset="100%" stopColor="rgba(0,60,160,0.32)"/></radialGradient>
-                    <linearGradient id="rs-gChest" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,90,200,0.3)"/><stop offset="100%" stopColor="rgba(0,40,110,0.45)"/></linearGradient>
-                    <filter id="rs-fSh" x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="8" floodColor="rgba(0,0,0,0.4)"/></filter>
-                    <filter id="rs-fGl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                    <filter id="rs-fSoft"><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                    <clipPath id="rs-eyeClip"><ellipse cx="80" cy="68" rx="16" ry="16"/></clipPath>
-                    <clipPath id="rs-eyeClipR"><ellipse cx="150" cy="68" rx="16" ry="16"/></clipPath>
+                    <radialGradient id={`${instanceId}-gBody`} cx="40%" cy="25%" r="70%"><stop offset="0%" stopColor="#D6E8F8"/><stop offset="50%" stopColor="#8BAABF"/><stop offset="100%" stopColor="#3A4E5E"/></radialGradient>
+                    <radialGradient id={`${instanceId}-gHead`} cx="38%" cy="20%" r="72%"><stop offset="0%" stopColor="#E8F4FF"/><stop offset="45%" stopColor="#9BBACF"/><stop offset="100%" stopColor="#3E5060"/></radialGradient>
+                    <radialGradient id={`${instanceId}-gEye`}  cx="35%" cy="28%" r="70%"><stop offset="0%" stopColor="#A0EEFF"/><stop offset="40%" stopColor="#00AAEE"/><stop offset="100%" stopColor="#0044AA"/></radialGradient>
+                    <radialGradient id={`${instanceId}-gAnt`}  cx="40%" cy="28%" r="68%"><stop offset="0%" stopColor="#80E8FF"/><stop offset="100%" stopColor="#0070DD"/></radialGradient>
+                    <radialGradient id={`${instanceId}-gArm`}  cx="35%" cy="22%" r="72%"><stop offset="0%" stopColor="#D2E6F4"/><stop offset="100%" stopColor="#4A6070"/></radialGradient>
+                    <radialGradient id={`${instanceId}-gBelly`} cx="50%" cy="30%" r="65%"><stop offset="0%" stopColor="rgba(0,140,255,0.22)"/><stop offset="100%" stopColor="rgba(0,60,160,0.32)"/></radialGradient>
+                    <linearGradient id={`${instanceId}-gChest`} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="rgba(0,90,200,0.3)"/><stop offset="100%" stopColor="rgba(0,40,110,0.45)"/></linearGradient>
+                    <filter id={`${instanceId}-fSh`} x="-20%" y="-10%" width="140%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="8" floodColor="rgba(0,0,0,0.4)"/></filter>
+                    <filter id={`${instanceId}-fGl`}><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    <filter id={`${instanceId}-fSoft`}><feGaussianBlur stdDeviation="1.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                    <clipPath id={`${instanceId}-eyeClip`}><ellipse cx="80" cy="68" rx="16" ry="16"/></clipPath>
+                    <clipPath id={`${instanceId}-eyeClipR`}><ellipse cx="150" cy="68" rx="16" ry="16"/></clipPath>
                   </defs>
                   {/* Shadow */}
                   <ellipse cx="115" cy="256" rx="58" ry="6" fill="rgba(10,40,140,0.22)"/>
                   {/* Body — round chubby belly, no legs */}
-                  <ellipse cx="115" cy="190" rx="58" ry="54" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="115" cy="190" rx="58" ry="54" fill={`url(#${instanceId}-gBody)`} filter={`url(#${instanceId}-fSh)`}/>
                   <ellipse cx="92" cy="162" rx="26" ry="15" fill="rgba(255,255,255,0.12)"/>
                   {/* Belly panel */}
-                  <rect x="76" y="162" width="78" height="54" rx="20" fill="url(#rs-gBelly)" stroke="rgba(77,163,255,0.5)" strokeWidth="1.4"/>
+                  <rect x="76" y="162" width="78" height="54" rx="20" fill={`url(#${instanceId}-gBelly)`} stroke="rgba(77,163,255,0.5)" strokeWidth="1.4"/>
                   {/* Heart */}
-                  <path d="M115 182 C115 182 107 174 103 177 C99 180 102 186 115 192 C128 186 131 180 127 177 C123 174 115 182 115 182Z" fill="rgba(0,212,255,0.65)" filter="url(#rs-fSoft)"/>
+                  <path d="M115 182 C115 182 107 174 103 177 C99 180 102 186 115 192 C128 186 131 180 127 177 C123 174 115 182 115 182Z" fill="rgba(0,212,255,0.65)" filter={`url(#${instanceId}-fSoft)`}/>
                   <rect x="84" y="170" width="20" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".8"/>
                   <rect x="84" y="175" width="30" height="2.5" rx="1.25" fill="#00D4FF" opacity=".6"/>
                   <rect x="84" y="196" width="16" height="2.5" rx="1.25" fill="#4DA3FF" opacity=".5"/>
-                  <circle cx="138" cy="174" r="5" fill="#00D4FF" filter="url(#rs-fGl)"/>
+                  <circle cx="138" cy="174" r="5" fill="#00D4FF" filter={`url(#${instanceId}-fGl)`}/>
                   <circle cx="138" cy="174" r="9" stroke="rgba(0,212,255,0.2)" strokeWidth="1" fill="none" className="rs-chest-ring"/>
                   {/* Left Arm — attaches to round body sides */}
                   <g ref={armLRef} style={{transformOrigin:'40px 172px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
-                    <rect x="26" y="162" width="30" height="46" rx="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <rect x="26" y="162" width="30" height="46" rx="15" fill={`url(#${instanceId}-gArm)`} filter={`url(#${instanceId}-fSh)`}/>
                     <ellipse cx="32" cy="168" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-                    <circle cx="41" cy="215" r="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <circle cx="41" cy="215" r="15" fill={`url(#${instanceId}-gArm)`} filter={`url(#${instanceId}-fSh)`}/>
                     <ellipse cx="37" cy="209" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
                   </g>
                   {/* Right Arm */}
                   <g ref={armRRef} style={{transformOrigin:'190px 172px', transition:'transform 0.5s cubic-bezier(.34,1.4,.64,1)'}}>
-                    <rect x="174" y="162" width="30" height="46" rx="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <rect x="174" y="162" width="30" height="46" rx="15" fill={`url(#${instanceId}-gArm)`} filter={`url(#${instanceId}-fSh)`}/>
                     <ellipse cx="196" cy="168" rx="6" ry="4" fill="rgba(255,255,255,0.22)"/>
-                    <circle cx="189" cy="215" r="15" fill="url(#rs-gArm)" filter="url(#rs-fSh)"/>
+                    <circle cx="189" cy="215" r="15" fill={`url(#${instanceId}-gArm)`} filter={`url(#${instanceId}-fSh)`}/>
                     <ellipse cx="185" cy="209" rx="5" ry="3" fill="rgba(255,255,255,0.2)"/>
                   </g>
                   {/* Head — big round cute */}
-                  <ellipse cx="115" cy="80" rx="66" ry="62" fill="url(#rs-gHead)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="115" cy="80" rx="66" ry="62" fill={`url(#${instanceId}-gHead)`} filter={`url(#${instanceId}-fSh)`}/>
                   <ellipse cx="92"  cy="48" rx="28" ry="16" fill="rgba(255,255,255,0.16)"/>
                   {/* Ears */}
-                  <ellipse cx="49"  cy="80" rx="13" ry="16" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
-                  <ellipse cx="181" cy="80" rx="13" ry="16" fill="url(#rs-gBody)" filter="url(#rs-fSh)"/>
+                  <ellipse cx="49"  cy="80" rx="13" ry="16" fill={`url(#${instanceId}-gBody)`} filter={`url(#${instanceId}-fSh)`}/>
+                  <ellipse cx="181" cy="80" rx="13" ry="16" fill={`url(#${instanceId}-gBody)`} filter={`url(#${instanceId}-fSh)`}/>
                   <ellipse cx="49"  cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
                   <ellipse cx="181" cy="80" rx="7" ry="10" fill="rgba(0,180,255,0.18)"/>
                   {/* Visor */}
@@ -811,9 +709,9 @@ const RobotAnimation = () => {
                   <rect x="58" y="52" width="114" height="40" rx="20" fill="rgba(0,30,90,0.55)"/>
                   <rect x="66" y="53" width="62" height="6" rx="3" fill="rgba(255,255,255,0.07)"/>
                   {/* Left Eye */}
-                  <g clipPath="url(#rs-eyeClip)">
+                  <g clipPath={`url(#${instanceId}-eyeClip)`}>
                     <circle ref={scleraRef} cx="80" cy="68" r="14" fill="#081428"/>
-                    <circle ref={irisRef}   cx="80" cy="68" r="10" fill="url(#rs-gEye)"/>
+                    <circle ref={irisRef}   cx="80" cy="68" r="10" fill={`url(#${instanceId}-gEye)`}/>
                     <circle ref={pupilRef}  cx="80" cy="68" r="5.5" fill="#001020"/>
                     <circle ref={catchRef}  cx="83" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
                     <circle cx="77" cy="72" r="1.5" fill="rgba(255,255,255,0.5)"/>
@@ -821,9 +719,9 @@ const RobotAnimation = () => {
                     <rect ref={sleepLRef} x="64" y="52" width="32" height="32" rx="6" fill="#040C20" opacity="0" style={{transition:'opacity 0.5s ease'}}/>
                   </g>
                   {/* Right Eye */}
-                  <g clipPath="url(#rs-eyeClipR)">
+                  <g clipPath={`url(#${instanceId}-eyeClipR)`}>
                     <circle ref={scleraRRef} cx="150" cy="68" r="14" fill="#081428"/>
-                    <circle ref={irisRRef}   cx="150" cy="68" r="10" fill="url(#rs-gEye)"/>
+                    <circle ref={irisRRef}   cx="150" cy="68" r="10" fill={`url(#${instanceId}-gEye)`}/>
                     <circle ref={pupilRRef}  cx="150" cy="68" r="5.5" fill="#001020"/>
                     <circle ref={catchRRef}  cx="153" cy="63" r="3"   fill="rgba(255,255,255,0.95)"/>
                     <circle cx="147" cy="72" r="1.5" fill="rgba(255,255,255,0.5)"/>
@@ -841,16 +739,16 @@ const RobotAnimation = () => {
                   <path ref={squintLRef} d="M63 70 Q115 56 167 70" stroke="#4DA3FF" strokeWidth="2.5" strokeLinecap="round" fill="none" opacity="0"/>
                   {/* Antenna */}
                   <g ref={antennaRef}>
-                    <rect x="112" y="8" width="6" height="26" rx="3" fill="url(#rs-gBody)"/>
+                    <rect x="112" y="8" width="6" height="26" rx="3" fill={`url(#${instanceId}-gBody)`}/>
                     <circle cx="115" cy="6"  r="14" fill="#1A6FFF" opacity="0.9"/>
-                    <circle cx="115" cy="6"  r="9"  fill="url(#rs-gAnt)"/>
+                    <circle cx="115" cy="6"  r="9"  fill={`url(#${instanceId}-gAnt)`}/>
                     <circle cx="115" cy="6"  r="4"  fill="rgba(255,255,255,0.95)"/>
                     <circle cx="115" cy="6"  r="18" stroke="rgba(0,212,255,0.22)" strokeWidth="1.2" fill="none"/>
                     <circle cx="115" cy="6"  r="22" stroke="rgba(0,212,255,0.1)"  strokeWidth="1"   fill="none" className="rs-ant-ring"/>
                   </g>
                   {/* Sparkles */}
-                  <circle cx="50"  cy="36" r="2.5" fill="#00D4FF" filter="url(#rs-fGl)" opacity="0.7"/>
-                  <circle cx="180" cy="30" r="2"   fill="#A78BFA" filter="url(#rs-fGl)" opacity="0.8"/>
+                  <circle cx="50"  cy="36" r="2.5" fill="#00D4FF" filter={`url(#${instanceId}-fGl)`} opacity="0.7"/>
+                  <circle cx="180" cy="30" r="2"   fill="#A78BFA" filter={`url(#${instanceId}-fGl)`} opacity="0.8"/>
                   <circle cx="170" cy="48" r="1.5" fill="#00D4FF" opacity="0.5"/>
                 </svg>
               </div>
@@ -941,7 +839,7 @@ const HeroSection = () => {
               transition={{delay:0.8,duration:1,ease:[0.25,0.46,0.45,0.94]}}
               className="lg:hidden w-full mb-2"
               style={{maxWidth:'320px',margin:'0 auto 8px'}}>
-              <MobileRobotScene/>
+              <RobotAnimation instanceId="mob"/>
             </motion.div>
 
             <motion.p initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{delay:1.3,duration:0.8,ease:"easeOut"}}
